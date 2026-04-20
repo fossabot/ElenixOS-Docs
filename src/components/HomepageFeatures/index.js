@@ -4,42 +4,42 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Script-Driven Architecture',
+    title: '脚本驱动架构',
     icon: 'JS',
     description: (
       <>
-        ElenaOS uses a script-driven app model where JavaScript defines UI and
-        interaction logic, while native code handles rendering and scheduling.
+        ElenaOS 采用脚本驱动的应用模型，由 JavaScript 定义 UI 与交互逻辑，
+        由原生代码负责渲染与调度。
       </>
     ),
   },
   {
-    title: 'LVGL + JerryScript Runtime',
+    title: 'LVGL + JerryScript 运行时',
     icon: 'LVGL',
     description: (
       <>
-        The graphical stack is powered by LVGL, and watch faces and apps run on
-        a unified JerryScript engine for consistent runtime behavior.
+        图形栈由 LVGL 提供能力，表盘与应用统一运行在 JerryScript 引擎之上，
+        保障一致的运行时行为。
       </>
     ),
   },
   {
-    title: 'Portable and Extensible',
+    title: '可移植与可扩展',
     icon: 'MCU',
     description: (
       <>
-        Clear abstraction layers and unified APIs make ElenaOS easier to port
-        across different MCUs and hardware platforms.
+        清晰的抽象分层与统一 API，让 ElenaOS 更容易在不同 MCU 与硬件平台
+        之间迁移与复用。
       </>
     ),
   },
   {
-    title: 'Wearable UX Focus',
+    title: '专注可穿戴交互体验',
     icon: 'UX',
     description: (
       <>
-        Inspired by Apple Watch interactions, ElenaOS emphasizes gesture flow,
-        smooth animations, and clear interface hierarchy on embedded devices.
+        借鉴 Apple Watch 的交互理念，ElenaOS 强调手势流程、动画连贯性与
+        嵌入式界面的信息层级。
       </>
     ),
   },
@@ -64,9 +64,9 @@ export default function HomepageFeatures() {
     <section className={styles.features}>
       <div className="container">
         <div className={styles.headerBlock}>
-          <p className={styles.kicker}>Project Highlights</p>
+          <p className={styles.kicker}>项目亮点</p>
           <Heading as="h2" className={styles.sectionTitle}>
-            Built for smartwatches, engineered for developers
+            为智能手表而生，为开发者而设计
           </Heading>
         </div>
         <div className="row">

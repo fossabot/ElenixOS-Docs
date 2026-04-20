@@ -14,6 +14,10 @@ const config = {
   tagline: 'Documentation for ElenaOS',
   favicon: 'img/favicon.ico',
 
+  markdown: {
+    mermaid: true,
+  },
+
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
@@ -36,8 +40,18 @@ const config = {
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: 'zh-Hans',
+    locales: ['zh-Hans', 'en'],
+    localeConfigs: {
+      'zh-Hans': {
+        label: '简体中文',
+        htmlLang: 'zh-CN',
+      },
+      en: {
+        label: 'English',
+        htmlLang: 'en-US',
+      },
+    },
   },
 
   presets: [
@@ -50,7 +64,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/Sab1e-dev/ElenaOS-docs/tree/main/',
         },
         blog: {
           showReadingTime: true,
@@ -61,7 +75,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/Sab1e-dev/ElenaOS-docs/tree/main/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -74,6 +88,8 @@ const config = {
     ],
   ],
 
+  themes: ['@docusaurus/theme-mermaid'],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -81,6 +97,9 @@ const config = {
       image: 'img/docusaurus-social-card.jpg',
       colorMode: {
         respectPrefersColorScheme: true,
+      },
+      mermaid: {
+        theme: {light: 'neutral', dark: 'forest'},
       },
       navbar: {
         title: 'ElenaOS',
@@ -93,12 +112,16 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: 'Docs',
+            label: '文档',
           },
-          {to: '/blog', label: 'Updates', position: 'left'},
+          {to: '/blog', label: '更新日志', position: 'left'},
+          {
+            type: 'localeDropdown',
+            position: 'right',
+          },
           {
             href: 'https://github.com/Sab1e-dev/ElenaOS',
-            label: 'GitHub',
+            label: 'GitHub 仓库',
             position: 'right',
           },
         ],
@@ -107,50 +130,50 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: '文档',
             items: [
               {
-                label: 'Introduction',
+                label: '项目介绍',
                 to: '/docs/intro',
               },
               {
-                label: 'Build and Usage',
+                label: '构建与使用',
                 href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/build.md',
               },
             ],
           },
           {
-            title: 'Project',
+            title: '项目',
             items: [
               {
-                label: 'Quick Start',
+                label: '快速开始',
                 href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/quick_start.md',
               },
               {
-                label: 'Script Engine Guide',
+                label: '脚本引擎指南',
                 href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/script_engine.md',
               },
               {
-                label: 'Developer Tools',
+                label: '开发工具',
                 href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/dev_tools.md',
               },
             ],
           },
           {
-            title: 'More',
+            title: '更多',
             items: [
               {
-                label: 'Updates',
+                label: '更新日志',
                 to: '/blog',
               },
               {
-                label: 'GitHub',
+                label: 'GitHub 仓库',
                 href: 'https://github.com/Sab1e-dev/ElenaOS',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} ElenaOS Contributors. Built with Docusaurus.`,
+        copyright: `版权所有 © ${new Date().getFullYear()} ElenaOS 贡献者。基于 Docusaurus 构建。`,
       },
       prism: {
         theme: prismThemes.github,

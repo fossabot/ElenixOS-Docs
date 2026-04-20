@@ -11,24 +11,24 @@ function HomepageHeader() {
   return (
     <header className={styles.heroBanner}>
       <div className={clsx('container', styles.heroContainer)}>
-        <div className={styles.heroBadge}>Open Source Smartwatch OS</div>
+        <div className={styles.heroBadge}>开源智能手表操作系统</div>
         <Heading as="h1" className={styles.heroTitle}>
-          ElenaOS Documentation
+          ElenaOS 文档
         </Heading>
         <p className={styles.heroSubtitle}>
-          An embedded wearable system powered by LVGL and JerryScript, designed
-          for fluid smartwatch experiences on resource-constrained hardware.
+          基于 LVGL 与 JerryScript 的嵌入式可穿戴系统，面向资源受限硬件打造
+          流畅的智能手表体验。
         </p>
         <div className={styles.buttons}>
           <Link
             className={clsx('button button--lg', styles.primaryButton)}
             to="/docs/intro">
-            Read Docs
+            阅读文档
           </Link>
           <Link
             className={clsx('button button--lg', styles.secondaryButton)}
             to="https://github.com/Sab1e-dev/ElenaOS">
-            View ElenaOS Repo
+            查看 ElenaOS 仓库
           </Link>
         </div>
         <div className={styles.heroStats}>
@@ -37,11 +37,11 @@ function HomepageHeader() {
             <span>LVGL</span>
           </div>
           <div className={styles.statItem}>
-            <strong>Script Engine</strong>
+            <strong>脚本引擎</strong>
             <span>JerryScript</span>
           </div>
           <div className={styles.statItem}>
-            <strong>License</strong>
+            <strong>许可证</strong>
             <span>Apache 2.0</span>
           </div>
         </div>
@@ -54,8 +54,8 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Home | ${siteConfig.title}`}
-      description="ElenaOS documentation for build, scripting, and developer tooling.">
+      title={`首页 | ${siteConfig.title}`}
+      description="ElenaOS 构建、脚本引擎与开发工具文档站点。">
       <HomepageHeader />
       <main>
         <HomepageFeatures />
