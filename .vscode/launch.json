@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Docusaurus: Start Development Server",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "start",
+                "--",
+                "--no-open"
+            ],
+            "console": "integratedTerminal",
+            "autoAttachChildProcesses": true,
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "serverReadyAction": {
+                "pattern": "(https?://localhost:[0-9]+)",
+                "uriFormat": "%s",
+                "action": "openExternally"
+            }
+        }
+    ]
+}
