@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkelena_os_docs=self.webpackChunkelena_os_docs||[]).push([["3220"],{1912(s){s.exports=JSON.parse('{"blogBasePath":"/ElenaOS-docs/blog","blogTitle":"Blog","authorsListPath":"/ElenaOS-docs/blog/authors"}')}}]);

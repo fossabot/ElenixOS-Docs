@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkelena_os_docs=self.webpackChunkelena_os_docs||[]).push([["5440"],{916(e){e.exports=JSON.parse('{"metadata":{"permalink":"/ElenaOS-docs/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
