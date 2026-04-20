@@ -15,7 +15,7 @@ const FeatureList = [
   },
   {
     title: 'LVGL + JerryScript Runtime',
-    icon: 'LV',
+    icon: 'LVGL',
     description: (
       <>
         The graphical stack is powered by LVGL, and watch faces and apps run on
