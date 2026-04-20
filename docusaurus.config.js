@@ -93,11 +93,11 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Docs',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          {to: '/blog', label: 'Updates', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/Sab1e-dev/ElenaOS',
             label: 'GitHub',
             position: 'right',
           },
@@ -110,25 +110,29 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Introduction',
                 to: '/docs/intro',
+              },
+              {
+                label: 'Build and Usage',
+                href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/build.md',
               },
             ],
           },
           {
-            title: 'Community',
+            title: 'Project',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'Quick Start',
+                href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/quick_start.md',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                label: 'Script Engine Guide',
+                href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/script_engine.md',
               },
               {
-                label: 'X',
-                href: 'https://x.com/docusaurus',
+                label: 'Developer Tools',
+                href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/dev_tools.md',
               },
             ],
           },
@@ -136,17 +140,17 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
+                label: 'Updates',
                 to: '/blog',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/Sab1e-dev/ElenaOS',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} ElenaOS Contributors. Built with Docusaurus.`,
       },
       prism: {
         theme: prismThemes.github,

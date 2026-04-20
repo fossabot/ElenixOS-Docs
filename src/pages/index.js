@@ -8,20 +8,42 @@ import Heading from '@theme/Heading';
 import styles from './index.module.css';
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
+    <header className={styles.heroBanner}>
+      <div className={clsx('container', styles.heroContainer)}>
+        <div className={styles.heroBadge}>Open Source Smartwatch OS</div>
+        <Heading as="h1" className={styles.heroTitle}>
+          ElenaOS Documentation
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className={styles.heroSubtitle}>
+          An embedded wearable system powered by LVGL and JerryScript, designed
+          for fluid smartwatch experiences on resource-constrained hardware.
+        </p>
         <div className={styles.buttons}>
           <Link
-            className="button button--secondary button--lg"
+            className={clsx('button button--lg', styles.primaryButton)}
             to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            Read Docs
           </Link>
+          <Link
+            className={clsx('button button--lg', styles.secondaryButton)}
+            to="https://github.com/Sab1e-dev/ElenaOS">
+            View ElenaOS Repo
+          </Link>
+        </div>
+        <div className={styles.heroStats}>
+          <div className={styles.statItem}>
+            <strong>GUI</strong>
+            <span>LVGL</span>
+          </div>
+          <div className={styles.statItem}>
+            <strong>Script Engine</strong>
+            <span>JerryScript</span>
+          </div>
+          <div className={styles.statItem}>
+            <strong>License</strong>
+            <span>Apache 2.0</span>
+          </div>
         </div>
       </div>
     </header>
@@ -32,8 +54,8 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`Home | ${siteConfig.title}`}
+      description="ElenaOS documentation for build, scripting, and developer tooling.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

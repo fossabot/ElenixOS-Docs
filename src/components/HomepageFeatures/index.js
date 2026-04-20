@@ -4,48 +4,58 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Script-Driven Architecture',
+    icon: 'JS',
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        ElenaOS uses a script-driven app model where JavaScript defines UI and
+        interaction logic, while native code handles rendering and scheduling.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'LVGL + JerryScript Runtime',
+    icon: 'LV',
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        The graphical stack is powered by LVGL, and watch faces and apps run on
+        a unified JerryScript engine for consistent runtime behavior.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Portable and Extensible',
+    icon: 'MCU',
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Clear abstraction layers and unified APIs make ElenaOS easier to port
+        across different MCUs and hardware platforms.
+      </>
+    ),
+  },
+  {
+    title: 'Wearable UX Focus',
+    icon: 'UX',
+    description: (
+      <>
+        Inspired by Apple Watch interactions, ElenaOS emphasizes gesture flow,
+        smooth animations, and clear interface hierarchy on embedded devices.
       </>
     ),
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({icon, title, description}) {
   return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+    <article className={clsx('col col--6', styles.featureItem)}>
+      <div className={styles.featureCard}>
+        <div className={styles.featureIcon}>{icon}</div>
+        <Heading as="h3" className={styles.featureTitle}>
+          {title}
+        </Heading>
+        <p className={styles.featureDescription}>{description}</p>
       </div>
-      <div className="text--center padding-horiz--md">
-        <Heading as="h3">{title}</Heading>
-        <p>{description}</p>
-      </div>
-    </div>
+    </article>
   );
 }
 
@@ -53,6 +63,12 @@ export default function HomepageFeatures() {
   return (
     <section className={styles.features}>
       <div className="container">
+        <div className={styles.headerBlock}>
+          <p className={styles.kicker}>Project Highlights</p>
+          <Heading as="h2" className={styles.sectionTitle}>
+            Built for smartwatches, engineered for developers
+          </Heading>
+        </div>
         <div className="row">
           {FeatureList.map((props, idx) => (
             <Feature key={idx} {...props} />

@@ -4,27 +4,65 @@
  * work well for content-centric websites.
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-color-primary: #ff5b2e;
+  --ifm-color-primary-dark: #f04d1f;
+  --ifm-color-primary-darker: #dd471c;
+  --ifm-color-primary-darkest: #b43b18;
+  --ifm-color-primary-light: #ff6e45;
+  --ifm-color-primary-lighter: #ff7f58;
+  --ifm-color-primary-lightest: #ffa075;
+  --ifm-background-color: #fff9f5;
+  --ifm-font-family-base: 'Outfit', 'Segoe UI', sans-serif;
+  --ifm-heading-font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
   --ifm-code-font-size: 95%;
+  --elena-card-border: rgba(255, 91, 46, 0.18);
+  --elena-text-muted: #5d4b44;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--ifm-heading-font-family);
+  letter-spacing: -0.01em;
+}
+
+.navbar {
+  backdrop-filter: blur(7px);
+  background: rgba(255, 251, 248, 0.9);
+  border-bottom: 1px solid rgba(255, 91, 46, 0.1);
+}
+
+.footer {
+  --ifm-footer-background-color: #26150f;
+  --ifm-footer-color: #f3dfd4;
+  --ifm-footer-title-color: #fff4ee;
+  --ifm-footer-link-color: #f8ceb9;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-color-primary: #ff7c52;
+  --ifm-color-primary-dark: #ff6f42;
+  --ifm-color-primary-darker: #f3653b;
+  --ifm-color-primary-darkest: #cf5532;
+  --ifm-color-primary-light: #ff8d69;
+  --ifm-color-primary-lighter: #ff997a;
+  --ifm-color-primary-lightest: #ffb59e;
+  --ifm-background-color: #140e0b;
+  --elena-card-border: rgba(255, 124, 82, 0.24);
+  --elena-text-muted: #e4c5b8;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .navbar {
+  background: rgba(30, 19, 14, 0.82);
+  border-bottom-color: rgba(255, 124, 82, 0.18);
 }
