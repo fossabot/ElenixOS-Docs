@@ -47,7 +47,22 @@ const sidebars = {
     {
       type: 'category',
       label: '核心模块',
-      items: ['core/app', 'core/services', 'core/events', 'core/fs', 'core/ui', 'core/activity', 'core/dispatcher'],
+      items: [
+        'core/app',
+        'core/services',
+        'core/events',
+        'core/fs',
+        {
+          type: 'category',
+          label: 'UI',
+          items: [
+            'core/ui',
+            'core/card_pager',
+            'core/slide_widget',
+          ],
+        },
+        'core/activity',
+        'core/dispatcher'],
     },
     {
       type: 'category',

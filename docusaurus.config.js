@@ -78,6 +78,19 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        // Index both docs and blog content for local search.
+        indexDocs: true,
+        indexBlog: true,
+        indexPages: true,
+        language: ['zh', 'en'],
+      },
+    ],
+  ],
+
   themes: ['@docusaurus/theme-mermaid'],
 
   themeConfig:
@@ -103,6 +116,10 @@ const config = {
             sidebarId: 'tutorialSidebar',
             position: 'left',
             label: '文档',
+          },
+          {
+            type: 'search',
+            position: 'right',
           },
           {to: '/blog', label: '博客', position: 'left'},
           {
