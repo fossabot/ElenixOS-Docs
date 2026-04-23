@@ -9,100 +9,100 @@ title: Changelog
 
 ### Changed
 
-- 重构了脚本接口架构，`lv_bindings`被重构为 SNI 层。
-- 重构了页面管理架构，`nav`、`screen_mgr`、`scene`被整合为 Activity 概念。
-- 优化了 CardPager 和 SlideWidget。
-- 重构了语言接口，`current_lang`私有化，避免越界访问。
-- 优化了列表转场动画。
-- 优化了活动切换时控制中心和消息列表的面板收回逻辑。
-- 优化了闪光灯显示逻辑。
-- 优化了应用列表动画参数。
-- 优化了时钟更新回调中的空指针检查和显示逻辑。
-- 优化了活动切换和动画处理。
-- 优化了可滚动对象的回调移除逻辑。
-- 优化了定时器自动删除功能。
-- 优化了调试条位置管理，增加全局位置同步与恢复功能。
-- 优化了滚动对象查找逻辑。
-- 优化了滚动条显示与隐藏逻辑。
-- 优化了脚本路径解析与图像源设置。
-- 优化了通用句柄解析能力。
-- 优化了属性设置。
-- 优化了动画变量管理。
-- 优化了内存清理与颜色类型桥接支持。
-- 优化了文件目录结构。
-- 优化了动画属性配置、自定义回调及 JS 动画路径集成。
-- 优化了源文件和头文件的动态更新。
-- 优化了脚本引擎初始化和退出回调。
-- 优化了 LVGL 对象创建函数的参数检查和类型转换。
+- Refactored script interface architecture, `lv_bindings` was refactored into SNI layer.
+- Refactored page management architecture, `nav`, `screen_mgr`, and `scene` were integrated into the Activity concept.
+- Optimized CardPager and SlideWidget.
+- Refactored language interface, `current_lang` was privatized to avoid out-of-bounds access.
+- Optimized list transition animation.
+- Optimized panel retraction logic for control center and message list during activity switching.
+- Optimized flash display logic.
+- Optimized app list animation parameters.
+- Optimized null pointer check and display logic in clock update callback.
+- Optimized activity switching and animation handling.
+- Optimized callback removal logic for scrollable objects.
+- Optimized timer auto-delete function.
+- Optimized debug bar position management, added global position synchronization and recovery functions.
+- Optimized scrollable object lookup logic.
+- Optimized scrollbar display and hide logic.
+- Optimized script path parsing and image source setting.
+- Optimized general handle parsing capability.
+- Optimized property setting.
+- Optimized animation variable management.
+- Optimized memory cleanup and color type bridge support.
+- Optimized file directory structure.
+- Optimized animation property configuration, custom callbacks, and JS animation path integration.
+- Optimized dynamic updates of source files and header files.
+- Optimized script engine initialization and exit callbacks.
+- Optimized parameter checking and type conversion for LVGL object creation functions.
 
 ### Added
 
-- 新增了 Activity 生命周期管理功能，支持 Activity 的创建、销毁、暂停、恢复等操作。
-- 新增了页面管理模块，页面统一使用栈管理，且引入了 Activity 概念。
-- 新增了 SNI 模块，提供更清晰的脚本接口定义，支持面向对象的 LVGL 操作。
-- 新增了 LVGL 组件的 SNI 封装，包括：
-  - image 组件
-  - dropdown 组件
-  - checkbox 组件
-  - canvas 组件
-  - button matrix 组件
-  - calendar 组件
-- 新增了 Activity 页面切换动画支持，包括开始和结束回调。
-- 新增了应用头逻辑和标题变化动画支持。
-- 新增了 OPEN 滑动面板状态并完善状态流转。
-- 新增了内置备用表盘支持。
-- 新增了模块导入功能，支持 JS 模块导入。
-- 新增了获取前一个 Activity 的接口。
-- 新增了系统初始化错误处理和获取表盘活动的功能。
-- 新增了主题主色调的定义。
-- 新增了设备信息视图中添加 LOGO 显示。
-- 新增了字符图标颜色的 Toast 提示功能。
-- 新增了编码器目标设置为 Activity View，添加滑动组件打开和关闭事件。
-- 新增了滑动组件的状态管理和动画过渡功能。
-- 新增了图表组件及相关 API。
-- 新增了图像按钮支持。
-- 新增了脚本应用 Debug 页面。
-- 新增了 float 类型桥接支持。
-- 新增了全局常数的导出功能。
-- 新增了新的颜色类型和相关方法。
-- 新增了蛇形命名转驼峰命名的转换函数。
-- 新增了别名回退功能以支持类型映射。
-- 新增了控制台日志功能，添加不同日志级别的支持。
-- 新增了 ElenaOS API 的初始化和挂载功能。
+- Added Activity lifecycle management functionality, supporting Activity creation, destruction, pause, resume, etc.
+- Added page management module, pages are uniformly managed using stack, and Activity concept is introduced.
+- Added SNI module, providing clearer script interface definition, supporting object-oriented LVGL operations.
+- Added SNI encapsulation for LVGL components, including:
+  - image component
+  - dropdown component
+  - checkbox component
+  - canvas component
+  - button matrix component
+  - calendar component
+- Added Activity page switching animation support, including start and end callbacks.
+- Added app header logic and title change animation support.
+- Added OPEN slide panel state and improved state flow.
+- Added built-in backup watch face support.
+- Added module import functionality, supporting JS module import.
+- Added interface to get previous Activity.
+- Added system initialization error handling and watch face activity retrieval functionality.
+- Added theme primary color definition.
+- Added LOGO display in device information view.
+- Added Toast prompt functionality for character icon colors.
+- Added encoder target setting as Activity View, added slide component open and close events.
+- Added state management and animation transition functionality for slide components.
+- Added chart component and related APIs.
+- Added image button support.
+- Added script app Debug page.
+- Added float type bridge support.
+- Added global constant export functionality.
+- Added new color types and related methods.
+- Added snake_case to camelCase conversion function.
+- Added alias fallback functionality to support type mapping.
+- Added console logging functionality, added support for different log levels.
+- Added initialization and mounting functionality for ElenaOS API.
 
 ### Fixed
 
-- 修复了表盘列表无法触摸表盘图片滑动的问题。
-- 修复了内存泄漏问题。
-- 修复了脚本引擎的问题，防止正常运行时进入错误状态。
-- 修复了可滚动对象的回调管理，优化了滚动条显示与隐藏逻辑，解决了滚动条闪烁问题。
-- 修复了时钟更新回调中的空指针检查。
-- 防止在表盘活动显示应用标题栏。
-- 修复了控制中心自动回弹时滚动对象丢失的问题。
-- 修复了返回 Activity 时无法获取 scrollable 对象的问题。
-- 修复了活动创建时根屏幕为空的处理逻辑。
-- 修复了构造函数参数类型检查，确保只接受对象或 null。
-- 修复了滚动对象有效性检查。
-- 修复了方法名可能为空的问题。
+- Fixed issue where watch face list couldn't slide by touching watch face images.
+- Fixed memory leak issues.
+- Fixed script engine issues to prevent entering error state during normal operation.
+- Fixed callback management for scrollable objects, optimized scrollbar display and hide logic, resolved scrollbar flickering issues.
+- Fixed null pointer check in clock update callback.
+- Prevented app title bar from displaying in watch face activity.
+- Fixed issue where scrollable objects were lost when control center automatically rebounded.
+- Fixed issue where scrollable objects couldn't be obtained when returning to Activity.
+- Fixed processing logic when root screen is empty during activity creation.
+- Fixed constructor parameter type check to ensure only objects or null are accepted.
+- Fixed scrollable object validity check.
+- Fixed issue where method names could be empty.
 
 ## [v0.1.0-alpha.1]
 
 ### Added
 
-- 提供智能手表系统的基础功能框架。
-- 提供 JavaScript 脚本运行与生命周期管理能力。
-- 提供 JavaScript API 支持，包括：
-  - 部分 LVGL Widget 功能；
-  - LVGL 事件系统的注册与删除；
-  - LVGL 动画的创建与运行；
-  - LVGL 定时器相关功能。
-- 提供虚拟显示器，用于 PC 端模拟运行与调试。
-- 提供初步的硬件抽象与可移植接口设计，用于支持多平台适配。
-- 建立工程与开发文档的基础结构。
-- 提供了开发者工具脚本，用于快速生成项目结构。
-- 提供模块化系统架构，支持核心功能按模块组合与扩展。
-- 提供脚本与系统核心之间的隔离机制，提升系统稳定性与安全性。
-- 提供基础调试与开发支持能力，提升桌面端开发与调试效率。
+- Provided basic functional framework for smartwatch system.
+- Provided JavaScript script running and lifecycle management capabilities.
+- Provided JavaScript API support, including:
+  - Partial LVGL Widget functionality;
+  - LVGL event system registration and deletion;
+  - LVGL animation creation and running;
+  - LVGL timer-related functionality.
+- Provided virtual display for PC-side simulation and debugging.
+- Provided preliminary hardware abstraction and portable interface design for multi-platform adaptation.
+- Established basic structure for engineering and development documentation.
+- Provided developer tool scripts for quickly generating project structure.
+- Provided modular system architecture, supporting core functionality combination and extension by modules.
+- Provided isolation mechanism between scripts and system core to improve system stability and security.
+- Provided basic debugging and development support capabilities to improve desktop-side development and debugging efficiency.
 
 
 [v0.2.0-alpha.1]:https://github.com/Sab1e-dev/ElenaOS/releases/tag/v0.2.0-alpha.1

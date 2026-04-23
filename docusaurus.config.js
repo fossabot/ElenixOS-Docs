@@ -104,7 +104,7 @@ const config = {
             position: 'left',
             label: '文档',
           },
-          {to: '/blog', label: '更新日志', position: 'left'},
+          {to: '/blog', label: '博客', position: 'left'},
           {
             type: 'localeDropdown',
             position: 'right',
@@ -153,7 +153,7 @@ const config = {
             title: '更多',
             items: [
               {
-                label: '更新日志',
+                label: '博客',
                 to: '/blog',
               },
               {

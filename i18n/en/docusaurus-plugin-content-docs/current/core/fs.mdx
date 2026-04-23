@@ -1,38 +1,38 @@
-# 文件系统模块
+# File System Module
 
-文件系统模块是 ElenaOS 的核心组件之一，提供了文件和目录的操作功能，包括文件读写、目录管理、路径操作等。该模块为应用程序和系统组件提供了统一的文件系统访问接口，简化了文件操作。
+The file system module is one of the core components of ElenaOS, providing file and directory operation functions, including file reading and writing, directory management, path operations, etc. This module provides a unified file system access interface for applications and system components, simplifying file operations.
 
-## 目录结构
+## Directory Structure
 
 ```
 ├── src/core/system/file_system/
-│   ├── elena_os_dfw.c         # 文件系统分布式固件更新
-│   ├── elena_os_dfw.h         # 文件系统分布式固件更新接口
-│   ├── elena_os_fs.c          # 文件系统核心实现
-│   └── elena_os_fs.h          # 文件系统接口定义
+│   ├── elena_os_dfw.c         # File system distributed firmware update
+│   ├── elena_os_dfw.h         # File system distributed firmware update interface
+│   ├── elena_os_fs.c          # File system core implementation
+│   └── elena_os_fs.h          # File system interface definition
 ```
 
-## 核心功能
+## Core Features
 
-### 文件操作
+### File Operations
 
-文件系统模块提供了文件的读写、创建、删除等操作，支持文本文件和二进制文件的处理。
+The file system module provides file reading, writing, creation, deletion and other operations, supporting the processing of text files and binary files.
 
-### 目录管理
+### Directory Management
 
-目录管理功能包括目录的创建、删除、判断等操作，支持递归创建和删除目录。
+Directory management functions include directory creation, deletion, judgment and other operations, supporting recursive creation and deletion of directories.
 
-### 路径操作
+### Path Operations
 
-路径操作功能包括路径的拼接、解析、判断等操作，支持相对路径和绝对路径。
+Path operations include path concatenation, parsing, judgment and other operations, supporting relative paths and absolute paths.
 
-### 固件更新
+### Firmware Update
 
-文件系统模块还支持分布式固件更新功能，用于系统固件的更新和管理。
+The file system module also supports distributed firmware update functionality for system firmware update and management.
 
-## 关键接口
+## Key Interfaces
 
-### 文件操作接口
+### File Operation Interfaces
 
 ```c
 int eos_fs_puts(const char *s, eos_file_t fp);
@@ -40,11 +40,11 @@ char *eos_fs_read_file(const char *path);
 int eos_fs_write_file(const char *path, const void *data, size_t data_size);
 ```
 
-- `eos_fs_puts`：将字符串写入文件
-- `eos_fs_read_file`：读取整个文件内容到动态分配的缓冲区
-- `eos_fs_write_file`：写入文件
+- `eos_fs_puts`：Write string to file
+- `eos_fs_read_file`：Read entire file content to dynamically allocated buffer
+- `eos_fs_write_file`：Write file
 
-### 目录操作接口
+### Directory Operation Interfaces
 
 ```c
 bool eos_is_dir(const char *path);
@@ -54,68 +54,68 @@ int eos_fs_mkdir_recursive(const char *path);
 int eos_fs_rm_recursive(const char *path);
 ```
 
-- `eos_is_dir`：判断路径是否为目录
-- `eos_is_file`：判断路径是否为文件
-- `eos_fs_mkdir_if_not_exist`：如果目录不存在则创建
-- `eos_fs_mkdir_recursive`：递归创建目录树
-- `eos_fs_rm_recursive`：递归删除目录及其内容
+- `eos_is_dir`：Check if path is a directory
+- `eos_is_file`：Check if path is a file
+- `eos_fs_mkdir_if_not_exist`：Create directory if it doesn't exist
+- `eos_fs_mkdir_recursive`：Recursively create directory tree
+- `eos_fs_rm_recursive`：Recursively delete directory and its contents
 
-### 文件创建接口
+### File Creation Interface
 
 ```c
 int eos_create_file_if_not_exist(const char *path, const char *default_content);
 ```
 
-- 如果文件不存在，则创建并写入默认内容
+- If the file doesn't exist, create it and write default content
 
-## 实现细节
+## Implementation Details
 
-文件系统模块的核心实现包括：
+The core implementation of the file system module includes:
 
-1. **文件操作封装**：对底层文件系统操作进行封装，提供统一的接口
-2. **路径处理**：处理文件路径的拼接、解析等操作
-3. **错误处理**：提供统一的错误处理机制
-4. **内存管理**：管理文件操作过程中的内存分配和释放
+1. **File operation encapsulation**：Encapsulate underlying file system operations to provide a unified interface
+2. **Path processing**：Handle file path concatenation, parsing and other operations
+3. **Error handling**：Provide a unified error handling mechanism
+4. **Memory management**：Manage memory allocation and release during file operations
 
-该模块与底层文件系统紧密配合，为上层应用提供了统一的文件系统访问接口。
+This module works closely with the underlying file system to provide a unified file system access interface for upper-level applications.
 
-## 使用示例
+## Usage Examples
 
-### 读取文件
+### Read File
 
 ```c
 char *content = eos_fs_read_file("/path/to/file.txt");
 if (content) {
-    // 处理文件内容
+    // Process file content
     eos_free(content);
 }
 ```
 
-### 写入文件
+### Write File
 
 ```c
 const char *data = "Hello, ElenaOS!";
 eos_fs_write_file("/path/to/file.txt", data, strlen(data));
 ```
 
-### 创建目录
+### Create Directory
 
 ```c
 eos_fs_mkdir_recursive("/path/to/directory");
 ```
 
-### 递归删除目录
+### Recursively Delete Directory
 
 ```c
 eos_fs_rm_recursive("/path/to/directory");
 ```
 
-## 文件系统架构
+## File System Architecture
 
-文件系统模块采用分层架构：
+The file system module adopts a layered architecture:
 
-1. **接口层**：提供统一的文件系统访问接口
-2. **实现层**：实现具体的文件系统操作
-3. **移植层**：适配不同平台的文件系统实现
+1. **Interface layer**：Provide a unified file system access interface
+2. **Implementation layer**：Implement specific file system operations
+3. **Porting layer**：Adapt to different platform file system implementations
 
-这种架构设计使得文件系统模块能够在不同平台上保持一致的接口，同时提供针对特定平台的优化实现。
+This architectural design allows the file system module to maintain a consistent interface across different platforms while providing optimized implementations for specific platforms.

@@ -1,0 +1,201 @@
+# Contribution Guide
+
+This guide will help you understand the contribution process, coding standards, and contribution methods for ElenaOS, providing complete guidance for participating in ElenaOS development.
+
+## Coding Standards
+
+### C Language Coding Standards
+
+#### Naming Conventions
+
+- **File names**: Use lowercase letters and underscores, e.g., `elena_os_app.c`
+- **Function names**: Use lowercase letters and underscores, e.g., `eos_app_install`
+- **Variable names**: Use lowercase letters and underscores, e.g., `app_id`
+- **Constants and macros**: Use uppercase letters and underscores, e.g., `EOS_APP_DIR`
+- **Type names**: Use camel case, e.g., `script_pkg_t`
+- **Static variable names**: Use leading underscore + lowercase letters and underscores, e.g., `static int _app_count = 0;`
+
+#### Code Style
+
+- **Indentation**: Use 4 spaces for indentation
+- **Brackets**: Left and right brackets on separate lines
+- **Line length**: Try not to make each line of code too long
+- **Comments**: Use Doxygen-style comments
+
+#### Example
+
+```c
+/**
+ * @brief Install application
+ * @param eapk_path eapk installation package path
+ * @return eos_result_t Installation result
+ */
+eos_result_t eos_app_install(const char *eapk_path)
+{
+    // Function implementation
+    return EOS_OK;
+}
+```
+
+### JavaScript Coding Standards
+
+#### Naming Conventions
+
+- **Variable names**: Use camel case, e.g., `appId`
+- **Function names**: Use camel case, e.g., `installApp`
+- **Constant names**: Use uppercase letters and underscores, e.g., `MAX_APP_COUNT`
+- **Object properties**: Use camel case, e.g., `appName`
+
+#### Code Style
+
+- **Indentation**: Use 2 spaces for indentation
+- **Brackets**: Left and right brackets on separate lines
+- **Line length**: Each line of code should not exceed 80 characters
+- **Comments**: Use JSDoc-style comments
+
+#### Example
+
+```javascript
+/**
+ * Install application
+ * @param {string} eapkPath - Application package path
+ * @returns {number} Installation result
+ */
+function installApp(eapkPath)
+{
+    // Function implementation
+    return 0;
+}
+```
+
+## Development Process
+
+### Branch Management
+
+ElenaOS uses Git for version control, adopting the following branch management strategy:
+
+- **main**: Main branch, contains stable versions
+- **dev**: Development branch, contains latest development code
+
+### Development Steps
+
+1. **Fork the project**: Fork the project on GitHub to your repository
+
+2. **Clone the project**: Clone the forked project to your local repository
+
+```bash
+git clone https://github.com/your-username/ElenaOS.git
+```
+
+3. **Switch branch**: Switch to the dev branch
+
+```bash
+git checkout dev
+```
+
+4. **Write code**: Implement features or fix bugs
+
+5. **Test code**: Ensure the code can compile and run normally
+
+6. **Commit code**: Commit code to local repository
+
+```bash
+git add .
+git commit -m "feat: New feature"
+```
+
+7. **Push branch**: Push the branch to the remote repository
+
+```bash
+git push origin dev
+```
+
+8. **Create Pull Request**: Create a Pull Request on GitHub, describing the functionality or fix
+
+## Contribution Process
+
+### Contribution Methods
+
+1. **Report issues**: Report bugs or feature requests in GitHub Issues
+2. **Submit code**: Submit code through Pull Request
+3. **Improve documentation**: Improve project documentation
+4. **Test**: Test code and provide feedback
+
+### Code Review
+
+All submitted code needs to go through code review to ensure code quality and consistency. The focus of code review includes:
+
+- Whether the code style conforms to the specifications
+- Whether the functionality is correctly implemented
+- Whether the code is secure
+- Whether the performance is reasonable
+- Whether the documentation is complete
+
+### Commit Specifications
+
+Commit messages should follow the following format:
+
+```
+type(module): subject
+
+body (optional)
+```
+
+Where type can be one of the following:
+
+- **feat**: New feature
+- **fix**: Bug fix
+- **docs**: Documentation improvement
+- **style**: Code style adjustment
+- **refactor**: Code refactoring
+- **test**: Test code
+- **chore**: Build or dependency update
+
+Module is optional and used to specify the module or component of the commit.
+
+Examples:
+
+```
+feat: Add app install feature
+
+Implemented app install feature.
+```
+
+```
+refactor(sni): Refactor sni module
+```
+For internationalization, commit messages should be described in English.
+
+## Testing
+
+TODO
+
+## Documentation Writing
+
+### Documentation Structure
+
+ElenaOS documentation is located in the `docs` directory and written in Markdown format.
+
+Each document should have only one "main language version" (e.g., English), and content in other languages should be translated versions of the document to avoid content inconsistencies caused by independent modifications between multiple languages.
+
+Documentation in different languages should try to maintain a consistent directory structure. We recommend creating matching files for the corresponding language, but this is not mandatory. If translations are temporarily missing, they can be added later (we will continue to improve), and contributors do not need to provide multilingual versions at the time of submission.
+
+### Documentation Standards
+
+- Use Markdown format
+- Use clear heading levels
+- Code blocks use ``` markers and specify the language
+- Charts use mermaid syntax
+- Documentation should remain consistent with code
+
+## Community Communication
+
+- **GitHub Issues**: For reporting issues and feature requests
+
+## Next Steps
+
+- Check [Core Modules](./core/app) documentation to understand the core features of the system
+- Check [API Documentation](./js-api/elena_os) to understand how to use system APIs
+- Check [Development Tools](/docs/development/dev_tools) documentation to understand the use of development tools
+
+Welcome to join the ElenaOS development community and contribute your strength to the project!

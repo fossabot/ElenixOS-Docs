@@ -1,155 +1,155 @@
 ---
 sidebar_position: 4
-title: 运行时总览
+title: Runtime Overview
 ---
 
-# 运行时总览
+# Runtime Overview
 
-ElenaOS 的运行时系统基于 JerryScript 引擎，负责管理脚本的执行、调度和资源分配。本文档将详细介绍 ElenaOS 的运行时机制、调度器、状态管理和 Realm 生命周期。
+ElenaOS's runtime system is based on the JerryScript engine, responsible for managing script execution, scheduling, and resource allocation. This document will detail ElenaOS's runtime mechanisms, scheduler, state management, and Realm lifecycle.
 
-## 脚本生命周期
+## Script Lifecycle
 
-ElenaOS 中的脚本（应用和表盘）具有完整的生命周期，从加载到执行再到销毁：
+Scripts (applications and watchfaces) in ElenaOS have a complete lifecycle, from loading to execution to destruction:
 
-### 1. 加载阶段
+### 1. Loading Phase
 
-1. **脚本加载**：从文件系统加载应用或表盘的脚本文件
-2. **解析清单**：解析 `manifest.json` 文件，获取应用信息
-3. **创建 Realm**：为脚本创建独立的 ECMAScript Realm
-4. **注册 API**：向 Realm 中注册系统 API
+1. **Script Loading**: Load application or watchface script files from the file system
+2. **Manifest Parsing**: Parse the `manifest.json` file to get application information
+3. **Create Realm**: Create an independent ECMAScript Realm for the script
+4. **Register API**: Register system APIs into the Realm
 
-### 2. 执行阶段
+### 2. Execution Phase
 
-1. **初始化**：执行脚本的初始化代码
-2. **运行**：执行脚本的主逻辑
-3. **事件处理**：处理用户输入和系统事件
-4. **UI 更新**：更新用户界面
+1. **Initialization**: Execute the script's initialization code
+2. **Running**: Execute the script's main logic
+3. **Event Handling**: Handle user input and system events
+4. **UI Update**: Update the user interface
 
-### 3. 销毁阶段
+### 3. Destruction Phase
 
-1. **清理资源**：释放脚本使用的资源
-2. **销毁 Realm**：销毁脚本的 Realm 环境
-3. **释放内存**：释放分配的内存
+1. **Resource Cleanup**: Release resources used by the script
+2. **Destroy Realm**: Destroy the script's Realm environment
+3. **Memory Release**: Release allocated memory
 
-## 调度与事件流程
+## Scheduling and Event Flow
 
-ElenaOS 使用事件驱动的调度机制，处理用户输入、系统事件和脚本执行：
+ElenaOS uses an event-driven scheduling mechanism to handle user input, system events, and script execution:
 
-### 调度器
+### Scheduler
 
-调度器负责管理脚本的执行和事件的分发，确保系统的响应性和稳定性：
+The scheduler is responsible for managing script execution and event distribution, ensuring system responsiveness and stability:
 
-1. **事件队列**：维护事件队列，按优先级处理事件
-2. **时间管理**：管理定时器和定时事件
-3. **资源调度**：合理分配系统资源
+1. **Event Queue**: Maintain an event queue, process events by priority
+2. **Time Management**: Manage timers and timed events
+3. **Resource Scheduling**: Reasonably allocate system resources
 
-### 事件流程
+### Event Flow
 
-1. **事件产生**：用户输入、系统状态变化等产生事件
-2. **事件分发**：事件系统将事件分发给相应的处理程序
-3. **脚本响应**：脚本根据事件执行相应的逻辑
-4. **UI 更新**：更新用户界面
+1. **Event Generation**: User input, system state changes, etc. generate events
+2. **Event Distribution**: The event system distributes events to corresponding handlers
+3. **Script Response**: Scripts execute corresponding logic based on events
+4. **UI Update**: Update the user interface
 
 ```mermaid
 flowchart TD
-    A[事件产生] --> B[事件队列]
-    B --> C[事件分发]
-    C --> D[脚本响应]
-    D --> E[UI更新]
-    E --> F[事件完成]
+    A[Event Generation] --> B[Event Queue]
+    B --> C[Event Distribution]
+    C --> D[Script Response]
+    D --> E[UI Update]
+    E --> F[Event Completion]
 ```
 
-## 资源管理策略
+## Resource Management Strategy
 
-ElenaOS 在资源受限的环境中运行，采用了以下资源管理策略：
+ElenaOS runs in resource-constrained environments and adopts the following resource management strategies:
 
-### 内存管理
+### Memory Management
 
-1. **内存分配**：使用动态内存分配，按需分配内存
-2. **内存回收**：定期回收未使用的内存
-3. **内存限制**：对每个脚本设置内存使用限制
+1. **Memory Allocation**: Use dynamic memory allocation, allocate memory on demand
+2. **Memory Recycling**: Regularly recycle unused memory
+3. **Memory Limit**: Set memory usage limits for each script
 
-### CPU 资源管理
+### CPU Resource Management
 
-1. **时间片分配**：为每个脚本分配时间片
-2. **优先级调度**：根据脚本的重要性分配 CPU 时间
-3. **休眠机制**：在无事件时进入休眠状态，减少功耗
+1. **Time Slice Allocation**: Allocate time slices for each script
+2. **Priority Scheduling**: Allocate CPU time based on script importance
+3. **Sleep Mechanism**: Enter sleep state when there are no events to reduce power consumption
 
-### 存储管理
+### Storage Management
 
-1. **文件系统**：使用文件系统存储应用和数据
-2. **缓存策略**：合理使用缓存，提高访问速度
-3. **存储限制**：对每个应用设置存储使用限制
+1. **File System**: Use file system to store applications and data
+2. **Cache Strategy**: Use cache reasonably to improve access speed
+3. **Storage Limit**: Set storage usage limits for each application
 
-## 运行时错误处理
+## Runtime Error Handling
 
-ElenaOS 采用多层错误处理机制，确保系统的稳定性：
+ElenaOS adopts a multi-layer error handling mechanism to ensure system stability:
 
-### 错误捕获
+### Error Capture
 
-1. **脚本错误**：捕获脚本执行过程中的错误
-2. **系统错误**：捕获系统级错误
-3. **硬件错误**：捕获硬件相关错误
+1. **Script Errors**: Capture errors during script execution
+2. **System Errors**: Capture system-level errors
+3. **Hardware Errors**: Capture hardware-related errors
 
-### 错误处理策略
+### Error Handling Strategy
 
-1. **错误隔离**：确保一个脚本的错误不会影响其他脚本
-2. **错误恢复**：在错误发生后尝试恢复系统状态
-3. **错误日志**：记录错误信息，便于调试
+1. **Error Isolation**: Ensure errors in one script do not affect other scripts
+2. **Error Recovery**: Attempt to recover system state after an error occurs
+3. **Error Logging**: Record error information for debugging
 
-### 错误类型
+### Error Types
 
-| 错误类型 | 描述 | 处理方式 |
-|---------|------|---------|
-| 脚本语法错误 | 脚本代码语法不正确 | 停止脚本执行，显示错误信息 |
-| 脚本运行时错误 | 脚本执行过程中出现错误 | 捕获错误，尝试恢复 |
-| 系统资源错误 | 系统资源不足 | 释放资源，尝试继续执行 |
-| 硬件错误 | 硬件操作失败 | 记录错误，尝试降级操作 |
+| Error Type | Description | Handling Method |
+|------------|-------------|------------------|
+| Script syntax error | Script code has incorrect syntax | Stop script execution, display error information |
+| Script runtime error | Error occurs during script execution | Capture error, attempt recovery |
+| System resource error | Insufficient system resources | Release resources, attempt to continue execution |
+| Hardware error | Hardware operation failure | Record error, attempt degraded operation |
 
-## Realm 生命周期
+## Realm Lifecycle
 
-Realm 是 ECMAScript 语言规范中的一个概念，用于实现 JavaScript 的多线程执行环境。在 ElenaOS 中，每个脚本运行在独立的 Realm 中：
+Realm is a concept in the ECMAScript language specification used to implement JavaScript's multi-threaded execution environment. In ElenaOS, each script runs in an independent Realm:
 
-### Realm 创建
+### Realm Creation
 
-1. **初始化**：初始化 JerryScript 引擎
-2. **创建 Realm**：创建新的 Realm 实例
-3. **注册 API**：向 Realm 中注册系统 API
-4. **加载脚本**：加载脚本代码到 Realm 中
+1. **Initialization**: Initialize the JerryScript engine
+2. **Create Realm**: Create a new Realm instance
+3. **Register API**: Register system APIs into the Realm
+4. **Load Script**: Load script code into the Realm
 
-### Realm 运行
+### Realm Running
 
-1. **执行脚本**：在 Realm 中执行脚本代码
-2. **处理事件**：处理脚本产生的事件
-3. **管理状态**：管理脚本的运行状态
+1. **Execute Script**: Execute script code in the Realm
+2. **Handle Events**: Handle events generated by the script
+3. **Manage State**: Manage the script's running state
 
-### Realm 销毁
+### Realm Destruction
 
-1. **停止执行**：停止脚本的执行
-2. **清理资源**：清理脚本使用的资源
-3. **销毁 Realm**：销毁 Realm 实例
-4. **释放内存**：释放分配的内存
+1. **Stop Execution**: Stop script execution
+2. **Cleanup Resources**: Clean up resources used by the script
+3. **Destroy Realm**: Destroy the Realm instance
+4. **Release Memory**: Release allocated memory
 
-## 运行时优化
+## Runtime Optimization
 
-ElenaOS 采用了多种优化策略，提高运行时性能：
+ElenaOS adopts multiple optimization strategies to improve runtime performance:
 
-1. **字节码缓存**：缓存编译后的字节码，减少重复编译
-2. **惰性加载**：按需加载脚本和资源
-3. **预编译**：预编译常用脚本，提高启动速度
-4. **内存池**：使用内存池管理内存分配，减少内存碎片
+1. **Bytecode Caching**: Cache compiled bytecode to reduce repeated compilation
+2. **Lazy Loading**: Load scripts and resources on demand
+3. **Precompilation**: Precompile common scripts to improve startup speed
+4. **Memory Pool**: Use memory pool to manage memory allocation, reduce memory fragmentation
 
-## 运行时安全
+## Runtime Security
 
-ElenaOS 重视运行时安全，采取了以下措施：
+ElenaOS values runtime security and has taken the following measures:
 
-1. **沙箱隔离**：每个脚本运行在独立的沙箱中
-2. **权限控制**：对脚本的权限进行严格控制
-3. **资源限制**：限制脚本的资源使用
-4. **输入验证**：验证用户输入，防止恶意输入
+1. **Sandbox Isolation**: Each script runs in an independent sandbox
+2. **Permission Control**: Strictly control script permissions
+3. **Resource Limitation**: Limit script resource usage
+4. **Input Validation**: Validate user input to prevent malicious input
 
-## 总结
+## Summary
 
-ElenaOS 的运行时系统是一个复杂而高效的系统，它通过合理的调度机制、资源管理策略和错误处理机制，确保了系统的稳定性和响应性。同时，它也为应用开发提供了一个安全、高效的运行环境。
+ElenaOS's runtime system is a complex and efficient system that ensures system stability and responsiveness through reasonable scheduling mechanisms, resource management strategies, and error handling mechanisms. At the same time, it provides a safe and efficient runtime environment for application development.
 
-通过了解 ElenaOS 的运行时机制，开发者可以更好地理解系统的工作原理，从而开发出更高效、更稳定的应用。
+By understanding ElenaOS's runtime mechanisms, developers can better understand how the system works, thereby developing more efficient and stable applications.

@@ -1,100 +1,100 @@
-# 开发指南
+# Development Guide
 
-本指南将帮助你了解 ElenaOS 的开发流程、编码规范和贡献方式，为参与 ElenaOS 开发提供完整的指导。
+This guide will help you understand the development process, coding standards, and contribution methods of ElenaOS, providing complete guidance for participating in ElenaOS development.
 
-## 开发环境搭建
+## Development Environment Setup
 
-### 环境要求
+### Environment Requirements
 
-请参考 [快速开始](/docs/getting_started/quick_start) 中的环境要求部分，确保你的开发环境满足要求。
+Please refer to the environment requirements section in [Quick Start](/docs/getting_started/quick_start) to ensure your development environment meets the requirements.
 
-### 代码获取
+### Code Acquisition
 
-使用 Git 克隆 ElenaOS 代码库：
+Use Git to clone the ElenaOS repository:
 
 ```bash
 git clone --recursive https://github.com/Sab1e-dev/ElenaOS.git
 cd ElenaOS
 ```
 
-## 编码规范
+## Coding Standards
 
-### C 语言编码规范
+### C Language Coding Standards
 
-#### 命名约定
+#### Naming Conventions
 
-- **文件名**：使用小写字母和下划线，例如 `elena_os_app.c`
-- **函数名**：使用小写字母和下划线，例如 `eos_app_install`
-- **变量名**：使用小写字母和下划线，例如 `app_id`
-- **常量名**：使用大写字母和下划线，例如 `EOS_APP_DIR`
-- **类型名**：使用驼峰命名法，例如 `script_pkg_t`
+- **File names**: Use lowercase letters and underscores, e.g., `elena_os_app.c`
+- **Function names**: Use lowercase letters and underscores, e.g., `eos_app_install`
+- **Variable names**: Use lowercase letters and underscores, e.g., `app_id`
+- **Constant names**: Use uppercase letters and underscores, e.g., `EOS_APP_DIR`
+- **Type names**: Use camel case, e.g., `script_pkg_t`
 
-#### 代码风格
+#### Code Style
 
-- **缩进**：使用 4 个空格进行缩进
-- **括号**：左括号与语句在同一行，右括号单独一行
-- **行长度**：每行代码不超过 80 个字符
-- **注释**：使用 Doxygen 风格的注释
+- **Indentation**: Use 4 spaces for indentation
+- **Brackets**: Opening bracket on the same line as the statement, closing bracket on a separate line
+- **Line length**: Each line of code should not exceed 80 characters
+- **Comments**: Use Doxygen-style comments
 
-#### 示例
+#### Example
 
 ```c
 /**
- * @brief 安装应用
- * @param eapk_path eapk 安装包路径
- * @return eos_result_t 安装结果
+ * @brief Install application
+ * @param eapk_path eapk installation package path
+ * @return eos_result_t Installation result
  */
 eos_result_t eos_app_install(const char *eapk_path) {
-    // 函数实现
+    // Function implementation
     return EOS_OK;
 }
 ```
 
-### JavaScript 编码规范
+### JavaScript Coding Standards
 
-#### 命名约定
+#### Naming Conventions
 
-- **变量名**：使用驼峰命名法，例如 `appId`
-- **函数名**：使用驼峰命名法，例如 `installApp`
-- **常量名**：使用大写字母和下划线，例如 `MAX_APP_COUNT`
-- **对象属性**：使用驼峰命名法，例如 `appName`
+- **Variable names**: Use camel case, e.g., `appId`
+- **Function names**: Use camel case, e.g., `installApp`
+- **Constant names**: Use uppercase letters and underscores, e.g., `MAX_APP_COUNT`
+- **Object properties**: Use camel case, e.g., `appName`
 
-#### 代码风格
+#### Code Style
 
-- **缩进**：使用 2 个空格进行缩进
-- **括号**：左括号和右括号单独一行
-- **行长度**：每行代码不超过 80 个字符
-- **注释**：使用 JSDoc 风格的注释
+- **Indentation**: Use 2 spaces for indentation
+- **Brackets**: Opening and closing brackets on separate lines
+- **Line length**: Each line of code should not exceed 80 characters
+- **Comments**: Use JSDoc-style comments
 
-#### 示例
+#### Example
 
 ```javascript
 /**
- * 安装应用
- * @param {string} eapkPath - 应用包路径
- * @returns {number} 安装结果
+ * Install application
+ * @param {string} eapkPath - Application package path
+ * @returns {number} Installation result
  */
 function installApp(eapkPath)
 {
-    // 函数实现
+    // Function implementation
     return 0;
 }
 ```
 
-## 开发流程
+## Development Process
 
-### 分支管理
+### Branch Management
 
-ElenaOS 使用 Git 进行版本控制，采用以下分支管理策略：
+ElenaOS uses Git for version control, adopting the following branch management strategy:
 
-- **main**：主分支，包含稳定版本
-- **develop**：开发分支，包含最新开发代码
-- **feature/xxx**：功能分支，用于开发新功能
-- **bugfix/xxx**： bug 修复分支，用于修复 bug
+- **main**: Main branch, contains stable versions
+- **develop**: Development branch, contains latest development code
+- **feature/xxx**: Feature branch, used for developing new features
+- **bugfix/xxx**: Bug fix branch, used for fixing bugs
 
-### 开发步骤
+### Development Steps
 
-1. **创建分支**：从 develop 分支创建新的功能分支
+1. **Create branch**: Create a new feature branch from the develop branch
 
 ```bash
 git checkout develop
@@ -102,47 +102,47 @@ git pull
 git checkout -b feature/your-feature
 ```
 
-2. **编写代码**：实现功能或修复 bug
+2. **Write code**: Implement features or fix bugs
 
-3. **测试代码**：确保代码能够正常编译和运行
+3. **Test code**: Ensure the code can compile and run normally
 
-4. **提交代码**：提交代码到本地仓库
+4. **Commit code**: Commit code to local repository
 
 ```bash
 git add .
-git commit -m "feat: 实现新功能"
+git commit -m "feat: Implement new feature"
 ```
 
-5. **推送分支**：将分支推送到远程仓库
+5. **Push branch**: Push the branch to the remote repository
 
 ```bash
 git push origin feature/your-feature
 ```
 
-6. **创建 Pull Request**：在 GitHub 上创建 Pull Request，描述功能或修复的内容
+6. **Create Pull Request**: Create a Pull Request on GitHub, describing the functionality or fix
 
-## 贡献流程
+## Contribution Process
 
-### 贡献方式
+### Contribution Methods
 
-1. **报告问题**：在 GitHub Issues 中报告 bug 或提出功能请求
-2. **提交代码**：通过 Pull Request 提交代码
-3. **改进文档**：改进项目文档
-4. **测试**：测试代码并提供反馈
+1. **Report issues**: Report bugs or feature requests in GitHub Issues
+2. **Submit code**: Submit code through Pull Request
+3. **Improve documentation**: Improve project documentation
+4. **Test**: Test code and provide feedback
 
-### 代码审查
+### Code Review
 
-所有提交的代码都需要经过代码审查，确保代码质量和一致性。代码审查的重点包括：
+All submitted code needs to go through code review to ensure code quality and consistency. The focus of code review includes:
 
-- 代码风格是否符合规范
-- 功能是否正确实现
-- 代码是否安全
-- 性能是否合理
-- 文档是否完整
+- Whether the code style conforms to the specifications
+- Whether the functionality is correctly implemented
+- Whether the code is secure
+- Whether the performance is reasonable
+- Whether the documentation is complete
 
-### 提交规范
+### Commit Specifications
 
-提交消息应遵循以下格式：
+Commit messages should follow the following format:
 
 ```
 type: subject
@@ -150,123 +150,123 @@ type: subject
 body (optional)
 ```
 
-其中，type 可以是以下之一：
+Where type can be one of the following:
 
-- **feat**：新功能
-- **fix**：bug 修复
-- **docs**：文档改进
-- **style**：代码风格调整
-- **refactor**：代码重构
-- **test**：测试代码
-- **chore**：构建或依赖更新
+- **feat**: New feature
+- **fix**: Bug fix
+- **docs**: Documentation improvement
+- **style**: Code style adjustment
+- **refactor**: Code refactoring
+- **test**: Test code
+- **chore**: Build or dependency update
 
-示例：
+Example:
 
 ```
-feat: 添加应用安装功能
+feat: Add app install feature
 
-实现了应用安装的核心逻辑，包括解析应用包、验证应用信息和部署应用文件。
+Implemented the core logic for app installation, including parsing app packages, verifying app information, and deploying app files.
 ```
 
-## 开发工具
+## Development Tools
 
-### 构建工具
+### Build Tools
 
-- **CMake**：用于构建项目
-- **Ninja**：用于快速构建
+- **CMake**: Used for building the project
+- **Ninja**: Used for fast building
 
-### 代码分析工具
+### Code Analysis Tools
 
-- **Clang-Tidy**：用于静态代码分析
-- **Cppcheck**：用于 C/C++ 代码检查
+- **Clang-Tidy**: Used for static code analysis
+- **Cppcheck**: Used for C/C++ code checking
 
-### 调试工具
+### Debugging Tools
 
-- **GDB**：用于调试
-- **Valgrind**：用于内存泄漏检测
+- **GDB**: Used for debugging
+- **Valgrind**: Used for memory leak detection
 
-## 测试
+## Testing
 
-### 单元测试
+### Unit Testing
 
-ElenaOS 使用 Unity 测试框架进行单元测试。测试文件位于 `tests` 目录。
+ElenaOS uses the Unity testing framework for unit testing. Test files are located in the `tests` directory.
 
-### 集成测试
+### Integration Testing
 
-集成测试用于测试系统的整体功能，确保各个模块能够正常协作。
+Integration testing is used to test the overall functionality of the system, ensuring that various modules can work together normally.
 
-### 测试流程
+### Testing Process
 
-1. **编写测试**：编写单元测试和集成测试
-2. **运行测试**：运行测试确保代码功能正确
-3. **覆盖率分析**：分析测试覆盖率，确保代码被充分测试
+1. **Write tests**: Write unit tests and integration tests
+2. **Run tests**: Run tests to ensure code functionality is correct
+3. **Coverage analysis**: Analyze test coverage to ensure code is fully tested
 
-## 文档编写
+## Documentation Writing
 
-### 文档结构
+### Documentation Structure
 
-ElenaOS 的文档位于 `docs` 目录，采用 Markdown 格式编写。文档结构如下：
+ElenaOS documentation is located in the `docs` directory and written in Markdown format. The documentation structure is as follows:
 
-- **introduction.mdx**：项目介绍
-- **architecture/arch.mdx**：系统架构
-- **architecture/script_engine.mdx**：脚本引擎
-- **getting_started/quick_start.mdx**：快速开始
-- **getting_started/build.mdx**：构建与使用
-- **development/dev_tools.mdx**：开发工具
-- **core/**：核心模块文档
-- **js-api/**：JavaScript API 文档
-- **development/**：开发相关文档
+- **introduction.mdx**: Project introduction
+- **architecture/arch.mdx**: System architecture
+- **architecture/script_engine.mdx**: Script engine
+- **getting_started/quick_start.mdx**: Quick start
+- **getting_started/build.mdx**: Build and use
+- **development/dev_tools.mdx**: Development tools
+- **core/**: Core module documentation
+- **js-api/**: JavaScript API documentation
+- **development/**: Development-related documentation
 
-### 文档规范
+### Documentation Standards
 
-- 使用 Markdown 格式
-- 使用清晰的标题层级
-- 代码块使用 ``` 标记，并指定语言
-- 图表使用 mermaid 语法
-- 文档应保持与代码的一致性
+- Use Markdown format
+- Use clear heading levels
+- Code blocks use ``` markers and specify the language
+- Charts use mermaid syntax
+- Documentation should remain consistent with code
 
-## 常见开发问题
+## Common Development Issues
 
-### 编译错误
+### Compilation Errors
 
-- **问题**：编译失败，提示缺少依赖
-  **解决**：安装缺少的依赖，确保所有子模块都已正确克隆
+- **Issue**: Compilation fails, indicating missing dependencies
+  **Solution**: Install missing dependencies, ensure all submodules are correctly cloned
 
-- **问题**：交叉编译失败
-  **解决**：检查交叉编译工具链是否正确配置，确保 CMake 能够找到工具链
+- **Issue**: Cross-compilation fails
+  **Solution**: Check if the cross-compilation toolchain is correctly configured, ensure CMake can find the toolchain
 
-### 运行时错误
+### Runtime Errors
 
-- **问题**：运行时崩溃
-  **解决**：使用调试工具分析崩溃原因，检查内存使用是否合理
+- **Issue**: Runtime crash
+  **Solution**: Use debugging tools to analyze the crash cause, check if memory usage is reasonable
 
-- **问题**：应用无法运行
-  **解决**：检查应用权限，确保应用符合 ElenaOS 的应用规范
+- **Issue**: Application cannot run
+  **Solution**: Check application permissions, ensure the application complies with ElenaOS application specifications
 
-### 性能问题
+### Performance Issues
 
-- **问题**：系统运行缓慢
-  **解决**：优化代码，减少内存使用，避免不必要的计算
+- **Issue**: System runs slowly
+  **Solution**: Optimize code, reduce memory usage, avoid unnecessary calculations
 
-## 最佳实践
+## Best Practices
 
-1. **模块化设计**：将功能划分为小的、可测试的模块
-2. **代码复用**：避免重复代码，提取公共功能
-3. **错误处理**：合理处理错误，确保系统稳定性
-4. **文档先行**：在实现功能前先编写文档，确保功能设计清晰
-5. **测试驱动**：编写测试用例，确保代码质量
+1. **Modular design**: Divide functionality into small, testable modules
+2. **Code reuse**: Avoid duplicate code, extract common functionality
+3. **Error handling**: Handle errors properly to ensure system stability
+4. **Documentation first**: Write documentation before implementing functionality to ensure clear feature design
+5. **Test-driven**: Write test cases to ensure code quality
 
-## 社区交流
+## Community Communication
 
-- **GitHub Issues**：用于报告问题和提出功能请求
-- **GitHub Discussions**：用于讨论项目相关话题
-- **邮件列表**：用于邮件交流
-- **Slack**：用于实时交流
+- **GitHub Issues**: For reporting issues and feature requests
+- **GitHub Discussions**: For discussing project-related topics
+- **Mailing list**: For email communication
+- **Slack**: For real-time communication
 
-## 后续步骤
+## Next Steps
 
-- 查看 [核心模块](../core/app) 文档，了解系统的核心功能
-- 查看 [API 文档](../js-api/elena_os)，了解如何使用系统 API
-- 查看 [开发工具](/docs/development/dev_tools) 文档，了解开发工具的使用
+- Check [Core Modules](../core/app) documentation to understand the core features of the system
+- Check [API Documentation](../js-api/elena_os) to understand how to use system APIs
+- Check [Development Tools](/docs/development/dev_tools) documentation to understand the use of development tools
 
-欢迎加入 ElenaOS 开发社区，为项目贡献你的力量！
+Welcome to join the ElenaOS development community and contribute your strength to the project!

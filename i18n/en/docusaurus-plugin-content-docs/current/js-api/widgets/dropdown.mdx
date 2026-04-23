@@ -1,125 +1,95 @@
 ---
-title: 下拉菜单 (Dropdown)
+title: Dropdown
 sidebar_position: 5
 ---
 
-# 下拉菜单 (Dropdown)
+# Dropdown
 
-下拉菜单是 ElenaOS 中用于显示和选择下拉选项的特殊 API 组件。本文档将介绍下拉菜单组件的功能、使用方法和注意事项。
+Dropdown is a special API component in ElenaOS for displaying and selecting dropdown options. This document will introduce the features, usage methods, and precautions of the dropdown component.
 
-## 功能介绍
+## Feature Introduction
 
-下拉菜单组件允许开发者创建一个下拉列表，用于显示和选择选项。下拉菜单通常用于选择列表、设置选项等场景。
+The dropdown component allows developers to create a dropdown list for displaying and selecting options. Dropdown menus are typically used for selection lists, setting options, and other scenarios.
 
-## 使用方法
+## Usage Methods
 
-### 创建下拉菜单
+### Create Dropdown
 
-使用 `new lv.dropdown()` 构造函数创建下拉菜单对象：
+Use the `new lv.dropdown()` constructor to create a dropdown object:
 
 ```javascript
-// 创建下拉菜单对象
+// Create dropdown object
 const dropdown = new lv.dropdown(eos.view.active());
 ```
 
-### 配置下拉菜单
+### Configure Dropdown
 
-使用以下方法配置下拉菜单：
+Use the following methods to configure the dropdown:
 
 ```javascript
-// 设置下拉菜单大小
+// Set dropdown size
  dropdown.setSize(200, 50);
 
-// 设置下拉菜单位置
+// Set dropdown position
  dropdown.setPos(10, 10);
 
-// 设置下拉菜单选项
+// Set dropdown options
 const options = "Option 1\nOption 2\nOption 3\nOption 4";
  dropdown.setOptions(options);
 
-// 设置下拉菜单默认选项
+// Set dropdown default option
  dropdown.setSelected(0);
 
-// 设置下拉菜单展开方向
+// Set dropdown expansion direction
  dropdown.setDir(lv.DIR.BOTTOM);
 ```
 
-### 绑定事件
+### Bind Events
 
-使用 `addEventCb` 方法绑定事件：
+Use the `addEventCb` method to bind events:
 
 ```javascript
-// 绑定选项选择事件
+// Bind option selection event
  dropdown.addEventCb((e) => {
     const selected =  dropdown.getSelected();
     eos.console.log("Selected option:", selected);
 }, lv.EVENT_VALUE_CHANGED, null);
 ```
 
-### 示例：创建简单下拉菜单
+### Example: Create a Simple Dropdown
 
 ```javascript
-// 创建下拉菜单
+// Create dropdown
 const dropdown = new lv.dropdown(eos.view.active());
 dropdown.setSize(200, 50);
 dropdown.align(lv.ALIGN_CENTER, 0, 0);
 
-// 设置选项
+// Set options
 const options = "Option 1\nOption 2\nOption 3\nOption 4";
 dropdown.setOptions(options);
 
-// 绑定事件
+// Bind event
 dropdown.addEventCb((e) => {
     const selected = dropdown.getSelected();
     eos.console.log("Selected option:", selected);
 }, lv.EVENT_VALUE_CHANGED, null);
 ```
 
-### 示例：创建带图标的下拉菜单
+### Example: Create a Dropdown with Icons
 
 ```javascript
-// 创建下拉菜单
+// Create dropdown
 const dropdown = new lv.dropdown(eos.view.active());
 dropdown.setSize(200, 50);
 dropdown.align(lv.ALIGN_CENTER, 0, 0);
 
-// 设置带图标的选项
+// Set options with icons
 const options = "\uF001 Option 1\n\uF002 Option 2\n\uF003 Option 3";
 dropdown.setOptions(options);
 
-// 绑定事件
+// Bind event
 dropdown.addEventCb((e) => {
     const selected = dropdown.getSelected();
     eos.console.log("Selected option:", selected);
 }, lv.EVENT_VALUE_CHANGED, null);
 ```
-
-## 注意事项
-
-### 性能优化
-
-1. **合理设置选项数量**：选项数量不宜过多，以免影响系统性能
-2. **优化事件处理**：事件处理函数不宜过于复杂，以免影响系统性能
-
-### 内存管理
-
-1. **及时释放下拉菜单对象**：不再使用下拉菜单时，及时释放
-2. **避免内存泄漏**：确保事件回调函数中没有循环引用
-
-### 错误处理
-
-1. **参数验证**：验证下拉菜单参数，避免传入无效参数
-2. **异常捕获**：使用 try-catch 捕获可能的错误
-
-## 最佳实践
-
-1. **合理使用下拉菜单**：根据应用场景合理使用下拉菜单
-2. **性能测试**：在使用下拉菜单前进行性能测试，确保下拉菜单不会影响系统性能
-3. **代码优化**：优化下拉菜单代码，提高性能
-4. **用户体验**：考虑用户体验，确保下拉菜单的布局和大小合理
-
-## 总结
-
-下拉菜单是 ElenaOS 中用于显示和选择下拉选项的特殊 API 组件。通过下拉菜单，开发者可以创建选择列表、设置选项等功能。
-
-在使用下拉菜单时，开发者应该注意性能优化、内存管理、错误处理等问题，以确保下拉菜单的性能和系统的稳定性。

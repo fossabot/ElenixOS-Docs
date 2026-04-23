@@ -1,69 +1,75 @@
 {
   "homepage.badge": {
-    "message": "开源智能手表操作系统"
+    "message": "Open Source Smartwatch Operating System"
   },
   "homepage.title": {
-    "message": "ElenaOS 文档"
+    "message": "ElenaOS"
   },
   "homepage.subtitle": {
-    "message": "基于 LVGL 与 JerryScript 的嵌入式可穿戴系统，面向资源受限硬件打造 流畅的智能手表体验。"
+    "message": "An embedded wearable system based on LVGL and JerryScript, designed for resource-constrained hardware to deliver smooth smartwatch experiences."
   },
   "homepage.cta.docs": {
-    "message": "阅读文档"
+    "message": "Read Documentation"
   },
   "homepage.cta.repo": {
-    "message": "查看 ElenaOS 仓库"
+    "message": "View ElenaOS Repository"
   },
   "homepage.quick.start": {
-    "message": "快速开始"
+    "message": "Quick Start"
   },
   "homepage.quick.api": {
     "message": "JS API"
   },
   "homepage.quick.arch": {
-    "message": "架构设计"
+    "message": "Architecture Design"
   },
   "homepage.stats.engine": {
-    "message": "脚本引擎"
+    "message": "Script Engine"
   },
   "homepage.stats.license": {
-    "message": "许可证"
+    "message": "License"
   },
   "homepage.layoutTitle": {
-    "message": "首页"
+    "message": "Home"
   },
   "homepage.layoutDescription": {
-    "message": "ElenaOS 构建、脚本引擎与开发工具文档站点。"
+    "message": "ElenaOS build, script engine, and development tools documentation site."
   },
   "homepage.features.scriptDriven.title": {
-    "message": "脚本驱动架构"
+    "message": "Script-Driven Architecture"
   },
   "homepage.features.scriptDriven.description": {
-    "message": "ElenaOS 采用脚本驱动的应用模型，由 JavaScript 定义 UI 与交互逻辑，由原生代码负责渲染与调度。"
+    "message": "ElenaOS adopts a script-driven application model, with UI and interaction logic defined by JavaScript, and rendering and scheduling handled by native code."
   },
   "homepage.features.runtime.title": {
-    "message": "LVGL + JerryScript 运行时"
+    "message": "LVGL + JerryScript Runtime"
   },
   "homepage.features.runtime.description": {
-    "message": "图形栈由 LVGL 提供能力，表盘与应用统一运行在 JerryScript 引擎之上，保障一致的运行时行为。"
+    "message": "The graphics stack is powered by LVGL, and watchfaces and applications run uniformly on the JerryScript engine, ensuring consistent runtime behavior."
   },
   "homepage.features.portable.title": {
-    "message": "可移植与可扩展"
+    "message": "Portable and Extensible"
   },
   "homepage.features.portable.description": {
-    "message": "清晰的抽象分层与统一 API，让 ElenaOS 更容易在不同 MCU 与硬件平台之间迁移与复用。"
+    "message": "Clear abstraction layers and unified API make ElenaOS easier to migrate and reuse across different MCUs and hardware platforms."
   },
   "homepage.features.ux.title": {
-    "message": "专注可穿戴交互体验"
+    "message": "Focus on Wearable Interaction Experience"
   },
   "homepage.features.ux.description": {
-    "message": "借鉴 Apple Watch 的交互理念，ElenaOS 强调手势流程、动画连贯性与嵌入式界面的信息层级。"
+    "message": "Drawing inspiration from Apple Watch's interaction philosophy, ElenaOS emphasizes gesture flows, animation continuity, and information hierarchy for embedded interfaces."
   },
   "homepage.features.kicker": {
-    "message": "项目亮点"
+    "message": "Project Highlights"
   },
   "homepage.features.heading": {
-    "message": "为智能手表而生，为开发者而设计"
+    "message": "Built for smartwatches, designed for developers"
+  },
+  "homepage.codeCard.snippet": {
+    "message": "// Get the current active view\nconst view = eos.view.active();\n\n// Create a button\nconst button = new lv.button(view);\nbutton.setSize(180, 64);\nbutton.align(lv.ALIGN_CENTER, 0, 20);\n\n// Add a label\nconst label = new lv.label(button);\nlabel.setText('Click Me');\nlabel.center();\n\n// Bind the click event\nbutton.addEventCb((e) => {\n  eos.console.log('Button clicked!');\n  label.setText('Clicked!');\n}, lv.EVENT_CLICKED, null);"
+  },
+  "homepage.codeCard.footer": {
+    "message": "WASM for ElenaOS is under development, and the code below has been verified on real hardware."
   },
   "theme.ErrorPageContent.title": {
     "message": "This page crashed.",

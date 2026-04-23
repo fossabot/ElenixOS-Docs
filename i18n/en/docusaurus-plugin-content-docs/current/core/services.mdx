@@ -1,76 +1,76 @@
-# 系统服务模块
+# System Services Module
 
-系统服务模块是 ElenaOS 的核心组件之一，提供了一系列系统级别的服务和功能，包括电池管理、传感器管理等。该模块为应用程序和系统组件提供了统一的服务接口，简化了对硬件资源的访问。
+The system services module is one of the core components of ElenaOS, providing a series of system-level services and functions, including battery management, sensor management, etc. This module provides a unified service interface for applications and system components, simplifying access to hardware resources.
 
-## 目录结构
+## Directory Structure
 
 ```
 ├── src/core/system/services/
-│   ├── elena_os_services.c    # 系统服务核心实现
-│   ├── elena_os_services.h    # 系统服务接口定义
-│   ├── elena_os_sensor.c      # 传感器服务实现
-│   └── elena_os_sensor.h      # 传感器服务接口定义
+│   ├── elena_os_services.c    # System services core implementation
+│   ├── elena_os_services.h    # System services interface definition
+│   ├── elena_os_sensor.c      # Sensor service implementation
+│   └── elena_os_sensor.h      # Sensor service interface definition
 ```
 
-## 核心功能
+## Core Features
 
-### 电池服务
+### Battery Service
 
-电池服务提供了获取电池电量和充电状态的功能，为应用程序提供电池相关的信息。
+The battery service provides functionality to get battery level and charging status, providing battery-related information for applications.
 
-### 传感器服务
+### Sensor Service
 
-传感器服务提供了对各种传感器的访问和管理功能，包括加速度传感器、心率传感器等。
+The sensor service provides access and management functions for various sensors, including accelerometer, heart rate sensor, etc.
 
-### 服务启动与管理
+### Service Startup and Management
 
-系统服务模块负责启动和管理各种系统服务，确保服务的正常运行。
+The system services module is responsible for starting and managing various system services, ensuring their normal operation.
 
-## 关键接口
+## Key Interfaces
 
-### 电池服务接口
+### Battery Service Interfaces
 
 ```c
 uint8_t eos_battery_service_get_level(void);
 bool eos_battery_service_get_charging(void);
 ```
 
-- `eos_battery_service_get_level`：获取电池电量，范围0-100
-- `eos_battery_service_get_charging`：获取电池充电状态，返回true表示正在充电
+- `eos_battery_service_get_level`：Get battery level, range 0-100
+- `eos_battery_service_get_charging`：Get battery charging status, returns true if charging
 
-### 传感器服务接口
+### Sensor Service Interfaces
 
-传感器服务提供了对各种传感器的访问和管理功能，具体接口请参考 `elena_os_sensor.h` 文件。
+The sensor service provides access and management functions for various sensors. For specific interfaces, please refer to the `elena_os_sensor.h` file.
 
-### 服务启动接口
+### Service Startup Interface
 
 ```c
 void eos_services_start(void);
 ```
 
-- 启动系统服务，初始化各种服务组件
+- Start system services, initialize various service components
 
-## 实现细节
+## Implementation Details
 
-系统服务模块的核心实现包括：
+The core implementation of the system services module includes:
 
-1. **服务初始化**：在系统启动时初始化各种服务组件
-2. **服务管理**：管理服务的生命周期和状态
-3. **硬件抽象**：对硬件资源进行抽象，提供统一的服务接口
-4. **事件通知**：当服务状态发生变化时，通知相关组件
+1. **Service initialization**：Initialize various service components when the system starts
+2. **Service management**：Manage the lifecycle and status of services
+3. **Hardware abstraction**：Abstract hardware resources to provide a unified service interface
+4. **Event notification**：Notify relevant components when service status changes
 
-该模块与硬件层紧密配合，为上层应用提供了统一的服务访问接口。
+This module works closely with the hardware layer to provide a unified service access interface for upper-level applications.
 
-## 使用示例
+## Usage Examples
 
-### 获取电池电量
+### Get Battery Level
 
 ```c
 uint8_t battery_level = eos_battery_service_get_level();
 printf("Battery level: %d%%\n", battery_level);
 ```
 
-### 获取充电状态
+### Get Charging Status
 
 ```c
 bool is_charging = eos_battery_service_get_charging();
@@ -81,18 +81,18 @@ if (is_charging) {
 }
 ```
 
-### 启动系统服务
+### Start System Services
 
 ```c
 eos_services_start();
 ```
 
-## 服务架构
+## Service Architecture
 
-系统服务模块采用分层架构：
+The system services module adopts a layered architecture:
 
-1. **服务接口层**：提供统一的服务访问接口
-2. **服务实现层**：实现具体的服务功能
-3. **硬件适配层**：适配不同硬件平台的实现
+1. **Service interface layer**：Provide a unified service access interface
+2. **Service implementation layer**：Implement specific service functions
+3. **Hardware adaptation layer**：Adapt to different hardware platform implementations
 
-这种架构设计使得系统服务能够在不同硬件平台上保持一致的接口，同时提供针对特定平台的优化实现。
+This architectural design allows system services to maintain a consistent interface across different hardware platforms while providing optimized implementations for specific platforms.

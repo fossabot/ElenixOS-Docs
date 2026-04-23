@@ -1,79 +1,79 @@
-# 系统架构
+# System Architecture
 
-## 整体架构
+## Overall Architecture
 
-ElenaOS 采用分层架构设计，从底层到上层依次为硬件层、可移植接口层、内核层和应用层。这种架构设计使得系统具有良好的可移植性和可扩展性。
+ElenaOS adopts a layered architecture design, from bottom to top: hardware layer, portable interface layer, kernel layer, and application layer. This architecture design gives the system good portability and scalability.
 
 ```mermaid
 flowchart BT
 
-    subgraph L1["应用层"]
+    subgraph L1["Application Layer"]
         direction BT
-        WATCHFACE["表盘系统"]
-        APP["第三方应用"]
-        SYSAPP["系统应用"]
+        WATCHFACE["Watchface System"]
+        APP["Third-party Applications"]
+        SYSAPP["System Applications"]
     end
 
-    subgraph L2["内核层"]
+    subgraph L2["Kernel Layer"]
         direction BT
 
-        subgraph R1["系统服务子系统"]
+        subgraph R1["System Services Subsystem"]
             direction BT
-            DISPATHCER["事件调度"]
-            ANIM["动画系统"]
-            EVENT["事件系统"]
-            SCENE["场景系统"]
-            SERVICES["用户服务"]
-            LANG["多语言支持"]
-            PKG["软件包管理器"]
+            DISPATHCER["Event Dispatching"]
+            ANIM["Animation System"]
+            EVENT["Event System"]
+            SCENE["Scene System"]
+            SERVICES["User Services"]
+            LANG["Multi-language Support"]
+            PKG["Package Manager"]
         end
 
-        subgraph R2["脚本运行子系统"]
+        subgraph R2["Script Runtime Subsystem"]
             direction BT
             SE["Script Engine"]
-            JS_API["JS API 层"]
+            JS_API["JS API Layer"]
         end
 
-        UI["内置UI控件"]
+        UI["Built-in UI Controls"]
     end
 
 
-    subgraph THIRD_PARTY["依赖库"]
+    subgraph THIRD_PARTY["Dependency Libraries"]
         direction BT
         subgraph LVGL["LVGL"]
             GUI["GUI"]
-            INPUT["输入"]
-            TIME["时间系统"]
+            INPUT["Input"]
+            TIME["Time System"]
         end
         JERRYSCRIPT["JerryScript"]
         OtherSW["Other Software"]
     end
 
 
-    subgraph L3["可移植接口层"]
+    subgraph L3["Portable Interface Layer"]
         direction BT
 
-        subgraph OSABS["OS 抽象层"]
+        subgraph OSABS["OS Abstraction Layer"]
             direction BT
-            MEM["内存管理"]
-            SEM["同步原语"]
-            FS["文件系统"]
+            MEM["Memory Management"]
+            SEM["Synchronization Primitives"]
+            FS["File System"]
         end
 
-        SENSOR["传感器接口"]
-        POWER["电源管理接口"]
-        OTHERDEVICES["其他外设接口"]
+        SENSOR["Sensor Interface"]
+        POWER["Power Management Interface"]
+        OTHERDEVICES["Other Peripheral Interfaces"]
     end
 
 
-    subgraph L4["硬件层"]
+    subgraph L4["Hardware Layer"]
         direction BT
         MCU["MCU / SoC"]
         BLUETOOTH["Bluetooth"]
-        SENSORS_HW["传感器硬件"]
-        STORAGE["存储器"]
-        DISPLAY_HW["显示与输入"]
-        PMIC["电源管理芯片"]
+        SENSORS_HW["Sensor Hardware"]
+        STORAGE["Storage"]
+        DISPLAY_HW["Display and Input"]
+        PMIC["Power Management IC"]
     end
 
 
@@ -85,37 +85,37 @@ flowchart BT
 
 ```
 
-## 模块依赖关系
+## Module Dependencies
 
-### 核心模块依赖图
+### Core Module Dependency Graph
 
 ```mermaid
 graph TD
-    subgraph 应用层
-        AppMgr["应用管理"]
-        WatchfaceMgr["表盘管理"]
-        SystemApp["系统应用"]
-        ThirdPartyApp["第三方应用"]
+    subgraph ApplicationLayer["Application Layer"]
+        AppMgr["Application Management"]
+        WatchfaceMgr["Watchface Management"]
+        SystemApp["System Applications"]
+        ThirdPartyApp["Third-party Applications"]
     end
 
-    subgraph 内核层
-        ScriptEngine["脚本引擎"]
-        UIModule["UI模块"]
-        SystemServices["系统服务"]
-        FileSystem["文件系统"]
-        EventSystem["事件系统"]
+    subgraph KernelLayer["Kernel Layer"]
+        ScriptEngine["Script Engine"]
+        UIModule["UI Module"]
+        SystemServices["System Services"]
+        FileSystem["File System"]
+        EventSystem["Event System"]
     end
 
-    subgraph 可移植接口层
-        PortLayer["移植层"]
-        HAL["硬件抽象层"]
+    subgraph PortableInterfaceLayer["Portable Interface Layer"]
+        PortLayer["Porting Layer"]
+        HAL["Hardware Abstraction Layer"]
     end
 
-    subgraph 硬件层
-        Hardware["硬件"]
+    subgraph HardwareLayer["Hardware Layer"]
+        Hardware["Hardware"]
     end
 
-    subgraph 第三方库
+    subgraph ThirdPartyLibraries["Third-party Libraries"]
         LVGL["LVGL"]
         JerryScript["JerryScript"]
         CJSON["cJSON"]
@@ -146,60 +146,60 @@ graph TD
     SystemServices --> CJSON
 ```
 
-## 架构层次说明
+## Architecture Layer Description
 
-### 1. 硬件层
+### 1. Hardware Layer
 
-硬件层包含各种硬件组件，如 MCU/SoC、蓝牙、传感器、存储器、显示屏和电源管理芯片等。这些硬件组件是 ElenaOS 运行的基础。
+The hardware layer includes various hardware components such as MCU/SoC, Bluetooth, sensors, storage, display, and power management ICs. These hardware components are the foundation for ElenaOS to run.
 
-### 2. 可移植接口层
+### 2. Portable Interface Layer
 
-可移植接口层提供了对硬件的抽象，包括：
+The portable interface layer provides hardware abstraction, including:
 
-- **OS 抽象层**：内存管理、同步原语、文件系统等
-- **传感器接口**：统一的传感器访问接口
-- **电源管理接口**：电源状态管理和控制
-- **其他外设接口**：其他硬件外设的访问接口
+- **OS Abstraction Layer**: Memory management, synchronization primitives, file system, etc.
+- **Sensor Interface**: Unified sensor access interface
+- **Power Management Interface**: Power state management and control
+- **Other Peripheral Interfaces**: Access interfaces for other hardware peripherals
 
-这一层的设计使得 ElenaOS 能够在不同的硬件平台上运行，只需要实现相应的接口即可。
+This layer's design allows ElenaOS to run on different hardware platforms by simply implementing the corresponding interfaces.
 
-### 3. 内核层
+### 3. Kernel Layer
 
-内核层是 ElenaOS 的核心，包含以下子系统：
+The kernel layer is the core of ElenaOS, containing the following subsystems:
 
-- **系统服务子系统**：事件调度、动画系统、事件系统、场景系统、用户服务、多语言支持、软件包管理器等
-- **脚本运行子系统**：脚本引擎、JS API 层等
-- **内置UI控件**：基于 LVGL 构建的各种UI组件
+- **System Services Subsystem**: Event dispatching, animation system, event system, scene system, user services, multi-language support, package manager, etc.
+- **Script Runtime Subsystem**: Script engine, JS API layer, etc.
+- **Built-in UI Controls**: Various UI components built based on LVGL
 
-这一层实现了 ElenaOS 的核心功能，为应用层提供服务和接口。
+This layer implements the core functions of ElenaOS and provides services and interfaces for the application layer.
 
-### 4. 应用层
+### 4. Application Layer
 
-应用层包含表盘系统、第三方应用和系统应用等。这些应用基于脚本引擎运行，使用 JS API 访问系统服务和UI组件。
+The application layer includes watchface system, third-party applications, and system applications. These applications run based on the script engine and use JS API to access system services and UI components.
 
-## 数据流
+## Data Flow
 
-ElenaOS 的数据流如下：
+The data flow of ElenaOS is as follows:
 
-1. **用户输入**：通过硬件层的输入设备（如触摸屏）获取用户输入
-2. **事件处理**：输入事件通过可移植接口层传递到内核层的事件系统
-3. **事件分发**：事件系统将事件分发给相应的处理程序
-4. **应用响应**：应用根据事件执行相应的逻辑
-5. **UI更新**：应用通过 UI 模块更新界面
-6. **显示输出**：UI 模块将界面渲染到显示屏上
+1. **User Input**: Obtain user input through hardware layer input devices (such as touch screen)
+2. **Event Processing**: Input events are passed through the portable interface layer to the kernel layer's event system
+3. **Event Dispatching**: The event system distributes events to corresponding handlers
+4. **Application Response**: Applications execute corresponding logic based on events
+5. **UI Update**: Applications update the interface through the UI module
+6. **Display Output**: The UI module renders the interface to the display
 
-## 脚本执行流程
+## Script Execution Process
 
-1. **脚本加载**：从文件系统加载应用或表盘的脚本文件
-2. **脚本解析**：脚本引擎解析 JavaScript 代码
-3. **脚本执行**：在 Realm 中执行脚本，调用 JS API
-4. **原生调用**：JS API 调用原生代码，访问系统服务和硬件
-5. **结果返回**：将执行结果返回给脚本
+1. **Script Loading**: Load application or watchface script files from the file system
+2. **Script Parsing**: The script engine parses JavaScript code
+3. **Script Execution**: Execute scripts in Realm, call JS API
+4. **Native Call**: JS API calls native code to access system services and hardware
+5. **Result Return**: Return execution results to the script
 
-## 架构优势
+## Architecture Advantages
 
-1. **分层设计**：清晰的分层结构使得系统易于理解和维护
-2. **可移植性**：可移植接口层使得系统能够在不同硬件平台上运行
-3. **可扩展性**：模块化设计使得系统易于扩展和定制
-4. **脚本驱动**：脚本化开发使得应用开发更加灵活和高效
-5. **统一接口**：统一的 API 设计使得应用开发更加简单
+1. **Layered Design**: Clear layered structure makes the system easy to understand and maintain
+2. **Portability**: The portable interface layer allows the system to run on different hardware platforms
+3. **Scalability**: Modular design makes the system easy to extend and customize
+4. **Script-driven**: Scripted development makes application development more flexible and efficient
+5. **Unified Interface**: Unified API design makes application development simpler

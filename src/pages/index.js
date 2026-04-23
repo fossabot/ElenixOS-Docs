@@ -15,6 +15,31 @@ function HomepageHeader() {
   const [isHovering, setIsHovering] = useState(false);
   const [buttonText, setButtonText] = useState('Click Me');
   const [logs, setLogs] = useState([]);
+  const codeSnippet = translate({
+    id: 'homepage.codeCard.snippet',
+    message: `// 获取当前活动 View
+const view = eos.view.active();
+
+// 创建一个按钮
+const button = new lv.button(view);
+button.setSize(180, 64);
+button.align(lv.ALIGN_CENTER, 0, 20);
+
+// 添加标签
+const label = new lv.label(button);
+label.setText('Click Me');
+label.center();
+
+// 绑定点击事件
+button.addEventCb((e) => {
+  eos.console.log('Button clicked!');
+  label.setText('Clicked!');
+}, lv.EVENT_CLICKED, null);`,
+  });
+  const codeFooter = translate({
+    id: 'homepage.codeCard.footer',
+    message: 'WASM for ElenaOS is under development, and the code below has been verified on real hardware.',
+  });
 
   const handleButtonClick = () => {
     if (buttonText === 'Click Me') {
@@ -138,28 +163,11 @@ function HomepageHeader() {
               </div>
               <div className={styles.visualBody}>
                 <CodeBlock language="javascript">
-{`// 获取当前活动 View
-const view = eos.view.active();
-
-// 创建一个按钮
-const button = new lv.button(view);
-button.setSize(180, 64);
-button.align(lv.ALIGN_CENTER, 0, 20);
-
-// 添加标签
-const label = new lv.label(button);
-label.setText('Click Me');
-label.center();
-
-// 绑定点击事件
-button.addEventCb((e) => {
-  eos.console.log('Button clicked!');
-  label.setText('Clicked!');
-}, lv.EVENT_CLICKED, null);`}
+{codeSnippet}
                 </CodeBlock>
               </div>
               <div className={styles.codeFooter}>
-                <p className={styles.codeFooterText}>WASM for ElenaOS 正在开发中，上述代码已经过实机验证</p>
+                <p className={styles.codeFooterText}>{codeFooter}</p>
               </div>
             </div>
           </div>

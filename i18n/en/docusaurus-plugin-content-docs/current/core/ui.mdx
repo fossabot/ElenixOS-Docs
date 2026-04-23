@@ -1,48 +1,48 @@
-# UI组件模块
+# UI Components Module
 
-UI组件模块是 ElenaOS 的核心组件之一，提供了一系列用户界面组件和交互功能，基于 LVGL 图形库构建。该模块为应用程序提供了统一的UI组件和交互方式，确保系统界面的一致性和美观性。
+The UI components module is one of the core components of ElenaOS, providing a series of user interface components and interaction functions, built based on the LVGL graphics library. This module provides a unified UI components and interaction methods for applications, ensuring the consistency and aesthetics of the system interface.
 
-## 目录结构
+## Directory Structure
 
 ```
 ├── src/core/ui/
-│   ├── activity_controller/   # 活动控制器
-│   ├── anim/                 # 动画系统
-│   ├── app_header/           # 应用头部
-│   ├── basic_widgets/        # 基础组件
-│   ├── bubble_grid/          # 气泡网格
-│   ├── card_pager/           # 卡片分页器
-│   ├── control_center/       # 控制中心
-│   ├── img/                  # 图片处理
-│   ├── msg_list/             # 消息列表
-│   ├── radio_list/           # 单选列表
-│   ├── slide_widget/         # 滑动组件
-│   ├── standard_widgets/     # 标准组件
-│   ├── swipe_panel/          # 滑动面板
-│   └── toast/                # 提示组件
+│   ├── activity_controller/   # Activity controller
+│   ├── anim/                 # Animation system
+│   ├── app_header/           # App header
+│   ├── basic_widgets/        # Basic widgets
+│   ├── bubble_grid/          # Bubble grid
+│   ├── card_pager/           # Card pager
+│   ├── control_center/       # Control center
+│   ├── img/                  # Image processing
+│   ├── msg_list/             # Message list
+│   ├── radio_list/           # Radio list
+│   ├── slide_widget/         # Slide widget
+│   ├── standard_widgets/     # Standard widgets
+│   ├── swipe_panel/          # Swipe panel
+│   └── toast/                # Toast component
 ```
 
-## 核心功能
+## Core Features
 
-### 基础组件
+### Basic Components
 
-基础组件包括按钮、标签、输入框等基本UI元素，为应用程序提供了基础的用户交互功能。
+Basic components include buttons, labels, input fields and other basic UI elements, providing basic user interaction functions for applications.
 
-### 高级组件
+### Advanced Components
 
-高级组件包括卡片分页器、气泡网格、滑动面板等复杂UI元素，为应用程序提供了丰富的交互方式。
+Advanced components include card pagers, bubble grids, swipe panels and other complex UI elements, providing rich interaction methods for applications.
 
-### 动画系统
+### Animation System
 
-动画系统提供了丰富的动画效果，包括淡入淡出、滑动、缩放等，增强了用户界面的视觉效果和交互体验。
+The animation system provides rich animation effects, including fade in/out, slide, scale, etc., enhancing the visual effects and interactive experience of the user interface.
 
-### 活动控制器
+### Activity Controller
 
-活动控制器负责管理应用程序的活动生命周期，包括活动的创建、切换、销毁等。
+The activity controller is responsible for managing the activity lifecycle of applications, including activity creation, switching, destruction, etc.
 
-## 关键接口
+## Key Interfaces
 
-### 标准组件接口
+### Standard Components Interfaces
 
 ```c
 lv_obj_t *eos_std_info_create(lv_obj_t *scr,
@@ -56,54 +56,54 @@ void eos_std_title_comment_create(lv_obj_t *parent,
                                   const char *comment);
 ```
 
-- `eos_std_info_create`：创建消息页面，包含图标、标题和正文
-- `eos_std_title_comment_create`：创建标题与注释组合
+- `eos_std_info_create`：Create message page, including icon, title and text
+- `eos_std_title_comment_create`：Create title and comment combination
 
-### 动画接口
+### Animation Interfaces
 
-动画系统提供了丰富的动画效果接口，具体请参考 `elena_os_anim.h` 文件。
+The animation system provides rich animation effect interfaces. For details, please refer to the `elena_os_anim.h` file.
 
-### 活动控制器接口
+### Activity Controller Interfaces
 
-活动控制器提供了活动管理的接口，具体请参考 `elena_os_activity.h` 文件。
+The activity controller provides activity management interfaces. For details, please refer to the `elena_os_activity.h` file.
 
-## 实现细节
+## Implementation Details
 
-UI组件模块的核心实现包括：
+The core implementation of the UI components module includes:
 
-1. **组件封装**：对 LVGL 基础组件进行封装，提供更高级的组件和功能
-2. **样式管理**：统一管理组件样式，确保界面风格一致
-3. **动画效果**：实现各种动画效果，增强用户体验
-4. **交互处理**：处理用户输入和交互事件
+1. **Component encapsulation**：Encapsulate LVGL basic components to provide more advanced components and functions
+2. **Style management**：Unified management of component styles to ensure consistent interface style
+3. **Animation effects**：Implement various animation effects to enhance user experience
+4. **Interaction processing**：Handle user input and interaction events
 
-该模块基于 LVGL 图形库，为 ElenaOS 提供了丰富的UI组件和交互功能。
+This module is based on the LVGL graphics library, providing rich UI components and interaction functions for ElenaOS.
 
-## 使用示例
+## Usage Examples
 
-### 创建消息页面
+### Create Message Page
 
 ```c
 lv_obj_t *info_page = eos_std_info_create(lv_scr_act(),
                                          lv_color_hex(0x007AFF),
                                          "icon_info",
-                                         "提示",
-                                         "这是一条提示消息");
+                                         "Notification",
+                                         "This is a notification message");
 ```
 
-### 创建标题与注释
+### Create Title and Comment
 
 ```c
 eos_std_title_comment_create(parent,
-                           "标题",
-                           "这是注释内容");
+                           "Title",
+                           "This is comment content");
 ```
 
-## UI架构
+## UI Architecture
 
-UI组件模块采用分层架构：
+The UI components module adopts a layered architecture:
 
-1. **基础组件层**：基于 LVGL 提供的基础组件
-2. **高级组件层**：封装和扩展基础组件，提供更高级的功能
-3. **应用组件层**：针对特定应用场景的组件
+1. **Basic component layer**：Based on LVGL-provided basic components
+2. **Advanced component layer**：Encapsulate and extend basic components to provide more advanced functions
+3. **Application component layer**：Components for specific application scenarios
 
-这种架构设计使得UI组件能够在不同应用场景中保持一致的风格和交互方式，同时提供足够的灵活性和可扩展性。
+This architectural design allows UI components to maintain consistent style and interaction methods across different application scenarios, while providing sufficient flexibility and scalability.

@@ -1,165 +1,165 @@
 ---
-title: JS API 通用使用方法
+title: JS API General Usage Methods
 sidebar_position: 1
 ---
 
-# JS API 通用使用方法
+# JS API General Usage Methods
 
-ElenaOS 提供了丰富的 JavaScript API，用于开发应用和表盘。本文档将介绍 JS API 的通用使用方法，包括基本概念、命名规范、错误处理等内容。
+ElenaOS provides rich JavaScript APIs for developing applications and watch faces. This document will introduce the general usage methods of JS APIs, including basic concepts, naming conventions, error handling, and other content.
 
-## 基本概念
+## Basic Concepts
 
-### API 命名空间
+### API Namespaces
 
-ElenaOS 的 JavaScript API 通过以下命名空间暴露给脚本：
+ElenaOS's JavaScript APIs are exposed to scripts through the following namespaces:
 
-- `eos` - 系统 API
+- `eos` - System API
 - `lv` - LVGL UI API
 
-### 面向对象风格
+### Object-Oriented Style
 
-ElenaOS 的 JavaScript API 采用面向对象的风格，使用构造函数创建对象，使用实例方法操作对象：
+ElenaOS's JavaScript APIs adopt an object-oriented style, using constructors to create objects and instance methods to manipulate objects:
 
 ```javascript
-// 创建一个按钮
+// Create a button
 const button = new lv.button(eos.view.active());
 
-// 设置按钮大小和位置
+// Set button size and position
 button.setSize(100, 50);
 button.setPos(10, 10);
 
-// 添加标签
+// Add label
 const label = new lv.label(button);
 label.setText("Click Me");
 ```
 
-### 事件处理
+### Event Handling
 
-ElenaOS 的 JavaScript API 使用回调函数处理事件：
+ElenaOS's JavaScript APIs use callback functions to handle events:
 
 ```javascript
-// 绑定点击事件
+// Bind click event
 button.addEventCb((e) => {
     eos.console.log("Button clicked!");
 }, lv.EVENT_CLICKED, null);
 ```
 
-## 命名规范
+## Naming Conventions
 
-### 常量命名
+### Constant Naming
 
-常量使用全大写字母，单词之间用下划线分隔：
+Constants use all uppercase letters, with underscores between words:
 
 ```javascript
-// 事件类型
+// Event types
 lv.EVENT_CLICKED
 lv.EVENT_PRESSED
 
-// 对象标志
+// Object flags
 lv.OBJ_FLAG_CLICKABLE
 lv.OBJ_FLAG_CHECKABLE
 
-// 对齐方式
+// Alignment methods
 lv.ALIGN_CENTER
 lv.ALIGN_TOP_LEFT
 ```
 
-### 方法命名
+### Method Naming
 
-方法使用驼峰命名法，首字母小写：
+Methods use camel case naming, with the first letter lowercase:
 
 ```javascript
-// 设置方法
+// Set methods
 button.setSize(width, height);
 button.setPos(x, y);
 
-// 获取方法
+// Get methods
 const width = button.getWidth();
 const height = button.getHeight();
 ```
 
-### 构造函数命名
+### Constructor Naming
 
-构造函数使用驼峰命名法，首字母小写：
+Constructors use camel case naming, with the first letter lowercase:
 
 ```javascript
-// 创建对象
+// Create objects
 const button = new lv.button(parent);
 const label = new lv.label(parent);
 ```
 
-## 错误处理
+## Error Handling
 
-### 异常捕获
+### Exception Capture
 
-使用 try-catch 捕获可能的错误：
+Use try-catch to catch possible errors:
 
 ```javascript
 try {
-    // 可能会抛出错误的代码
+    // Code that may throw errors
     const button = new lv.button(null);
 } catch (e) {
-    // 处理错误
+    // Handle error
     eos.console.error("Error creating button:", e);
 }
 ```
 
-### 错误类型
+### Error Types
 
-ElenaOS 的 JavaScript API 可能会抛出以下类型的错误：
+ElenaOS's JavaScript APIs may throw the following types of errors:
 
-- **TypeError** - 参数类型错误
-- **ReferenceError** - 引用不存在的对象
-- **RangeError** - 参数值超出范围
+- **TypeError** - Parameter type error
+- **ReferenceError** - Reference to non-existent object
+- **RangeError** - Parameter value out of range
 
-## 内存管理
+## Memory Management
 
-### 对象生命周期
+### Object Lifecycle
 
-在 ElenaOS 中，对象的生命周期由垃圾回收器管理。当对象不再被引用时，垃圾回收器会自动回收其内存。
+In ElenaOS, the lifecycle of objects is managed by the garbage collector. When an object is no longer referenced, the garbage collector will automatically reclaim its memory.
 
-### 手动释放
+### Manual Release
 
-对于一些资源密集型对象，可以手动释放以节省内存：
+For some resource-intensive objects, you can manually release them to save memory:
 
 ```javascript
-// 创建对象
+// Create object
 const canvas = new lv.canvas(parent);
 
-// 使用对象
+// Use object
 // ...
 
-// 手动释放对象
+// Manually release object
 canvas.delete();
 ```
 
-## 异步操作
+## Asynchronous Operations
 
-### 定时器
+### Timers
 
-使用 `setTimeout` 和 `setInterval` 执行异步操作：
+Use `setTimeout` and `setInterval` to execute asynchronous operations:
 
 ```javascript
-// 延迟执行
+// Delayed execution
 setTimeout(() => {
     eos.console.log("Delayed execution");
 }, 1000);
 
-// 定期执行
+// Periodic execution
 const intervalId = setInterval(() => {
     eos.console.log("Periodic execution");
 }, 1000);
 
-// 取消定期执行
+// Cancel periodic execution
 clearInterval(intervalId);
 ```
 
-### 回调函数
+### Callback Functions
 
-使用回调函数处理异步操作的结果：
+Use callback functions to handle the results of asynchronous operations:
 
 ```javascript
-// 读取文件
+// Read file
 fs.readFile("/path/to/file", (err, data) => {
     if (err) {
         eos.console.error("Error reading file:", err);
@@ -169,11 +169,11 @@ fs.readFile("/path/to/file", (err, data) => {
 });
 ```
 
-## 调试技巧
+## Debugging Techniques
 
-### 日志输出
+### Log Output
 
-使用 `eos.console.log` 输出日志信息：
+Use `eos.console.log` to output log information:
 
 ```javascript
 eos.console.log("Debug information");
@@ -181,29 +181,29 @@ eos.console.error("Error information");
 eos.console.warn("Warning information");
 ```
 
-### 断点调试
+### Breakpoint Debugging
 
-在开发环境中，可以使用断点调试来定位问题：
+In the development environment, you can use breakpoint debugging to locate problems:
 
 ```javascript
-// 在需要调试的地方添加断点
+// Add breakpoint where debugging is needed
 debugger;
 
-// 执行代码
+// Execute code
 const result = someFunction();
 eos.console.log("Result:", result);
 ```
 
-## 最佳实践
+## Best Practices
 
-1. **代码组织**：使用模块化的方式组织代码，便于维护
-2. **错误处理**：使用 try-catch 捕获可能的错误
-3. **内存管理**：及时释放不再使用的对象
-4. **性能优化**：避免在动画期间进行复杂计算
-5. **代码风格**：遵循一致的代码风格，提高可读性
+1. **Code organization**: Organize code in a modular way for easy maintenance
+2. **Error handling**: Use try-catch to catch possible errors
+3. **Memory management**: Release objects that are no longer used in a timely manner
+4. **Performance optimization**: Avoid complex calculations during animation
+5. **Code style**: Follow consistent code style to improve readability
 
-## 总结
+## Summary
 
-ElenaOS 的 JavaScript API 采用面向对象的风格，使用构造函数创建对象，使用实例方法操作对象。通过了解和使用这些 API，开发者可以创建出功能丰富、性能良好的应用。
+ElenaOS's JavaScript APIs adopt an object-oriented style, using constructors to create objects and instance methods to manipulate objects. By understanding and using these APIs, developers can create feature-rich, high-performance applications.
 
-本文档介绍了 JS API 的通用使用方法，包括基本概念、命名规范、错误处理等内容。开发者应该遵循这些最佳实践，以确保代码的质量和可维护性。
+This document introduces the general usage methods of JS APIs, including basic concepts, naming conventions, error handling, and other content. Developers should follow these best practices to ensure code quality and maintainability.

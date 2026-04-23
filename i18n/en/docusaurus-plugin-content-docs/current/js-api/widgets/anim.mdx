@@ -1,74 +1,74 @@
 ---
-title: 动画 (Animation)
+title: Animation
 sidebar_position: 7
 ---
 
-# 动画 (Animation)
+# Animation
 
-动画是 ElenaOS 中用于创建和管理动画效果的特殊 API 组件。本文档将介绍动画组件的功能、使用方法和注意事项。
+Animation is a special API component in ElenaOS for creating and managing animation effects. This document will introduce the features, usage methods, and precautions of the animation component.
 
-## 功能介绍
+## Feature Introduction
 
-动画组件允许开发者创建和管理各种动画效果，如位置变化、大小变化、透明度变化等。通过动画组件，开发者可以为应用添加生动的视觉效果，提高用户体验。
+Animation component allows developers to create and manage various animation effects, such as position change, size change, transparency change, etc. Through animation components, developers can add vivid visual effects to applications and improve user experience.
 
-## 使用方法
+## Usage Methods
 
-### 创建动画
+### Create Animation
 
-使用 `new lv.anim()` 构造函数创建动画对象：
+Use the `new lv.anim()` constructor to create an animation object:
 
 ```javascript
-// 创建动画对象
+// Create animation object
 const anim = new lv.anim();
 ```
 
-### 配置动画
+### Configure Animation
 
-使用以下方法配置动画：
+Use the following methods to configure the animation:
 
 ```javascript
-// 设置动画目标对象
+// Set animation target object
 anim.setVar(obj);
 
-// 设置动画值范围
+// Set animation value range
 anim.setValues(startValue, endValue);
 
-// 设置动画持续时间（毫秒）
+// Set animation duration (milliseconds)
 anim.setDuration(1000);
 
-// 设置动画执行回调
+// Set animation execution callback
 anim.setExecCb((varObj, value) => {
-    // 执行动画逻辑，如设置位置、大小等
+    // Execute animation logic, such as setting position, size, etc.
     varObj.setX(value);
 });
 
-// 设置动画完成回调
+// Set animation completion callback
 anim.setReadyCb(() => {
     eos.console.log("Animation completed");
 });
 
-// 设置动画路径（缓动函数）
+// Set animation path (easing function)
 anim.setPathCb(lv.anim_path_ease_in_out);
 ```
 
-### 启动动画
+### Start Animation
 
-使用 `start()` 方法启动动画：
+Use the `start()` method to start the animation:
 
 ```javascript
-// 启动动画
+// Start animation
 anim.start();
 ```
 
-### 示例：创建平移动画
+### Example: Create Translation Animation
 
 ```javascript
-// 创建一个对象
+// Create an object
 const obj = new lv.obj(eos.view.active());
 obj.setSize(100, 100);
 obj.setPos(50, 50);
 
-// 创建动画
+// Create animation
 const anim = new lv.anim();
 anim.setVar(obj);
 anim.setValues(50, 200);
@@ -80,15 +80,15 @@ anim.setPathCb(lv.anim_path_ease_in_out);
 anim.start();
 ```
 
-### 示例：创建缩放动画
+### Example: Create Scale Animation
 
 ```javascript
-// 创建一个对象
+// Create an object
 const obj = new lv.obj(eos.view.active());
 obj.setSize(100, 100);
 obj.setPos(100, 100);
 
-// 创建动画
+// Create animation
 const anim = new lv.anim();
 anim.setVar(obj);
 anim.setValues(100, 150);
@@ -100,46 +100,46 @@ anim.setPathCb(lv.anim_path_ease_in_out);
 anim.start();
 ```
 
-## 动画路径（缓动函数）
+## Animation Paths (Easing Functions)
 
-ElenaOS 提供了以下动画路径（缓动函数）：
+ElenaOS provides the following animation paths (easing functions):
 
-| 路径函数 | 描述 |
-|---------|------|
-| `lv.anim_path_linear` | 线性动画 |
-| `lv.anim_path_ease_in` | 缓入动画 |
-| `lv.anim_path_ease_out` | 缓出动画 |
-| `lv.anim_path_ease_in_out` | 缓入缓出动画 |
-| `lv.anim_path_overshoot` | 过冲动画 |
-| `lv.anim_path_bounce` | 弹跳动画 |
+| Path Function | Description |
+|---------------|-------------|
+| `lv.anim_path_linear` | Linear animation |
+| `lv.anim_path_ease_in` | Ease-in animation |
+| `lv.anim_path_ease_out` | Ease-out animation |
+| `lv.anim_path_ease_in_out` | Ease-in-out animation |
+| `lv.anim_path_overshoot` | Overshoot animation |
+| `lv.anim_path_bounce` | Bounce animation |
 
-## 注意事项
+## Notes
 
-### 性能优化
+### Performance Optimization
 
-1. **避免同时运行多个复杂动画**：同时运行多个复杂动画可能会影响系统性能
-2. **合理设置动画持续时间**：动画持续时间不宜过长，以免影响用户体验
-3. **使用适当的缓动函数**：根据动画效果选择合适的缓动函数
+1. **Avoid running multiple complex animations at the same time**: Running multiple complex animations at the same time may affect system performance
+2. **Set reasonable animation duration**: Animation duration should not be too long to avoid affecting user experience
+3. **Use appropriate easing functions**: Choose appropriate easing functions according to animation effects
 
-### 内存管理
+### Memory Management
 
-1. **及时释放动画对象**：动画完成后，及时释放动画对象
-2. **避免内存泄漏**：确保动画回调函数中没有循环引用
+1. **Release animation objects in time**: Release animation objects in time after animation completion
+2. **Avoid memory leaks**: Ensure there are no circular references in animation callback functions
 
-### 错误处理
+### Error Handling
 
-1. **参数验证**：验证动画参数，避免传入无效参数
-2. **异常捕获**：使用 try-catch 捕获可能的错误
+1. **Parameter verification**: Verify animation parameters to avoid invalid parameters
+2. **Exception capture**: Use try-catch to catch possible errors
 
-## 最佳实践
+## Best Practices
 
-1. **合理使用动画**：根据应用场景合理使用动画，避免过度使用
-2. **性能测试**：在使用动画前进行性能测试，确保动画不会影响系统性能
-3. **代码优化**：优化动画代码，提高动画性能
-4. **用户体验**：考虑用户体验，确保动画效果自然流畅
+1. **Use animation reasonably**: Use animation reasonably according to application scenarios, avoid overuse
+2. **Performance testing**: Conduct performance testing before using animation to ensure it does not affect system performance
+3. **Code optimization**: Optimize animation code to improve animation performance
+4. **User experience**: Consider user experience to ensure animation effects are natural and smooth
 
-## 总结
+## Summary
 
-动画组件是 ElenaOS 中用于创建和管理动画效果的特殊 API 组件。通过动画组件，开发者可以为应用添加生动的视觉效果，提高用户体验。
+Animation component is a special API component in ElenaOS for creating and managing animation effects. Through animation components, developers can add vivid visual effects to applications and improve user experience.
 
-在使用动画组件时，开发者应该注意性能优化、内存管理、错误处理等问题，以确保动画的流畅性和系统的稳定性。
+When using animation components, developers should pay attention to performance optimization, memory management, error handling, and other issues to ensure animation smoothness and system stability.

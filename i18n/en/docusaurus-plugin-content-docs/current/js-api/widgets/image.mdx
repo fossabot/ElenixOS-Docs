@@ -1,125 +1,92 @@
 ---
-title: 图片 (Image)
+title: Image
 sidebar_position: 6
 ---
 
-# 图片 (Image)
+# Image
 
-图片是 ElenaOS 中用于显示图片的特殊 API 组件。本文档将介绍图片组件的功能、使用方法和注意事项。
+Image is a special API component in ElenaOS for displaying images. This document will introduce the features, usage methods, and precautions of the image component.
 
-## 功能介绍
+## Feature Introduction
 
-图片组件允许开发者在应用中显示各种图片，如图标、背景图、照片等。图片组件通常用于增强应用的视觉效果，提高用户体验。
+The image component allows developers to display various images in applications, such as icons, background images, photos, etc. Image components are typically used to enhance the visual effects of applications and improve user experience.
 
-## 使用方法
+## Usage Methods
 
-### 创建图片
+### Create Image
 
-使用 `new lv.image()` 构造函数创建图片对象：
+Use the `new lv.image()` constructor to create an image object:
 
 ```javascript
-// 创建图片对象
+// Create image object
 const image = new lv.image(eos.view.active());
 ```
 
-### 配置图片
+### Configure Image
 
-使用以下方法配置图片：
+Use the following methods to configure the image:
 
 ```javascript
-// 设置图片大小
+// Set image size
 image.setSize(100, 100);
 
-// 设置图片位置
+// Set image position
 image.setPos(10, 10);
 
-// 设置图片源
-// 方法 1：使用图片路径
+// Set image source
+// Method 1: Use image path
 image.setSrc("/path/to/image.png");
 
-// 方法 2：使用图片数据
-const imgData = /* 图片数据 */;
+// Method 2: Use image data
+const imgData = /* image data */;
 image.setSrc(imgData);
 
-// 设置图片缩放模式
-image.setScale(2); // 放大 2 倍
+// Set image scale mode
+image.setScale(2); // 2x zoom
 
-// 设置图片透明度
-image.setOpacity(0.5); // 半透明
+// Set image opacity
+image.setOpacity(0.5); // semi-transparent
 ```
 
-### 绑定事件
+### Bind Events
 
-使用 `addEventCb` 方法绑定事件：
+Use the `addEventCb` method to bind events:
 
 ```javascript
-// 绑定点击事件
+// Bind click event
 image.addEventCb((e) => {
     eos.console.log("Image clicked!");
 }, lv.EVENT_CLICKED, null);
 ```
 
-### 示例：创建简单图片
+### Example: Create a Simple Image
 
 ```javascript
-// 创建图片
+// Create image
 const image = new lv.image(eos.view.active());
 image.setSize(100, 100);
 image.align(lv.ALIGN_CENTER, 0, 0);
 
-// 设置图片源
+// Set image source
 image.setSrc("/path/to/image.png");
 ```
 
-### 示例：创建可点击图片
+### Example: Create a Clickable Image
 
 ```javascript
-// 创建图片
+// Create image
 const image = new lv.image(eos.view.active());
 image.setSize(100, 100);
 image.align(lv.ALIGN_CENTER, 0, 0);
 
-// 设置图片源
+// Set image source
 image.setSrc("/path/to/image.png");
 
-// 添加可点击标志
+// Add clickable flag
 image.addFlag(lv.OBJ_FLAG_CLICKABLE);
 
-// 绑定点击事件
+// Bind click event
 image.addEventCb((e) => {
     eos.console.log("Image clicked!");
 }, lv.EVENT_CLICKED, null);
 ```
-
-## 注意事项
-
-### 性能优化
-
-1. **合理设置图片大小**：图片不宜过大，以免影响系统性能
-2. **使用适当的图片格式**：使用适合的图片格式，如 PNG、JPG 等
-3. **优化图片加载**：避免频繁加载图片，尽量使用缓存
-
-### 内存管理
-
-1. **及时释放图片对象**：不再使用图片时，及时释放
-2. **避免内存泄漏**：确保事件回调函数中没有循环引用
-3. **合理使用图片资源**：避免创建过多的图片对象
-
-### 错误处理
-
-1. **参数验证**：验证图片参数，避免传入无效参数
-2. **异常捕获**：使用 try-catch 捕获可能的错误
-3. **图片加载错误处理**：处理图片加载失败的情况
-
-## 最佳实践
-
-1. **合理使用图片**：根据应用场景合理使用图片
-2. **性能测试**：在使用图片前进行性能测试，确保图片不会影响系统性能
-3. **代码优化**：优化图片代码，提高性能
-4. **用户体验**：考虑用户体验，确保图片的显示效果良好
-
-## 总结
-
-图片是 ElenaOS 中用于显示图片的特殊 API 组件。通过图片，开发者可以增强应用的视觉效果，提高用户体验。
-
-在使用图片时，开发者应该注意性能优化、内存管理、错误处理等问题，以确保图片的性能和系统的稳定性。

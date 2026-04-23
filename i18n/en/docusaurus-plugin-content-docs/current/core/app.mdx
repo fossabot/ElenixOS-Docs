@@ -1,52 +1,52 @@
-# 应用管理模块
+# Application Management Module
 
-应用管理模块是 ElenaOS 的核心组件之一，负责应用的安装、卸载、管理和运行。该模块提供了一套完整的应用生命周期管理机制，支持应用的安装、卸载、列表管理等功能。
+The application management module is one of the core components of ElenaOS, responsible for application installation, uninstallation, management, and running. This module provides a complete application lifecycle management mechanism, supporting functions such as application installation, uninstallation, and list management.
 
-## 目录结构
+## Directory Structure
 
 ```
 ├── src/core/app/
-│   ├── elena_os_app.c        # 应用管理核心实现
-│   ├── elena_os_app.h        # 应用管理接口定义
-│   ├── elena_os_app_list.c   # 应用列表管理实现
-│   └── elena_os_app_list.h   # 应用列表管理接口定义
+│   ├── elena_os_app.c        # Application management core implementation
+│   ├── elena_os_app.h        # Application management interface definition
+│   ├── elena_os_app_list.c   # Application list management implementation
+│   └── elena_os_app_list.h   # Application list management interface definition
 ```
 
-## 核心功能
+## Core Features
 
-### 应用安装与卸载
+### Application Installation and Uninstallation
 
-应用管理模块支持通过 `eos_app_install` 函数安装应用，通过 `eos_app_uninstall` 函数卸载应用。安装过程会解析应用包（.eapk文件），验证应用信息，并将应用文件部署到指定目录。
+The application management module supports installing applications through the `eos_app_install` function and uninstalling applications through the `eos_app_uninstall` function. The installation process parses the application package (.eapk file), verifies application information, and deploys application files to the specified directory.
 
-### 应用列表管理
+### Application List Management
 
-应用列表管理功能允许获取已安装应用的数量、根据索引获取应用ID、判断应用是否存在等操作。应用列表会持久化存储，确保系统重启后应用列表保持一致。
+The application list management function allows operations such as getting the number of installed applications, getting application IDs by index, and checking if an application exists. The application list is persistently stored to ensure consistency after system restart.
 
-### 应用排序
+### Application Sorting
 
-通过 `eos_app_order_move` 函数，可以调整应用在列表中的位置，实现应用排序功能。排序结果会保存到配置文件中，确保下次启动时保持排序状态。
+Through the `eos_app_order_move` function, the position of applications in the list can be adjusted to implement application sorting functionality. Sorting results are saved to the configuration file to ensure sorting status is maintained during the next startup.
 
-## 关键接口
+## Key Interfaces
 
-### 应用安装接口
+### Application Installation Interface
 
 ```c
 eos_result_t eos_app_install(const char *eapk_path);
 ```
 
-- **参数**：`eapk_path` - 应用包路径
-- **返回值**：安装结果，成功返回 `EOS_OK`，失败返回错误码
+- **Parameters**: `eapk_path` - Application package path
+- **Return value**: Installation result, returns `EOS_OK` on success, error code on failure
 
-### 应用卸载接口
+### Application Uninstallation Interface
 
 ```c
 eos_result_t eos_app_uninstall(const char *app_id);
 ```
 
-- **参数**：`app_id` - 应用ID
-- **返回值**：卸载结果，成功返回 `EOS_OK`，失败返回错误码
+- **Parameters**: `app_id` - Application ID
+- **Return value**: Uninstallation result, returns `EOS_OK` on success, error code on failure
 
-### 应用列表操作接口
+### Application List Operation Interfaces
 
 ```c
 uint32_t eos_app_get_installed(void);
@@ -55,78 +55,78 @@ bool eos_app_list_contains(const char* app_id);
 const char *eos_app_list_get_existing_id(const char *id);
 ```
 
-- `eos_app_get_installed`：获取已安装应用数量
-- `eos_app_list_get_id`：根据索引获取应用ID
-- `eos_app_list_contains`：判断应用是否存在
-- `eos_app_list_get_existing_id`：获取列表中已存在的应用ID
+- `eos_app_get_installed`: Get the number of installed applications
+- `eos_app_list_get_id`: Get application ID by index
+- `eos_app_list_contains`: Check if application exists
+- `eos_app_list_get_existing_id`: Get existing application ID in the list
 
-### 应用排序接口
+### Application Sorting Interface
 
 ```c
 eos_result_t eos_app_order_move(const char *app_id, size_t new_index);
 ```
 
-- **参数**：
-  - `app_id` - 目标应用ID
-  - `new_index` - 新的索引位置
-- **返回值**：操作结果，成功返回 `EOS_OK`，失败返回错误码
+- **Parameters**:
+  - `app_id` - Target application ID
+  - `new_index` - New index position
+- **Return value**: Operation result, returns `EOS_OK` on success, error code on failure
 
-## 应用包结构
+## Application Package Structure
 
-ElenaOS 的应用包（.eapk文件）包含以下关键文件：
+ElenaOS application packages (.eapk files) contain the following key files:
 
-- **manifest.json**：应用配置文件，包含应用ID、名称、版本、类型等信息
-- **main.js**：应用主脚本文件，包含应用的界面和逻辑
-- **icon.bin**：应用图标文件
+- **manifest.json**: Application configuration file, containing application ID, name, version, type, etc.
+- **main.js**: Application main script file, containing application interface and logic
+- **icon.bin**: Application icon file
 
-## 应用生命周期
+## Application Lifecycle
 
-1. **安装**：通过 `eos_app_install` 安装应用包
-2. **初始化**：系统启动时通过 `eos_app_init` 初始化应用系统
-3. **运行**：通过脚本引擎运行应用
-4. **卸载**：通过 `eos_app_uninstall` 卸载应用
+1. **Installation**: Install application package through `eos_app_install`
+2. **Initialization**: Initialize application system through `eos_app_init` when system starts
+3. **Running**: Run application through script engine
+4. **Uninstallation**: Uninstall application through `eos_app_uninstall`
 
-## 使用示例
+## Usage Examples
 
-### 安装应用
+### Install Application
 
 ```c
 eos_result_t result = eos_app_install("/path/to/app.eapk");
 if (result == EOS_OK) {
-    // 安装成功
+    // Installation successful
 } else {
-    // 安装失败
+    // Installation failed
 }
 ```
 
-### 卸载应用
+### Uninstall Application
 
 ```c
 eos_result_t result = eos_app_uninstall("com.example.app");
 if (result == EOS_OK) {
-    // 卸载成功
+    // Uninstallation successful
 } else {
-    // 卸载失败
+    // Uninstallation failed
 }
 ```
 
-### 获取应用列表
+### Get Application List
 
 ```c
 uint32_t app_count = eos_app_get_installed();
 for (size_t i = 0; i < app_count; i++) {
     const char* app_id = eos_app_list_get_id(i);
-    // 处理应用ID
+    // Process application ID
 }
 ```
 
-## 实现细节
+## Implementation Details
 
-应用管理模块的核心实现包括：
+The core implementation of the application management module includes:
 
-1. **应用包解析**：解析 .eapk 文件，提取应用信息和文件
-2. **应用列表管理**：维护应用列表，支持增删改查操作
-3. **应用目录管理**：管理应用的安装目录和数据目录
-4. **应用排序**：支持应用列表的排序和持久化
+1. **Application package parsing**: Parse .eapk files, extract application information and files
+2. **Application list management**: Maintain application list, support CRUD operations
+3. **Application directory management**: Manage application installation directories and data directories
+4. **Application sorting**: Support application list sorting and persistence
 
-该模块与文件系统模块、脚本引擎模块紧密配合，为 ElenaOS 提供完整的应用管理功能。
+This module works closely with the file system module and script engine module to provide complete application management functionality for ElenaOS.

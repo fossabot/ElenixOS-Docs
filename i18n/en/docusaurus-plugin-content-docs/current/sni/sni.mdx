@@ -1,164 +1,164 @@
 ---
 sidebar_position: 4
-title: 脚本原生接口（SNI）
+title: Script Native Interface (SNI)
 ---
 
-# 脚本原生接口（SNI）
+# Script Native Interface (SNI)
 
-脚本原生接口（**Script Native Interface**，简称SNI）是一种用于在脚本中调用 C 函数的接口。
+Script Native Interface (**SNI**) is an interface for calling C functions in scripts.
 
-## 类型桥阶层（SNI Type Bridge Layer）
+## SNI Type Bridge Layer
 
-### 基本数据类型
+### Basic Data Types
 
-基本数据类型有：
-- 数值（Number）
-- 布尔（Boolean）
-- 字符串（String）
+Basic data types include:
+- Number
+- Boolean
+- String
 
-SNI 直接使用 JerryScript 的 API 来处理基本数据类型。
+SNI directly uses JerryScript's API to handle basic data types.
 
-### 结构体
+### Structs
 
-SNI 将结构体分为两类：Value Object 与 Handle Object。
+SNI divides structs into two categories: Value Object and Handle Object.
 
 #### Value Object
 
-**Value Object** 是一种不独立拥有底层资源的运行时对象，用于表示纯数据或配置值。
+**Value Object** is a runtime object that does not independently own underlying resources, used to represent pure data or configuration values.
 
-Value Object 不需要显式创建或销毁，其生命周期通常受限于一次函数调用或表达式求值过程。它在桥接层会被直接封装为 JS 对象，其成员变量会被直接映射为 JS 对象的属性。
-它们不会被运行时登记或追踪，也不会参与 Realm 级别的资源管理。
+Value Object does not need to be explicitly created or destroyed, and its lifecycle is usually limited to a single function call or expression evaluation process. It is directly encapsulated as a JS object in the bridge layer, and its member variables are directly mapped to the properties of the JS object.
+They are not registered or tracked by the runtime, nor do they participate in Realm-level resource management.
 
-Value Object 的生命周期为**栈生命周期（Stack-Scoped）**。
+The lifecycle of Value Object is **Stack-Scoped**.
 
-栈生命周期：由 JS 引擎自动管理，当函数调用结束时，栈上的 Value Object 会被自动销毁。
+Stack lifecycle: Managed automatically by the JS engine, Value Object on the stack will be automatically destroyed when the function call ends.
 
 #### Handle Object
 
-**Handle Object** 是一种表示底层资源引用的运行时对象，其本身并不包含资源数据，而是作为对底层分配实体的间接访问入口。
+**Handle Object** is a runtime object that represents a reference to underlying resources. It does not contain resource data itself, but serves as an indirect access entry to the underlying allocated entity.
 
-Handle Object 必须通过显式创建获得，并支持显式销毁。
-其生命周期由脚本逻辑直接控制，但运行时在 Realm 结束时提供统一的兜底回收，以防止资源泄漏。
+Handle Object must be obtained through explicit creation and supports explicit destruction.
+Its lifecycle is directly controlled by script logic, but the runtime provides unified fallback recycling when the Realm ends to prevent resource leaks.
 
-Handle Object 的生命周期为**堆生命周期（Heap-Scoped）**。
+The lifecycle of Handle Object is **Heap-Scoped**.
 
-堆生命周期：由脚本逻辑显式创建，通过调用特定的销毁函数来释放底层资源。当所有对 Handle Object 的引用都被释放时，运行时会自动触发其销毁过程。在本系统中，堆生命周期的对象会在 Realm 结束时被统一销毁。
+Heap lifecycle: Created explicitly by script logic, and underlying resources are released by calling specific destruction functions. When all references to the Handle Object are released, the runtime will automatically trigger its destruction process. In this system, objects with heap lifecycle will be uniformly destroyed when the Realm ends.
 
-## API 导出层（SNI API Export Layer）
+## SNI API Export Layer
 
-API 导出层（**SNI API Export Layer**）负责将 API 导出给 JS Realm，使它们在脚本中可直接调用，API 是通过描述表（**API Description Table**）来定义的。
+The API Export Layer (**SNI API Export Layer**) is responsible for exporting APIs to the JS Realm, making them directly callable in scripts. APIs are defined through an API Description Table (**API Description Table**).
 
-描述表内包括：
-- 函数
-- 枚举
-- 常量
-- 子命名空间
+The description table includes:
+- Functions
+- Enums
+- Constants
+- Sub-namespaces
 
-该层主要负责 API 结构组织。
+This layer is mainly responsible for API structure organization.
 
-### API 描述表（API Description Table）
+### API Description Table
 
-API 描述表是一个 C 语言结构体数组，每个元素表示一个 API 条目。
+The API Description Table is an array of C language structs, each element representing an API entry.
 
-每个 API 条目包含以下字段：
-- 名称（Name）
-- 类型（Type）
-- 值（Value）
+Each API entry contains the following fields:
+- Name
+- Type
+- Value
 
-::danger
-数组最后一个元素中，名称字段必须为 NULL，用于标识数组结束。
+:::danger
+In the last element of the array, the name field must be NULL to identify the end of the array.
 :::
 
-**API的类型**
+**API Types**
 
-目前 SNI 支持的 API 类型有：
-- 函数：`jerry_external_handler_t` 类型的函数指针
-- 常量：整数常量、浮点数常量、字符串常量
-- 子条目：指向子条目的指针，用于实现命名空间的递归结构
+Currently supported API types in SNI are:
+- Functions: Function pointers of type `jerry_external_handler_t`
+- Constants: Integer constants, floating-point constants, string constants
+- Sub-entries: Pointers to sub-entries, used to implement recursive namespace structures
 
-#### 函数 API
+#### Function API
 
-函数类型实际上就是 `jerry_external_handler_t` 类型的函数指针，您需要实现该类型的函数，用于处理 JS 调用。
+Function types are actually function pointers of type `jerry_external_handler_t`. You need to implement functions of this type to handle JS calls.
 
-该函数的参数和返回值都需要符合 JerryScript 引擎的要求，具体可以参考 [jerry_external_handler_t - JerryScript 文档](https://jerryscript.net/api-reference/#jerry_external_handler_t)。
+The parameters and return values of this function need to meet the requirements of the JerryScript engine. For details, you can refer to [jerry_external_handler_t - JerryScript Documentation](https://jerryscript.net/api-reference/#jerry_external_handler_t).
 
-#### 常量 API
+#### Constant API
 
-常量 API 是指在描述表中定义的整数值、浮点数常量和字符串常量，它们会被直接导出为 JS 中的常量。
-它们在 C 代码中通常是枚举类型或由宏定义的常量。
+Constant API refers to integer values, floating-point constants, and string constants defined in the description table, which are directly exported as constants in JS.
+They are usually enum types or constants defined by macros in C code.
 
-#### 子条目 API
+#### Sub-entry API
 
-子条目 API 是指在描述表中定义的指向子条目的指针，用于实现命名空间的递归结构。
+Sub-entry API refers to pointers to sub-entries defined in the description table, used to implement recursive namespace structures.
 
-例如：
+For example:
 
 ```c
 jerry_value_t my_lv_obj_create(const jerry_call_info_t *call_info_p,
                                const jerry_value_t args_p[],
                                const jerry_length_t args_count)
 {
-    // 参数检查
+    // Parameter checking
     // ...
-    // 参数类型转换
+    // Parameter type conversion
     // ...
-    // 执行 C 函数
+    // Execute C function
     // ...
-    // 检查返回值
+    // Check return value
     // ...
-    // 返回创建的 Handle Object
+    // Return created Handle Object
 }
 
 const struct sni_api_entry_t lvgl_api_desc[] = {
     { "obj", SNI_ENTRY_NAMESPACE, { .sub_entries = lvgl_obj_api_desc } },
-    // 其他子条目...
+    // Other sub-entries...
 };
 
 const struct sni_api_entry_t lvgl_obj_api_desc[] = {
     { "create", SNI_ENTRY_FUNCTION, { .function = my_lv_obj_create } },
-    // 其他子条目...
+    // Other sub-entries...
 };
 ```
 
-这样，您就可以在 JS 中通过 `lv.obj.create()` 来调用 C 函数 `my_lv_obj_create()` 了。
+In this way, you can call the C function `my_lv_obj_create()` through `lv.obj.create()` in JS.
 
-### API 的导出过程
+### API Export Process
 
-API 导出由以下过程组成：
-1. 获取描述表代码
-2. 描述表的解析
-3. API 的挂载
+The API export process consists of the following steps:
+1. Obtaining description table code
+2. Parsing the description table
+3. Mounting the API
 
-#### 获取描述表代码
+#### Obtaining Description Table Code
 
-描述表代码一般通过 Python 脚本生成。
+Description table code is generally generated by Python scripts.
 
-例如，LVGL API的描述表代码可以通过以下命令生成：
+For example, the description table code for LVGL API can be generated with the following command:
 
 ```bash
 python3 generate_lvgl_desc.py
 ```
 
-当然，您也可以根据需求自行编写描述表代码。
+Of course, you can also write description table code yourself according to your needs.
 
-#### 描述表的解析
+#### Parsing the Description Table
 
-描述表的解析只需要调用`sni_api_build()`函数即可构建 API 描述表，若构建成功则会返回一个`jerry_value_t`类型的 JS 对象，此对象下挂载了所有 API 条目，此对象通常称为全局原生对象（Global Native Capability Object），例如`lv`就是一个全局原生对象。
+Parsing the description table only requires calling the `sni_api_build()` function to build the API description table. If the build is successful, it will return a JS object of type `jerry_value_t`, under which all API entries are mounted. This object is usually called the Global Native Capability Object, for example, `lv` is a global native object.
 
-#### API 的挂载
+#### Mounting the API
 
-API 的挂载过程相对简单，只需要调用`sni_api_mount()`函数即可将 API 描述表挂载到指定的 JS Realm 中。
+The API mounting process is relatively simple, just call the `sni_api_mount()` function to mount the API description table to the specified JS Realm.
 
-例如，挂载 LVGL API 描述表到指定 Realm 中可以通过以下代码实现：
+For example, mounting the LVGL API description table to a specified Realm can be implemented with the following code:
 
 ```c
 jerry_value_t lvgl_api_obj = sni_api_build(lvgl_api_desc);
 sni_api_mount(jerry_realm, lvgl_api_obj, "lv");
 ```
 
-挂载成功后，JS Realm 中就可以直接调用 LVGL API 了。
+After successful mounting, the LVGL API can be directly called in the JS Realm.
 
-例如：
+For example:
 
 ```js
 lv.obj.create();

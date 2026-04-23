@@ -1,236 +1,236 @@
 ---
 sidebar_position: 5
-title: 常见问题与故障排除
+title: Common Issues and Troubleshooting
 ---
 
-# 常见问题与故障排除
+# Common Issues and Troubleshooting
 
-本章节汇总了 ElenaOS 开发和使用过程中常见的问题及其解决方案，帮助你快速排查和解决遇到的问题。
+This chapter summarizes common issues and their solutions during the development and use of ElenaOS, helping you quickly troubleshoot and resolve problems you encounter.
 
-## 构建问题
+## Build Issues
 
-### 构建失败
+### Build Failure
 
-**问题**：编译失败，提示缺少依赖
+**Issue**: Compilation fails, indicating missing dependencies
 
-**解决方案**：
-1. 确保所有依赖库都已正确安装
-2. 使用 `git submodule update --init --recursive` 确保所有子模块都已正确克隆
-3. 检查 CMake 版本是否符合要求（3.13+）
-4. 检查编译工具链是否正确配置
+**Solutions**:
+1. Ensure all dependency libraries are correctly installed
+2. Use `git submodule update --init --recursive` to ensure all submodules are correctly cloned
+3. Check if CMake version meets requirements (3.13+)
+4. Check if the compilation toolchain is correctly configured
 
-**问题**：交叉编译失败
+**Issue**: Cross-compilation fails
 
-**解决方案**：
-1. 确保交叉编译工具链已正确安装
-2. 设置正确的环境变量，如 `CROSS_COMPILE`
-3. 确保 CMake 能够找到交叉编译工具链
-4. 检查目标平台的配置是否正确
+**Solutions**:
+1. Ensure the cross-compilation toolchain is correctly installed
+2. Set correct environment variables, such as `CROSS_COMPILE`
+3. Ensure CMake can find the cross-compilation toolchain
+4. Check if the target platform configuration is correct
 
-### 依赖缺失
+### Missing Dependencies
 
-**问题**：缺少 LVGL 依赖
+**Issue**: Missing LVGL dependency
 
-**解决方案**：
-1. 确保 LVGL 子模块已正确克隆
-2. 检查 LVGL 的版本是否与 ElenaOS 兼容
-3. 重新初始化子模块：`git submodule update --init --recursive`
+**Solutions**:
+1. Ensure the LVGL submodule is correctly cloned
+2. Check if the LVGL version is compatible with ElenaOS
+3. Reinitialize submodules: `git submodule update --init --recursive`
 
-**问题**：缺少 JerryScript 依赖
+**Issue**: Missing JerryScript dependency
 
-**解决方案**：
-1. 确保 JerryScript 子模块已正确克隆
-2. 检查 JerryScript 的版本是否与 ElenaOS 兼容
-3. 重新初始化子模块：`git submodule update --init --recursive`
+**Solutions**:
+1. Ensure the JerryScript submodule is correctly cloned
+2. Check if the JerryScript version is compatible with ElenaOS
+3. Reinitialize submodules: `git submodule update --init --recursive`
 
-## 运行问题
+## Runtime Issues
 
-### LVGL 导入问题
+### LVGL Import Issues
 
-**问题**：LVGL 导入失败，提示找不到头文件
+**Issue**: LVGL import fails, indicating missing header files
 
-**解决方案**：
-1. 确保 LVGL 子模块已正确克隆
-2. 检查 CMake 配置是否正确包含了 LVGL 目录
-3. 重新构建项目：`cmake --build .`
+**Solutions**:
+1. Ensure the LVGL submodule is correctly cloned
+2. Check if CMake configuration correctly includes the LVGL directory
+3. Rebuild the project: `cmake --build .`
 
-**问题**：LVGL 初始化失败
+**Issue**: LVGL initialization fails
 
-**解决方案**：
-1. 检查显示屏驱动是否正确实现
-2. 检查 LVGL 配置是否合适
-3. 检查内存分配是否足够
+**Solutions**:
+1. Check if the display driver is correctly implemented
+2. Check if LVGL configuration is appropriate
+3. Check if memory allocation is sufficient
 
-### 设备连接与调试问题
+### Device Connection and Debugging Issues
 
-**问题**：无法连接到设备
+**Issue**: Unable to connect to the device
 
-**解决方案**：
-1. 检查设备是否正确连接到电脑
-2. 检查设备驱动是否已安装
-3. 检查串口或调试接口是否正常
+**Solutions**:
+1. Check if the device is correctly connected to the computer
+2. Check if device drivers are installed
+3. Check if the serial port or debug interface is normal
 
-**问题**：调试器无法连接
+**Issue**: Debugger cannot connect
 
-**解决方案**：
-1. 检查调试器是否正确连接
-2. 检查设备是否处于调试模式
-3. 检查调试器配置是否正确
+**Solutions**:
+1. Check if the debugger is correctly connected
+2. Check if the device is in debug mode
+3. Check if the debugger configuration is correct
 
-## 应用开发问题
+## Application Development Issues
 
-### 应用安装失败
+### Application Installation Failure
 
-**问题**：应用安装失败，提示文件格式错误
+**Issue**: Application installation fails, indicating file format error
 
-**解决方案**：
-1. 检查应用包（.eapk文件）是否正确打包
-2. 检查应用的 manifest.json 文件是否格式正确
-3. 检查应用的脚本文件是否有语法错误
+**Solutions**:
+1. Check if the application package (.eapk file) is correctly packaged
+2. Check if the application's manifest.json file is in correct format
+3. Check if the application's script files have syntax errors
 
-**问题**：应用无法运行
+**Issue**: Application cannot run
 
-**解决方案**：
-1. 检查应用是否有足够的权限
-2. 检查应用的脚本是否有运行时错误
-3. 检查应用是否符合 ElenaOS 的应用规范
+**Solutions**:
+1. Check if the application has sufficient permissions
+2. Check if the application's scripts have runtime errors
+3. Check if the application complies with ElenaOS application specifications
 
-### 脚本执行问题
+### Script Execution Issues
 
-**问题**：脚本执行失败，提示语法错误
+**Issue**: Script execution fails, indicating syntax error
 
-**解决方案**：
-1. 检查 JavaScript 代码是否有语法错误
-2. 使用 JavaScript 语法检查工具验证代码
-3. 确保代码符合 ECMAScript 标准
+**Solutions**:
+1. Check if the JavaScript code has syntax errors
+2. Use JavaScript syntax checking tools to validate the code
+3. Ensure the code complies with ECMAScript standards
 
-**问题**：脚本执行缓慢
+**Issue**: Script execution is slow
 
-**解决方案**：
-1. 优化 JavaScript 代码，减少计算量
-2. 避免使用复杂的算法和数据结构
-3. 合理使用缓存，减少重复计算
+**Solutions**:
+1. Optimize JavaScript code to reduce computational load
+2. Avoid using complex algorithms and data structures
+3. Use caching appropriately to reduce repeated calculations
 
-## 系统问题
+## System Issues
 
-### 系统启动失败
+### System Startup Failure
 
-**问题**：系统启动失败，卡在启动界面
+**Issue**: System startup fails, stuck at startup screen
 
-**解决方案**：
-1. 检查硬件是否正常
-2. 检查系统配置是否正确
-3. 检查文件系统是否损坏
-4. 重新烧录系统固件
+**Solutions**:
+1. Check if hardware is normal
+2. Check if system configuration is correct
+3. Check if the file system is corrupted
+4. Re-flash system firmware
 
-**问题**：系统运行缓慢
+**Issue**: System runs slowly
 
-**解决方案**：
-1. 检查内存使用是否合理
-2. 关闭不必要的应用和服务
-3. 优化系统配置
-4. 考虑升级硬件
+**Solutions**:
+1. Check if memory usage is reasonable
+2. Close unnecessary applications and services
+3. Optimize system configuration
+4. Consider hardware upgrade
 
-### 电池问题
+### Battery Issues
 
-**问题**：电池电量显示不准确
+**Issue**: Battery level display is inaccurate
 
-**解决方案**：
-1. 校准电池
-2. 检查电池驱动是否正确实现
-3. 检查电池硬件是否正常
+**Solutions**:
+1. Calibrate the battery
+2. Check if the battery driver is correctly implemented
+3. Check if the battery hardware is normal
 
-**问题**：电池消耗过快
+**Issue**: Battery drains too quickly
 
-**解决方案**：
-1. 关闭不必要的功能和服务
-2. 降低屏幕亮度
-3. 检查是否有应用在后台持续运行
-4. 考虑更换电池
+**Solutions**:
+1. Turn off unnecessary features and services
+2. Reduce screen brightness
+3. Check if any applications are running continuously in the background
+4. Consider replacing the battery
 
-## 网络问题
+## Network Issues
 
-### Wi-Fi 连接问题
+### Wi-Fi Connection Issues
 
-**问题**：无法连接 Wi-Fi
+**Issue**: Unable to connect to Wi-Fi
 
-**解决方案**：
-1. 检查 Wi-Fi 信号是否正常
-2. 检查 Wi-Fi 密码是否正确
-3. 重启 Wi-Fi 模块
-4. 检查 Wi-Fi 驱动是否正确实现
+**Solutions**:
+1. Check if Wi-Fi signal is normal
+2. Check if Wi-Fi password is correct
+3. Restart the Wi-Fi module
+4. Check if the Wi-Fi driver is correctly implemented
 
-### 蓝牙连接问题
+### Bluetooth Connection Issues
 
-**问题**：无法连接蓝牙设备
+**Issue**: Unable to connect to Bluetooth devices
 
-**解决方案**：
-1. 检查蓝牙设备是否处于可发现模式
-2. 检查蓝牙驱动是否正确实现
-3. 重启蓝牙模块
-4. 清除蓝牙配对信息，重新配对
+**Solutions**:
+1. Check if the Bluetooth device is in discoverable mode
+2. Check if the Bluetooth driver is correctly implemented
+3. Restart the Bluetooth module
+4. Clear Bluetooth pairing information and re-pair
 
-## 其他问题
+## Other Issues
 
-### 显示屏问题
+### Display Issues
 
-**问题**：显示屏显示异常
+**Issue**: Display shows abnormally
 
-**解决方案**：
-1. 检查显示屏驱动是否正确实现
-2. 检查 LVGL 配置是否合适
-3. 检查分辨率设置是否正确
-4. 检查显示屏硬件是否正常
+**Solutions**:
+1. Check if the display driver is correctly implemented
+2. Check if LVGL configuration is appropriate
+3. Check if resolution settings are correct
+4. Check if the display hardware is normal
 
-### 输入设备问题
+### Input Device Issues
 
-**问题**：触摸屏幕无响应
+**Issue**: Touch screen is unresponsive
 
-**解决方案**：
-1. 检查触摸屏幕驱动是否正确实现
-2. 校准触摸屏幕
-3. 检查触摸屏幕硬件是否正常
+**Solutions**:
+1. Check if the touch screen driver is correctly implemented
+2. Calibrate the touch screen
+3. Check if the touch screen hardware is normal
 
-### 传感器问题
+### Sensor Issues
 
-**问题**：传感器数据不准确
+**Issue**: Sensor data is inaccurate
 
-**解决方案**：
-1. 校准传感器
-2. 检查传感器驱动是否正确实现
-3. 检查传感器硬件是否正常
+**Solutions**:
+1. Calibrate the sensor
+2. Check if the sensor driver is correctly implemented
+3. Check if the sensor hardware is normal
 
-## 故障排除流程
+## Troubleshooting Process
 
-1. **问题识别**：明确问题的具体表现和症状
-2. **问题定位**：根据症状定位问题所在的模块或组件
-3. **问题分析**：分析问题的可能原因
-4. **解决方案**：尝试可能的解决方案
-5. **验证解决**：验证问题是否已解决
-6. **记录问题**：记录问题和解决方案，便于未来参考
+1. **Issue identification**: Clearly identify the specific performance and symptoms of the issue
+2. **Issue localization**: Locate the module or component where the issue is located based on symptoms
+3. **Issue analysis**: Analyze the possible causes of the issue
+4. **Solution**: Try possible solutions
+5. **Verification**: Verify if the issue has been resolved
+6. **Record issue**: Record the issue and solution for future reference
 
-## 如何报告问题
+## How to Report Issues
 
-如果遇到无法解决的问题，可以通过以下方式报告：
+If you encounter issues that cannot be resolved, you can report them through the following methods:
 
-1. **GitHub Issues**：在 GitHub 上创建 Issue，描述问题的详细信息
-2. **社区论坛**：在社区论坛上发帖求助
-3. **邮件列表**：通过邮件列表寻求帮助
+1. **GitHub Issues**: Create an Issue on GitHub, describing the detailed information of the issue
+2. **Community forum**: Post for help on the community forum
+3. **Mailing list**: Seek help through the mailing list
 
-### 报告问题时应提供的信息
+### Information to Provide When Reporting Issues
 
-- **问题描述**：详细描述问题的表现和症状
-- **环境信息**：操作系统、硬件平台、ElenaOS 版本等
-- **重现步骤**：如何重现问题
-- **错误信息**：相关的错误信息和日志
-- **尝试过的解决方案**：已经尝试过的解决方案及其结果
+- **Issue description**: Detailed description of the issue's performance and symptoms
+- **Environment information**: Operating system, hardware platform, ElenaOS version, etc.
+- **Reproduction steps**: How to reproduce the issue
+- **Error information**: Relevant error messages and logs
+- **Tried solutions**: Solutions already tried and their results
 
-## 最佳实践
+## Best Practices
 
-1. **定期更新**：保持 ElenaOS 和依赖库的更新
-2. **备份数据**：定期备份重要数据
-3. **测试环境**：在测试环境中测试新功能和修改
-4. **文档查阅**：遇到问题时，先查阅相关文档
-5. **社区交流**：积极参与社区交流，分享经验和解决方案
+1. **Regular updates**: Keep ElenaOS and dependency libraries updated
+2. **Data backup**: Regularly back up important data
+3. **Test environment**: Test new features and modifications in a test environment
+4. **Documentation reference**: When encountering issues, first refer to relevant documentation
+5. **Community communication**: Actively participate in community communication, share experiences and solutions
 
-通过以上方法，你应该能够解决大多数 ElenaOS 开发和使用过程中遇到的问题。如果问题仍然存在，请不要 hesitate，及时向社区寻求帮助。
+Through the above methods, you should be able to solve most issues encountered during the development and use of ElenaOS. If the issue still exists, please do not hesitate to seek help from the community in time.

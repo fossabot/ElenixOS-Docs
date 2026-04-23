@@ -4,15 +4,23 @@
     "description": "The label for version current"
   },
   "sidebar.tutorialSidebar.category.入门": {
-    "message": "入门",
+    "message": "Getting Started",
     "description": "The label for category '入门' in sidebar 'tutorialSidebar'"
   },
+  "sidebar.tutorialSidebar.category.集成指南": {
+    "message": "Integration Guide",
+    "description": "The label for category '集成指南' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.开发指南": {
+    "message": "Development Guide",
+    "description": "The label for category '开发指南' in sidebar 'tutorialSidebar'"
+  },
   "sidebar.tutorialSidebar.category.系统架构": {
-    "message": "系统架构",
+    "message": "System Architecture",
     "description": "The label for category '系统架构' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.核心模块": {
-    "message": "核心模块",
+    "message": "Core Modules",
     "description": "The label for category '核心模块' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.JS API": {
@@ -20,11 +28,11 @@
     "description": "The label for category 'JS API' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.特殊组件": {
-    "message": "特殊组件",
+    "message": "Special Components",
     "description": "The label for category '特殊组件' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.开发工具": {
-    "message": "开发工具",
+    "message": "Development Tools",
     "description": "The label for category '开发工具' in sidebar 'tutorialSidebar'"
   }
 }
