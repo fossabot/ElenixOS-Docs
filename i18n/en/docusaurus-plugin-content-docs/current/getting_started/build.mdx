@@ -1,0 +1,296 @@
+---
+sidebar_position: 3
+title: Build and Use
+---
+
+# Build and Use
+
+This document will detail the ElenaOS build process, dependency handling, resource management, and platform-related differences, helping you successfully build and deploy ElenaOS.
+
+## Build Prerequisites
+
+Before building ElenaOS, you need to meet the following prerequisites:
+
+### Hardware Requirements
+
+- **Development board**: Embedded development board supporting LVGL (such as STM32, ESP32, etc.)
+- **Memory**: At least 64KB RAM
+- **Storage**: At least 200KB ROM
+- **Display screen**: Display screen supporting LVGL
+- **Input device**: Touch screen or other input devices
+
+### Software Requirements
+
+- **Operating system**: Linux or macOS
+- **Compilation toolchain**:
+  - Cross-compilation toolchain for the corresponding development board
+- **Dependency libraries**:
+  - CMake (3.13+)
+  - Python 3.7+ (for scripting tools)
+  - LVGL (included as a submodule)
+  - JerryScript (included as a submodule)
+
+### Dependency Installation
+
+#### Ubuntu/Debian
+
+```bash
+sudo apt-get update
+sudo apt-get install build-essential cmake python3 python3-pip
+```
+
+#### macOS
+
+```bash
+brew install cmake python3
+```
+
+## LVGL Dependency Import
+
+ElenaOS uses LVGL as the graphics library, and LVGL is included as a submodule in the ElenaOS codebase:
+
+### Submodule Initialization
+
+```bash
+git submodule update --init --recursive
+```
+
+### LVGL Configuration
+
+The LVGL configuration file is located at `src/port/lvgl/lv_conf.h`, and you can modify the configuration as needed:
+
+```c
+// Enable or disable LVGL features
+#define LV_USE_XXX 1 // Enable feature
+#define LV_USE_XXX 0 // Disable feature
+
+// Configure LVGL memory usage
+#define LV_MEM_SIZE (128 * 1024) // 128KB
+
+// Configure LVGL display resolution
+#define LV_HOR_RES_MAX 320
+#define LV_VER_RES_MAX 240
+```
+
+## Build Commands and Parameters
+
+### Build Parameters
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `CMAKE_BUILD_TYPE` | Build type | `Debug`, `Release`, `RelWithDebInfo` |
+| `CMAKE_TOOLCHAIN_FILE` | Cross-compilation toolchain file | `toolchain.cmake` |
+| `EOS_PLATFORM` | Target platform | `stm32`, `esp32` |
+| `EOS_DISPLAY_WIDTH` | Display width | `320` |
+| `EOS_DISPLAY_HEIGHT` | Display height | `240` |
+
+### Cross-compilation
+
+#### Compile to ARM Cortex-M
+
+1. Set the cross-compilation toolchain:
+
+```bash
+export CROSS_COMPILE=arm-none-eabi-
+```
+
+2. Configure CMake:
+
+```bash
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=toolchain/arm-none-eabi.cmake
+```
+
+3. Build the project:
+
+```bash
+cmake --build .
+```
+
+#### Compile to ESP32
+
+1. Set up the ESP-IDF environment:
+
+```bash
+. $HOME/esp/esp-idf/export.sh
+```
+
+2. Configure CMake:
+
+```bash
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=toolchain/esp32.cmake
+```
+
+3. Build the project:
+
+```bash
+cmake --build .
+```
+
+## Build Artifacts and Deployment
+
+### Build Artifacts
+
+After building, the following artifacts will be generated:
+
+- **ElenaOS.elf**: Executable file (embedded platform)
+- **ElenaOS.bin**: Binary file (embedded platform)
+- **ElenaOS.hex**: Hexadecimal file (embedded platform)
+
+### Deployment
+
+Use the appropriate flashing tool to flash the binary file to the target device:
+
+##### STM32
+
+Flash using STM32 CubeProgrammer:
+
+```bash
+STM32_Programmer_CLI -c port=SWD -w ElenaOS.hex
+```
+
+##### ESP32
+
+Flash using esptool.py:
+
+```bash
+esptool.py --port /dev/ttyUSB0 write_flash 0x0 ElenaOS.bin
+```
+
+## Resource Management
+
+### Resource Files
+
+ElenaOS resource files include:
+
+- **Fonts**: Located in `resources/font/` directory
+- **Icons**: Located in `resources/icon/` directory
+- **Images**: Located in `resources/image/` directory
+
+### Resource Compilation
+
+Resource files will be compiled into the firmware, and use `scripts/icon/gen_icon_def.py` to generate icon definitions:
+
+```bash
+python3 scripts/icon/gen_icon_def.py
+```
+
+## Platform-related Differences
+
+### Display Drivers
+
+Display drivers are implemented differently for different platforms and need to be adapted according to the platform:
+
+#### STM32
+
+Use STM32 hardware display driver:
+
+```c
+// src/port/display/elena_os_display_port_stm32.c
+```
+
+#### ESP32
+
+Use ESP32 hardware display driver:
+
+```c
+// src/port/display/elena_os_display_port_esp32.c
+```
+
+### Input Drivers
+
+Input drivers are implemented differently for different platforms and need to be adapted according to the platform:
+
+#### STM32
+
+Use STM32 hardware input driver:
+
+```c
+// src/port/input/elena_os_input_port_stm32.c
+```
+
+#### ESP32
+
+Use ESP32 hardware input driver:
+
+```c
+// src/port/input/elena_os_input_port_esp32.c
+```
+
+### File System
+
+File systems are implemented differently for different platforms and need to be adapted according to the platform:
+
+#### POSIX Systems
+
+Use POSIX file system:
+
+```c
+// src/port/file_system/elena_os_fs_port_posix.c
+```
+
+#### RT-Thread
+
+Use RT-Thread file system:
+
+```c
+// src/port/file_system/elena_os_fs_port_rtthread.c
+```
+
+## Build Scripts
+
+ElenaOS provides build scripts to simplify the build process:
+
+### Build Embedded Version
+
+```bash
+./scripts/build.sh --platform stm32
+```
+
+### Clean Build
+
+```bash
+./scripts/clean.sh
+```
+
+## Common Issues and Solutions
+
+### Build Failure
+
+**Issue**: Compilation failed, prompting missing dependencies
+
+**Solution**:
+1. Ensure all dependencies are correctly installed
+2. Ensure all submodules are correctly cloned
+3. Check if CMake version meets the requirements
+
+### Link Failure
+
+**Issue**: Link failed, prompting missing symbols
+
+**Solution**:
+1. Check if platform-related drivers are correctly implemented
+2. Check if LVGL is correctly configured
+3. Check if all dependency libraries are correctly linked
+
+### Runtime Error
+
+**Issue**: Runtime crash
+
+**Solution**:
+1. Check if memory usage is reasonable
+2. Check if hardware drivers are correctly implemented
+3. Check if application code has errors
+
+## Best Practices
+
+1. **Modular build**: Build only necessary modules according to platform requirements
+2. **Optimize configuration**: Optimize LVGL and system configurations according to the resource situation of the target device
+3. **Test and verify**: Conduct sufficient testing and verification after building
+4. **Document**: Record the build process and configuration for future reference
+5. **Version control**: Use version control system to manage build configuration and code
+
+## Summary
+
+The ElenaOS build process involves multiple steps, including dependency installation, configuration settings, compilation, and deployment. By understanding the build process and platform-related differences, developers can successfully build and deploy ElenaOS to different hardware platforms.
+
+This document provides detailed build guidelines, including build prerequisites, LVGL dependency import, build commands and parameters, build artifacts and deployment methods, etc. Following these guidelines, developers can quickly build ElenaOS and start developing and testing applications.

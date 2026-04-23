@@ -1,0 +1,180 @@
+---
+sidebar_position: 2
+title: 快速开始
+---
+
+# 快速开始
+
+本指南将帮助你快速上手 ElenaOS 项目，包括代码获取、环境搭建、编译运行和基本使用。
+
+## 项目获取
+
+### 克隆代码库
+
+使用 Git 克隆 ElenaOS 代码库：
+
+```bash
+git clone --recursive https://github.com/Sab1e-dev/ElenaOS.git
+```
+
+:::note
+注意：使用 `--recursive` 参数确保同时克隆子模块。
+如果没有使用 `--recursive` 克隆，可以通过以下命令获取子模块：
+
+```bash
+git submodule update --init --recursive
+```
+:::
+
+## 开发环境要求
+
+### 硬件要求
+
+- **开发板**：支持 LVGL 的嵌入式开发板（如 STM32、ESP32 等）
+- **内存**：至少 64KB RAM
+- **存储**：至少 200KB ROM
+- **显示屏**：支持 LVGL 的显示屏
+- **输入设备**：触摸屏幕或其他输入设备
+
+### 软件要求
+
+- **操作系统**：Linux、macOS 或 Windows
+- **编译工具链**：
+  - GCC (用于 x86 模拟)
+  - 对应开发板的交叉编译工具链
+- **依赖库**：
+  - CMake (3.13+)
+  - Python 3.7+ (用于脚本工具)
+  - LVGL (已作为子模块包含)
+  - JerryScript (已作为子模块包含)
+
+### 安装依赖
+
+#### Ubuntu/Debian
+
+```bash
+sudo apt-get update
+sudo apt-get install build-essential cmake python3 python3-pip
+```
+
+#### macOS
+
+```bash
+brew install cmake python3
+```
+
+#### Windows
+
+- 安装 [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+- 安装 [CMake](https://cmake.org/download/)
+- 安装 [Python 3](https://www.python.org/downloads/)
+
+## 编译与运行
+
+### 编译 x86 模拟版本
+
+1. 创建并进入构建目录：
+
+```bash
+mkdir build && cd build
+```
+
+2. 配置 CMake：
+
+```bash
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+```
+
+3. 编译项目：
+
+```bash
+cmake --build .
+```
+
+### 运行模拟版本
+
+编译完成后，可以运行模拟版本：
+
+```bash
+./ElenaOS
+```
+
+### 交叉编译到目标板
+
+1. 设置交叉编译工具链：
+
+```bash
+export CROSS_COMPILE=arm-none-eabi-
+```
+
+2. 配置 CMake：
+
+```bash
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=toolchain.cmake
+```
+
+3. 编译项目：
+
+```bash
+cmake --build .
+```
+
+4. 将编译产物烧录到目标板
+
+## 基本使用
+
+### 应用管理
+
+#### 安装应用
+
+```bash
+# 假设应用包路径为 /path/to/app.eapk
+eos_app_install("/path/to/app.eapk");
+```
+
+#### 运行应用
+
+应用会在系统启动后自动加载，也可以通过应用列表手动启动。
+
+### 表盘管理
+
+ElenaOS 支持多个表盘，你可以通过系统设置切换不同的表盘。
+
+### 系统设置
+
+通过控制中心或设置应用，你可以调整系统的各种设置，如亮度、音量、语言等。
+
+## 首次调试建议
+
+1. **检查依赖**：确保所有依赖库都已正确安装
+2. **编译测试**：先编译 x86 模拟版本，确保代码能正常编译
+3. **运行模拟**：在 x86 环境下运行模拟版本，测试基本功能
+4. **硬件测试**：将编译产物烧录到目标板，测试硬件兼容性
+5. **调试工具**：使用 GDB 或其他调试工具进行调试
+
+## 常见问题
+
+### 编译失败
+
+- 检查依赖是否安装完整
+- 检查 CMake 版本是否符合要求
+- 检查交叉编译工具链是否正确配置
+
+### 运行时错误
+
+- 检查内存使用是否合理
+- 检查硬件驱动是否正确实现
+- 检查应用代码是否有错误
+
+### 界面显示问题
+
+- 检查显示屏驱动是否正确
+- 检查 LVGL 配置是否合适
+- 检查分辨率设置是否正确
+
+## 下一步
+
+- 查看 [系统架构](../architecture/arch) 了解 ElenaOS 的设计
+- 查看 [脚本引擎](../architecture/script_engine) 了解应用开发
+- 查看 [开发工具](../development/dev_tools) 了解开发流程
+- 查看 [构建与使用](./build) 了解更多构建选项

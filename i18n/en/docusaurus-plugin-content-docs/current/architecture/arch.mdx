@@ -1,0 +1,205 @@
+# 系统架构
+
+## 整体架构
+
+ElenaOS 采用分层架构设计，从底层到上层依次为硬件层、可移植接口层、内核层和应用层。这种架构设计使得系统具有良好的可移植性和可扩展性。
+
+```mermaid
+flowchart BT
+
+    subgraph L1["应用层"]
+        direction BT
+        WATCHFACE["表盘系统"]
+        APP["第三方应用"]
+        SYSAPP["系统应用"]
+    end
+
+    subgraph L2["内核层"]
+        direction BT
+
+        subgraph R1["系统服务子系统"]
+            direction BT
+            DISPATHCER["事件调度"]
+            ANIM["动画系统"]
+            EVENT["事件系统"]
+            SCENE["场景系统"]
+            SERVICES["用户服务"]
+            LANG["多语言支持"]
+            PKG["软件包管理器"]
+        end
+
+        subgraph R2["脚本运行子系统"]
+            direction BT
+            SE["Script Engine"]
+            JS_API["JS API 层"]
+        end
+
+        UI["内置UI控件"]
+    end
+
+
+    subgraph THIRD_PARTY["依赖库"]
+        direction BT
+        subgraph LVGL["LVGL"]
+            GUI["GUI"]
+            INPUT["输入"]
+            TIME["时间系统"]
+        end
+        JERRYSCRIPT["JerryScript"]
+        OtherSW["Other Software"]
+    end
+
+
+    subgraph L3["可移植接口层"]
+        direction BT
+
+        subgraph OSABS["OS 抽象层"]
+            direction BT
+            MEM["内存管理"]
+            SEM["同步原语"]
+            FS["文件系统"]
+        end
+
+        SENSOR["传感器接口"]
+        POWER["电源管理接口"]
+        OTHERDEVICES["其他外设接口"]
+    end
+
+
+    subgraph L4["硬件层"]
+        direction BT
+        MCU["MCU / SoC"]
+        BLUETOOTH["Bluetooth"]
+        SENSORS_HW["传感器硬件"]
+        STORAGE["存储器"]
+        DISPLAY_HW["显示与输入"]
+        PMIC["电源管理芯片"]
+    end
+
+
+    L4 --> L3
+    L4 --> THIRD_PARTY
+    THIRD_PARTY --> L2
+    L3 --> L2
+    L2 --> L1
+
+```
+
+## 模块依赖关系
+
+### 核心模块依赖图
+
+```mermaid
+graph TD
+    subgraph 应用层
+        AppMgr["应用管理"]
+        WatchfaceMgr["表盘管理"]
+        SystemApp["系统应用"]
+        ThirdPartyApp["第三方应用"]
+    end
+
+    subgraph 内核层
+        ScriptEngine["脚本引擎"]
+        UIModule["UI模块"]
+        SystemServices["系统服务"]
+        FileSystem["文件系统"]
+        EventSystem["事件系统"]
+    end
+
+    subgraph 可移植接口层
+        PortLayer["移植层"]
+        HAL["硬件抽象层"]
+    end
+
+    subgraph 硬件层
+        Hardware["硬件"]
+    end
+
+    subgraph 第三方库
+        LVGL["LVGL"]
+        JerryScript["JerryScript"]
+        CJSON["cJSON"]
+    end
+
+    AppMgr --> ScriptEngine
+    WatchfaceMgr --> ScriptEngine
+    SystemApp --> ScriptEngine
+    ThirdPartyApp --> ScriptEngine
+
+    ScriptEngine --> UIModule
+    ScriptEngine --> SystemServices
+    ScriptEngine --> FileSystem
+    ScriptEngine --> EventSystem
+
+    UIModule --> LVGL
+    SystemServices --> HAL
+    FileSystem --> PortLayer
+    EventSystem --> HAL
+
+    LVGL --> Hardware
+    JerryScript --> Hardware
+    PortLayer --> Hardware
+    HAL --> Hardware
+
+    ScriptEngine --> JerryScript
+    FileSystem --> CJSON
+    SystemServices --> CJSON
+```
+
+## 架构层次说明
+
+### 1. 硬件层
+
+硬件层包含各种硬件组件，如 MCU/SoC、蓝牙、传感器、存储器、显示屏和电源管理芯片等。这些硬件组件是 ElenaOS 运行的基础。
+
+### 2. 可移植接口层
+
+可移植接口层提供了对硬件的抽象，包括：
+
+- **OS 抽象层**：内存管理、同步原语、文件系统等
+- **传感器接口**：统一的传感器访问接口
+- **电源管理接口**：电源状态管理和控制
+- **其他外设接口**：其他硬件外设的访问接口
+
+这一层的设计使得 ElenaOS 能够在不同的硬件平台上运行，只需要实现相应的接口即可。
+
+### 3. 内核层
+
+内核层是 ElenaOS 的核心，包含以下子系统：
+
+- **系统服务子系统**：事件调度、动画系统、事件系统、场景系统、用户服务、多语言支持、软件包管理器等
+- **脚本运行子系统**：脚本引擎、JS API 层等
+- **内置UI控件**：基于 LVGL 构建的各种UI组件
+
+这一层实现了 ElenaOS 的核心功能，为应用层提供服务和接口。
+
+### 4. 应用层
+
+应用层包含表盘系统、第三方应用和系统应用等。这些应用基于脚本引擎运行，使用 JS API 访问系统服务和UI组件。
+
+## 数据流
+
+ElenaOS 的数据流如下：
+
+1. **用户输入**：通过硬件层的输入设备（如触摸屏）获取用户输入
+2. **事件处理**：输入事件通过可移植接口层传递到内核层的事件系统
+3. **事件分发**：事件系统将事件分发给相应的处理程序
+4. **应用响应**：应用根据事件执行相应的逻辑
+5. **UI更新**：应用通过 UI 模块更新界面
+6. **显示输出**：UI 模块将界面渲染到显示屏上
+
+## 脚本执行流程
+
+1. **脚本加载**：从文件系统加载应用或表盘的脚本文件
+2. **脚本解析**：脚本引擎解析 JavaScript 代码
+3. **脚本执行**：在 Realm 中执行脚本，调用 JS API
+4. **原生调用**：JS API 调用原生代码，访问系统服务和硬件
+5. **结果返回**：将执行结果返回给脚本
+
+## 架构优势
+
+1. **分层设计**：清晰的分层结构使得系统易于理解和维护
+2. **可移植性**：可移植接口层使得系统能够在不同硬件平台上运行
+3. **可扩展性**：模块化设计使得系统易于扩展和定制
+4. **脚本驱动**：脚本化开发使得应用开发更加灵活和高效
+5. **统一接口**：统一的 API 设计使得应用开发更加简单

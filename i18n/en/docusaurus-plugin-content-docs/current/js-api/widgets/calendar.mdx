@@ -1,0 +1,136 @@
+---
+title: 日历 (Calendar)
+sidebar_position: 3
+---
+
+# 日历 (Calendar)
+
+日历是 ElenaOS 中用于显示和选择日期的特殊 API 组件。本文档将介绍日历组件的功能、使用方法和注意事项。
+
+## 功能介绍
+
+日历组件允许开发者创建一个日历界面，用于显示和选择日期。日历组件通常用于日期选择、日程安排等场景。
+
+## 使用方法
+
+### 创建日历
+
+使用 `new lv.calendar()` 构造函数创建日历对象：
+
+```javascript
+// 创建日历对象
+const calendar = new lv.calendar(eos.view.active());
+```
+
+### 配置日历
+
+使用以下方法配置日历：
+
+```javascript
+// 设置日历大小
+calendar.setSize(200, 200);
+
+// 设置日历位置
+calendar.setPos(10, 10);
+
+// 设置当前日期
+const date = { year: 2024, month: 1, day: 1 };
+calendar.setDate(date);
+
+// 设置标记日期
+const markedDates = [
+    { year: 2024, month: 1, day: 5 },
+    { year: 2024, month: 1, day: 10 },
+    { year: 2024, month: 1, day: 15 }
+];
+calendar.setMarkedDates(markedDates);
+```
+
+### 绑定事件
+
+使用 `addEventCb` 方法绑定事件：
+
+```javascript
+// 绑定日期选择事件
+calendar.addEventCb((e) => {
+    const date = calendar.getDate();
+    eos.console.log("Selected date:", date);
+}, lv.EVENT_VALUE_CHANGED, null);
+```
+
+### 示例：创建简单日历
+
+```javascript
+// 创建日历
+const calendar = new lv.calendar(eos.view.active());
+calendar.setSize(200, 200);
+calendar.align(lv.ALIGN_CENTER, 0, 0);
+
+// 设置当前日期
+const date = { year: 2024, month: 1, day: 1 };
+calendar.setDate(date);
+
+// 绑定事件
+calendar.addEventCb((e) => {
+    const date = calendar.getDate();
+    eos.console.log("Selected date:", date);
+}, lv.EVENT_VALUE_CHANGED, null);
+```
+
+### 示例：创建带标记的日历
+
+```javascript
+// 创建日历
+const calendar = new lv.calendar(eos.view.active());
+calendar.setSize(200, 200);
+calendar.align(lv.ALIGN_CENTER, 0, 0);
+
+// 设置当前日期
+const date = { year: 2024, month: 1, day: 1 };
+calendar.setDate(date);
+
+// 设置标记日期
+const markedDates = [
+    { year: 2024, month: 1, day: 5 },
+    { year: 2024, month: 1, day: 10 },
+    { year: 2024, month: 1, day: 15 }
+];
+calendar.setMarkedDates(markedDates);
+
+// 绑定事件
+calendar.addEventCb((e) => {
+    const date = calendar.getDate();
+    eos.console.log("Selected date:", date);
+}, lv.EVENT_VALUE_CHANGED, null);
+```
+
+## 注意事项
+
+### 性能优化
+
+1. **合理设置日历大小**：日历不宜过大，以免影响系统性能
+2. **减少标记日期数量**：标记日期数量不宜过多，以免影响系统性能
+3. **优化事件处理**：事件处理函数不宜过于复杂，以免影响系统性能
+
+### 内存管理
+
+1. **及时释放日历对象**：不再使用日历时，及时释放
+2. **避免内存泄漏**：确保事件回调函数中没有循环引用
+
+### 错误处理
+
+1. **参数验证**：验证日历参数，避免传入无效参数
+2. **异常捕获**：使用 try-catch 捕获可能的错误
+
+## 最佳实践
+
+1. **合理使用日历**：根据应用场景合理使用日历
+2. **性能测试**：在使用日历前进行性能测试，确保日历不会影响系统性能
+3. **代码优化**：优化日历代码，提高性能
+4. **用户体验**：考虑用户体验，确保日历的布局和大小合理
+
+## 总结
+
+日历是 ElenaOS 中用于显示和选择日期的特殊 API 组件。通过日历，开发者可以创建日期选择、日程安排等功能。
+
+在使用日历时，开发者应该注意性能优化、内存管理、错误处理等问题，以确保日历的性能和系统的稳定性。

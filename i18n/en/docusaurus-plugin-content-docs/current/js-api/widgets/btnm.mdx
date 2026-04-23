@@ -1,0 +1,138 @@
+---
+title: 按钮矩阵 (Button Matrix)
+sidebar_position: 2
+---
+
+# 按钮矩阵 (Button Matrix)
+
+按钮矩阵是 ElenaOS 中用于创建按钮矩阵的特殊 API 组件。本文档将介绍按钮矩阵组件的功能、使用方法和注意事项。
+
+## 功能介绍
+
+按钮矩阵允许开发者创建一个包含多个按钮的矩阵，这些按钮可以组织成行和列的形式。按钮矩阵通常用于创建键盘、数字键盘、功能按钮组等。
+
+## 使用方法
+
+### 创建按钮矩阵
+
+使用 `new lv.btnm()` 构造函数创建按钮矩阵对象：
+
+```javascript
+// 创建按钮矩阵对象
+const btnm = new lv.btnm(eos.view.active());
+```
+
+### 配置按钮矩阵
+
+使用以下方法配置按钮矩阵：
+
+```javascript
+// 设置按钮矩阵大小
+btnm.setSize(200, 150);
+
+// 设置按钮矩阵位置
+btnm.setPos(10, 10);
+
+// 设置按钮矩阵的按钮文本
+// 使用 "\n" 分隔行，使用 " " 分隔同一行的按钮
+const buttons = "1 2 3\n4 5 6\n7 8 9\n* 0 #";
+btnm.setMap(buttons);
+
+// 设置按钮矩阵的按钮大小
+btnm.setBtnSize(60, 40);
+
+// 设置按钮矩阵的按钮间距
+btnm.setBtnSpacing(5);
+```
+
+### 绑定事件
+
+使用 `addEventCb` 方法绑定事件：
+
+```javascript
+// 绑定按钮点击事件
+btnm.addEventCb((e) => {
+    const btnId = btnm.getPressedBtn();
+    eos.console.log("Button clicked:", btnId);
+}, lv.EVENT_VALUE_CHANGED, null);
+```
+
+### 示例：创建数字键盘
+
+```javascript
+// 创建按钮矩阵
+const btnm = new lv.btnm(eos.view.active());
+btnm.setSize(240, 200);
+btnm.align(lv.ALIGN_CENTER, 0, 0);
+
+// 设置按钮文本
+const buttons = "1 2 3\n4 5 6\n7 8 9\n* 0 #";
+btnm.setMap(buttons);
+
+// 绑定事件
+btnm.addEventCb((e) => {
+    const btnId = btnm.getPressedBtn();
+    eos.console.log("Button clicked:", btnId);
+}, lv.EVENT_VALUE_CHANGED, null);
+```
+
+### 示例：创建功能按钮组
+
+```javascript
+// 创建按钮矩阵
+const btnm = new lv.btnm(eos.view.active());
+btnm.setSize(200, 100);
+btnm.align(lv.ALIGN_CENTER, 0, 0);
+
+// 设置按钮文本
+const buttons = "Play Pause Stop\nNext Prev";
+btnm.setMap(buttons);
+
+// 绑定事件
+btnm.addEventCb((e) => {
+    const btnId = btnm.getPressedBtn();
+    eos.console.log("Button clicked:", btnId);
+}, lv.EVENT_VALUE_CHANGED, null);
+```
+
+## 按钮矩阵的特殊字符
+
+按钮矩阵支持以下特殊字符：
+
+| 字符 | 描述 |
+|------|------|
+| `" "` | 空按钮 |
+| `"\n"` | 换行 |
+| `"_"` | 水平分割线 |
+| `"|"` | 垂直分割线 |
+
+## 注意事项
+
+### 性能优化
+
+1. **合理设置按钮矩阵大小**：按钮矩阵不宜过大，以免影响系统性能
+2. **减少按钮数量**：按钮数量不宜过多，以免影响系统性能
+3. **优化事件处理**：事件处理函数不宜过于复杂，以免影响系统性能
+
+### 内存管理
+
+1. **及时释放按钮矩阵对象**：不再使用按钮矩阵时，及时释放
+2. **避免内存泄漏**：确保事件回调函数中没有循环引用
+
+### 错误处理
+
+1. **参数验证**：验证按钮矩阵参数，避免传入无效参数
+2. **异常捕获**：使用 try-catch 捕获可能的错误
+
+## 最佳实践
+
+1. **合理使用按钮矩阵**：根据应用场景合理使用按钮矩阵
+2. **性能测试**：在使用按钮矩阵前进行性能测试，确保按钮矩阵不会影响系统性能
+3. **代码优化**：优化按钮矩阵代码，提高性能
+4. **用户体验**：考虑用户体验，确保按钮矩阵的布局和大小合理
+
+## 总结
+
+按钮矩阵是 ElenaOS 中用于创建按钮矩阵的特殊 API 组件。通过按钮矩阵，开发者可以创建键盘、数字键盘、功能按钮组等。
+
+在使用按钮矩阵时，开发者应该注意性能优化、内存管理、错误处理等问题，以确保按钮矩阵的性能和系统的稳定性。

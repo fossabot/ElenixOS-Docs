@@ -1,0 +1,125 @@
+---
+title: 下拉菜单 (Dropdown)
+sidebar_position: 5
+---
+
+# 下拉菜单 (Dropdown)
+
+下拉菜单是 ElenaOS 中用于显示和选择下拉选项的特殊 API 组件。本文档将介绍下拉菜单组件的功能、使用方法和注意事项。
+
+## 功能介绍
+
+下拉菜单组件允许开发者创建一个下拉列表，用于显示和选择选项。下拉菜单通常用于选择列表、设置选项等场景。
+
+## 使用方法
+
+### 创建下拉菜单
+
+使用 `new lv.dropdown()` 构造函数创建下拉菜单对象：
+
+```javascript
+// 创建下拉菜单对象
+const dropdown = new lv.dropdown(eos.view.active());
+```
+
+### 配置下拉菜单
+
+使用以下方法配置下拉菜单：
+
+```javascript
+// 设置下拉菜单大小
+ dropdown.setSize(200, 50);
+
+// 设置下拉菜单位置
+ dropdown.setPos(10, 10);
+
+// 设置下拉菜单选项
+const options = "Option 1\nOption 2\nOption 3\nOption 4";
+ dropdown.setOptions(options);
+
+// 设置下拉菜单默认选项
+ dropdown.setSelected(0);
+
+// 设置下拉菜单展开方向
+ dropdown.setDir(lv.DIR.BOTTOM);
+```
+
+### 绑定事件
+
+使用 `addEventCb` 方法绑定事件：
+
+```javascript
+// 绑定选项选择事件
+ dropdown.addEventCb((e) => {
+    const selected =  dropdown.getSelected();
+    eos.console.log("Selected option:", selected);
+}, lv.EVENT_VALUE_CHANGED, null);
+```
+
+### 示例：创建简单下拉菜单
+
+```javascript
+// 创建下拉菜单
+const dropdown = new lv.dropdown(eos.view.active());
+dropdown.setSize(200, 50);
+dropdown.align(lv.ALIGN_CENTER, 0, 0);
+
+// 设置选项
+const options = "Option 1\nOption 2\nOption 3\nOption 4";
+dropdown.setOptions(options);
+
+// 绑定事件
+dropdown.addEventCb((e) => {
+    const selected = dropdown.getSelected();
+    eos.console.log("Selected option:", selected);
+}, lv.EVENT_VALUE_CHANGED, null);
+```
+
+### 示例：创建带图标的下拉菜单
+
+```javascript
+// 创建下拉菜单
+const dropdown = new lv.dropdown(eos.view.active());
+dropdown.setSize(200, 50);
+dropdown.align(lv.ALIGN_CENTER, 0, 0);
+
+// 设置带图标的选项
+const options = "\uF001 Option 1\n\uF002 Option 2\n\uF003 Option 3";
+dropdown.setOptions(options);
+
+// 绑定事件
+dropdown.addEventCb((e) => {
+    const selected = dropdown.getSelected();
+    eos.console.log("Selected option:", selected);
+}, lv.EVENT_VALUE_CHANGED, null);
+```
+
+## 注意事项
+
+### 性能优化
+
+1. **合理设置选项数量**：选项数量不宜过多，以免影响系统性能
+2. **优化事件处理**：事件处理函数不宜过于复杂，以免影响系统性能
+
+### 内存管理
+
+1. **及时释放下拉菜单对象**：不再使用下拉菜单时，及时释放
+2. **避免内存泄漏**：确保事件回调函数中没有循环引用
+
+### 错误处理
+
+1. **参数验证**：验证下拉菜单参数，避免传入无效参数
+2. **异常捕获**：使用 try-catch 捕获可能的错误
+
+## 最佳实践
+
+1. **合理使用下拉菜单**：根据应用场景合理使用下拉菜单
+2. **性能测试**：在使用下拉菜单前进行性能测试，确保下拉菜单不会影响系统性能
+3. **代码优化**：优化下拉菜单代码，提高性能
+4. **用户体验**：考虑用户体验，确保下拉菜单的布局和大小合理
+
+## 总结
+
+下拉菜单是 ElenaOS 中用于显示和选择下拉选项的特殊 API 组件。通过下拉菜单，开发者可以创建选择列表、设置选项等功能。
+
+在使用下拉菜单时，开发者应该注意性能优化、内存管理、错误处理等问题，以确保下拉菜单的性能和系统的稳定性。

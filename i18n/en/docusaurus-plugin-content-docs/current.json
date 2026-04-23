@@ -1,0 +1,30 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.入门": {
+    "message": "入门",
+    "description": "The label for category '入门' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.系统架构": {
+    "message": "系统架构",
+    "description": "The label for category '系统架构' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.核心模块": {
+    "message": "核心模块",
+    "description": "The label for category '核心模块' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.JS API": {
+    "message": "JS API",
+    "description": "The label for category 'JS API' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.特殊组件": {
+    "message": "特殊组件",
+    "description": "The label for category '特殊组件' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.开发工具": {
+    "message": "开发工具",
+    "description": "The label for category '开发工具' in sidebar 'tutorialSidebar'"
+  }
+}

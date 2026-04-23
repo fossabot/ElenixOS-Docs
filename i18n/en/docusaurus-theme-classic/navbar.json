@@ -1,0 +1,22 @@
+{
+  "title": {
+    "message": "ElenaOS",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "ElenaOS Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.文档": {
+    "message": "文档",
+    "description": "Navbar item with label 文档"
+  },
+  "item.label.更新日志": {
+    "message": "更新日志",
+    "description": "Navbar item with label 更新日志"
+  },
+  "item.label.GitHub 仓库": {
+    "message": "GitHub 仓库",
+    "description": "Navbar item with label GitHub 仓库"
+  }
+}

@@ -1,0 +1,51 @@
+---
+sidebar_position: 1
+slug: /intro
+title: Introduction to ElenaOS
+---
+
+# Introduction to ElenaOS
+
+ElenaOS is an open-source operating system designed for smartwatches and other resource-constrained wearable devices. It organizes UI, application logic, and system services on top of a unified scripting runtime, allowing watch faces, system apps, and third-party apps to run in a more consistent way while retaining efficient access to underlying hardware.
+
+## Key Features
+
+### Script-driven Application Model
+
+Watch faces and applications in ElenaOS are driven by a scripting engine. Scripts describe the user interface and business logic, while native code handles scheduling, rendering, and resource management. This layered approach makes applications easier to iterate on and simplifies porting to different hardware platforms.
+
+### LVGL + JerryScript Runtime
+
+The graphics layer is based on LVGL, and scripts are executed by JerryScript. LVGL handles UI rendering and interaction, while JerryScript provides a JavaScript execution environment suitable for resource-limited devices. Together they enable a consistent UI experience and scriptable extensibility on wearables.
+
+### Layered Architecture
+
+The project separates system capabilities into application, kernel, portability, and hardware layers. This allows upper-layer applications to rely on a stable API while the lower-layer implementations can be adapted for different chips, sensors, and peripherals.
+
+### Developer Tooling
+
+Besides the runtime, ElenaOS provides developer tools such as app packaging and binding generation to help combine scripts, resources, and native interfaces into deployable application bundles.
+
+### Rich Core Modules
+
+ElenaOS offers a set of core modules, including:
+
+- **Application Management**: install, uninstall, manage, and run apps
+- **System Services**: battery management, sensor management, and other system-level services
+- **UI Components**: a rich set of UI widgets built on LVGL
+- **Filesystem**: file and directory operations
+- **Scripting Engine**: a JavaScript runtime based on JerryScript
+
+## Where to Read First
+
+If you want a quick overview, read in this order:
+
+1. [System Architecture](/docs/architecture/arch) to understand ElenaOS's layering.
+2. [Scripting Engine](/docs/architecture/script_engine) to learn how apps and watch faces run.
+3. [Quick Start](/docs/getting_started/quick_start) to get the basic project entry points.
+4. For development and debugging, see [Developer Tools](/docs/development/dev_tools) and [Build & Usage](/docs/getting_started/build).
+5. For implementation details of core modules, consult [Core Modules](/docs/core/app).
+
+## Documentation Conventions
+
+This site evolves alongside ElenaOS's implementation. Some sections may be more complete than others, but the overall goal is consistent: to help you build a full understanding of the project from architecture and runtime behavior to development workflows.

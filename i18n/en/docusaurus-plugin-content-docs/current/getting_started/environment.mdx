@@ -1,0 +1,210 @@
+---
+sidebar_position: 4
+title: Development Environment Setup
+---
+
+# Development Environment Setup
+
+Before developing ElenaOS applications or systems, you need to prepare the development environment. This document will detail the ElenaOS development environment setup steps, including SDK acquisition, dependency installation, editor configuration, and target device preparation.
+
+## SDK or Repository Acquisition
+
+### Clone the Repository
+
+Use Git to clone the ElenaOS repository:
+
+```bash
+git clone --recursive https://github.com/Sab1e-dev/ElenaOS.git
+cd ElenaOS
+```
+
+> Note: Use the `--recursive` parameter to ensure that submodules are cloned simultaneously, including LVGL and JerryScript dependencies.
+
+### Check the Repository
+
+After cloning, check the repository structure to ensure all files and submodules are correctly obtained:
+
+```bash
+ls -la
+```
+
+## Dependency Installation
+
+ElenaOS development requires the installation of the following dependencies:
+
+### Python Dependencies
+
+ElenaOS uses Python scripts for binding layer generation and application packaging, requiring Python 3.7 or higher:
+
+#### Ubuntu/Debian
+
+```bash
+sudo apt-get update
+sudo apt-get install python3 python3-pip
+```
+
+#### macOS
+
+```bash
+brew install python3
+```
+
+### Other Dependencies
+
+#### Build Tools
+
+- **CMake**: 3.13 or higher
+- **Ninja**: For fast builds
+
+#### Ubuntu/Debian
+
+```bash
+sudo apt-get install cmake ninja-build
+```
+
+#### macOS
+
+```bash
+brew install cmake ninja
+```
+
+### Compilation Toolchain
+
+#### Cross-compilation Toolchain
+
+If you need to run ElenaOS on specific hardware platforms, you need to install the corresponding cross-compilation toolchain:
+
+- **ARM Cortex-M**: `arm-none-eabi-gcc`
+- **ESP32**: ESP-IDF toolchain
+- **STM32**: STM32 CubeIDE toolchain
+
+## Editor and Plugin Configuration
+
+We recommend using the following editors for ElenaOS development:
+
+### Visual Studio Code
+
+Visual Studio Code is a lightweight code editor that supports multiple programming languages and plugins:
+
+1. **Install Visual Studio Code**: Download and install from the [official website](https://code.visualstudio.com/)
+
+2. **Install plugins**:
+   - **C/C++**: Provides C/C++ language support
+   - **JavaScript**: Provides JavaScript language support
+   - **Python**: Provides Python language support
+   - **CMake Tools**: Provides CMake integration
+   - **GitLens**: Provides Git integration
+
+3. **Configuration**:
+   - Open `File > Preferences > Settings`
+   - Configure C/C++ extension include paths
+   - Configure Python interpreter path
+
+### Other Editors
+
+- **CLion**: C/C++ IDE developed by JetBrains
+- **Vim**: Command-line editor, suitable for developers who are accustomed to command-line operations
+- **Sublime Text**: Lightweight code editor
+
+## Target Device Preparation
+
+### Hardware Requirements
+
+- **Development board**: Embedded development board supporting LVGL (such as STM32, ESP32, etc.)
+- **Memory**: At least 64KB RAM
+- **Storage**: At least 200KB ROM
+- **Display screen**: Display screen supporting LVGL
+- **Input device**: Touch screen or other input devices
+
+### Device Preparation
+
+1. **Hardware connection**: Connect the development board to the computer
+2. **Driver installation**: Install the USB driver for the development board
+3. **Debug configuration**: Configure the debugger (such as J-Link, ST-Link, etc.)
+
+### Flashing Tools
+
+Select the appropriate flashing tool according to the target device:
+
+- **STM32**: STM32 CubeProgrammer
+- **ESP32**: esptool.py
+- **Other devices**: Flashing tools provided by the device manufacturer
+
+## Environment Verification
+
+After installing all dependencies, verify that the environment is correctly configured:
+
+### Check Python Version
+
+```bash
+python3 --version
+```
+
+### Check CMake Version
+
+```bash
+cmake --version
+```
+
+### Check Compilation Toolchain
+
+```bash
+gcc --version
+# Cross-compilation toolchain
+arm-none-eabi-gcc --version
+```
+
+### Compilation Test
+
+Compile the embedded version of ElenaOS to verify that the environment is correct:
+
+```bash
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=toolchain/arm-none-eabi.cmake
+cmake --build .
+```
+
+If the compilation is successful, the environment configuration is correct.
+
+## Common Issues and Solutions
+
+### Dependency Installation Failure
+
+**Issue**: Dependency installation failed
+
+**Solution**:
+1. Check if the network connection is normal
+2. Check if the package manager is updated
+3. Try installing with administrator privileges
+
+### Compilation Failure
+
+**Issue**: Compilation failed, prompting missing dependencies
+
+**Solution**:
+1. Ensure all dependencies are correctly installed
+2. Ensure all submodules are correctly cloned
+3. Check if CMake configuration is correct
+
+### Device Connection Issues
+
+**Issue**: Unable to connect to the target device
+
+**Solution**:
+1. Check if the device is correctly connected
+2. Check if the device driver is installed
+3. Check if the device is in the correct mode
+
+## Best Practices
+
+1. **Environment isolation**: Use virtual environments (such as Python venv) to isolate the development environment
+2. **Version control**: Use Git to manage code and commit changes regularly
+3. **Backup**: Regularly back up code and configuration files
+4. **Documentation**: Record development environment configuration for future reference
+5. **Updates**: Regularly update dependencies and toolchains to ensure the latest versions are used
+
+## Summary
+
+Development environment setup is an important step in ElenaOS development, ensuring the smooth progress of the development process. By correctly configuring the development environment, developers can develop and test ElenaOS applications and systems more efficiently.
+
+This document provides detailed development environment setup steps, including SDK acquisition, dependency installation, editor configuration, and target device preparation. Following these steps, developers can quickly set up the ElenaOS development environment and start development work.

@@ -16,50 +16,73 @@
  */
 const sidebars = {
   tutorialSidebar: [
-    {
-      type: 'category',
-      label: '总览',
-      items: ['introduction'],
-    },
+    'introduction',
     {
       type: 'category',
       label: '入门',
       items: [
-        'quick_start',
-        'build',
+        'getting_started/quick_start',
+        'getting_started/build',
         'getting_started/environment',
         'getting_started/faq',
       ],
     },
     {
       type: 'category',
+      label: '集成指南',
+      items: [
+        'integration/overview',
+      ],
+    },
+    {
+      type: 'category',
       label: '系统架构',
       items: [
-        'arch',
-        'script_engine',
-        'sni/sni',
+        'architecture/arch',
+        'architecture/script_engine',
         'architecture/runtime',
+        'sni/sni',
       ],
+    },
+    {
+      type: 'category',
+      label: '核心模块',
+      items: ['core/app', 'core/services', 'core/events', 'core/fs', 'core/ui', 'core/activity'],
     },
     {
       type: 'category',
       label: 'JS API',
-      items: ['js-api/elena_os', 'js-api/lvgl'],
-    },
-    {
-      type: 'category',
-      label: '系统服务',
-      items: ['core/services', 'core/events'],
-    },
-    {
-      type: 'category',
-      label: '开发工具',
       items: [
-        'dev_tools',
-        'development/package_builder',
-        'development/binding_generation',
+        'js-api/index',
+        'js-api/elena_os',
+        'js-api/lvgl',
+        'js-api/special',
+        {
+          type: 'category',
+          label: '特殊组件',
+          items: [
+            'js-api/widgets/anim',
+            'js-api/widgets/btnm',
+            'js-api/widgets/calendar',
+            'js-api/widgets/canvas',
+            'js-api/widgets/dropdown',
+            'js-api/widgets/image',
+            'js-api/widgets/obj',
+            'js-api/widgets/timer',
+          ],
+        },
       ],
     },
+    {
+      type: 'category',
+      label: '开发指南',
+      items: [
+        'development/dev_tools',
+        'development/package_builder',
+      ],
+    },
+    'contributing',
+    'CHANGELOG',
   ],
 };
 

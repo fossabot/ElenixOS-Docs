@@ -1,0 +1,315 @@
+---
+title: ElenaOS 系统 API
+sidebar_position: 1
+---
+
+# ElenaOS 系统 API
+
+ElenaOS 提供了一系列系统级 API，供脚本运行时调用。这些 API 封装了系统的核心功能，包括应用管理、系统服务、文件系统等。
+
+## API 命名空间
+
+ElenaOS 的 API 以命名空间的形式组织，主要包括以下命名空间：
+
+- **eos**：核心系统 API
+- **eos.app**：应用管理 API
+- **eos.fs**：文件系统 API
+- **eos.services**：系统服务 API
+- **eos.ui**：UI 组件 API
+- **lv**：LVGL 图形库 API
+
+## 核心系统 API
+
+### eos 命名空间
+
+#### 系统信息
+
+```javascript
+// 获取系统版本
+const version = eos.version;
+
+// 获取系统名称
+const name = eos.name;
+```
+
+#### 系统控制
+
+```javascript
+// 重启系统
+eos.reboot();
+
+// 关机
+eos.shutdown();
+
+// 获取系统运行时间（毫秒）
+const uptime = eos.uptime();
+```
+
+## 应用管理 API
+
+### eos.app 命名空间
+
+#### 应用安装与卸载
+
+```javascript
+// 安装应用
+const result = eos.app.install("/path/to/app.eapk");
+eos.console.log("安装结果:", result);
+
+// 卸载应用
+const result = eos.app.uninstall("com.example.app");
+eos.console.log("卸载结果:", result);
+```
+
+#### 应用列表管理
+
+```javascript
+// 获取已安装应用数量
+const count = eos.app.getInstalledCount();
+eos.console.log("应用数量:", count);
+
+// 获取应用 ID
+const appId = eos.app.getAppId(0);
+eos.console.log("应用 ID:", appId);
+
+// 判断应用是否存在
+const exists = eos.app.contains("com.example.app");
+eos.console.log("应用是否存在:", exists);
+```
+
+#### 应用排序
+
+```javascript
+// 移动应用位置
+eos.app.move("com.example.app", 1);
+```
+
+## 文件系统 API
+
+### eos.fs 命名空间
+
+#### 文件操作
+
+```javascript
+// 读取文件
+const content = eos.fs.readFile("/path/to/file.txt");
+eos.console.log("文件内容:", content);
+
+// 写入文件
+const result = eos.fs.writeFile("/path/to/file.txt", "Hello, ElenaOS!");
+eos.console.log("写入结果:", result);
+```
+
+#### 目录操作
+
+```javascript
+// 创建目录
+const result = eos.fs.mkdir("/path/to/directory");
+eos.console.log("创建目录结果:", result);
+
+// 递归创建目录
+const result = eos.fs.mkdirRecursive("/path/to/directory");
+eos.console.log("递归创建目录结果:", result);
+
+// 递归删除目录
+const result = eos.fs.rmRecursive("/path/to/directory");
+eos.console.log("递归删除目录结果:", result);
+```
+
+#### 文件和目录判断
+
+```javascript
+// 判断是否为目录
+const isDir = eos.fs.isDir("/path/to/directory");
+eos.console.log("是否为目录:", isDir);
+
+// 判断是否为文件
+const isFile = eos.fs.isFile("/path/to/file.txt");
+eos.console.log("是否为文件:", isFile);
+```
+
+## 系统服务 API
+
+### eos.services 命名空间
+
+#### 电池服务
+
+```javascript
+// 获取电池电量
+const batteryLevel = eos.services.battery.getLevel();
+eos.console.log("电池电量:", batteryLevel);
+
+// 获取充电状态
+const isCharging = eos.services.battery.getCharging();
+eos.console.log("是否正在充电:", isCharging);
+```
+
+#### 传感器服务
+
+```javascript
+// 获取加速度传感器数据
+const accel = eos.services.sensor.getAccelerometer();
+eos.console.log("加速度:", accel.x, accel.y, accel.z);
+
+// 获取心率传感器数据
+const heartRate = eos.services.sensor.getHeartRate();
+eos.console.log("心率:", heartRate);
+```
+
+## UI 组件 API
+
+### eos.ui 命名空间
+
+#### 标准组件
+
+```javascript
+// 创建消息页面
+const infoPage = eos.ui.createInfoPage({
+    iconBgColor: 0x007AFF,
+    icon: "icon_info",
+    title: "提示",
+    text: "这是一条提示消息"
+});
+
+// 创建标题与注释
+const titleComment = eos.ui.createTitleComment({
+    parent: eos.view.active(),
+    title: "标题",
+    comment: "这是注释内容"
+});
+```
+
+## 事件与状态接口
+
+### 事件监听
+
+```javascript
+// 监听系统事件
+eos.on("system.event", (event) => {
+    eos.console.log("系统事件:", event);
+});
+
+// 监听电池状态变化
+eos.on("battery.change", (level, charging) => {
+    eos.console.log("电池状态变化:", level, charging);
+});
+```
+
+## 错误处理约定
+
+ElenaOS 的 API 错误处理遵循以下约定：
+
+1. **同步 API**：返回错误码或布尔值表示操作结果
+2. **异步 API**：通过回调函数返回错误信息
+3. **异常处理**：可以使用 try-catch 捕获 API 调用过程中的异常
+
+### 错误码
+
+| 错误码 | 描述 |
+|-------|------|
+| 0 | 成功 |
+| -1 | 失败 |
+| -2 | 无效参数 |
+| -3 | 内存不足 |
+| -4 | 文件不存在 |
+| -5 | 权限不足 |
+
+### 错误处理示例
+
+```javascript
+// 同步 API 错误处理
+const result = eos.app.install("/path/to/app.eapk");
+if (result === 0) {
+    eos.console.log("安装成功");
+} else {
+    eos.console.log("安装失败，错误码:", result);
+}
+
+// 异步 API 错误处理
+eos.fs.readFileAsync("/path/to/file.txt", (error, content) => {
+    if (error) {
+        eos.console.log("读取文件失败:", error);
+        return;
+    }
+    eos.console.log("文件内容:", content);
+});
+
+// 异常处理
+try {
+    const content = eos.fs.readFile("/path/to/file.txt");
+    eos.console.log("文件内容:", content);
+} catch (error) {
+    eos.console.log("读取文件失败:", error);
+}
+```
+
+## API 使用示例
+
+### 完整示例
+
+```javascript
+// 示例：安装应用并监听安装结果
+function installApp() {
+    eos.console.log("开始安装应用...");
+    const result = eos.app.install("/path/to/app.eapk");
+    if (result === 0) {
+        eos.console.log("应用安装成功");
+        // 安装成功后获取应用列表
+        const count = eos.app.getInstalledCount();
+        eos.console.log("当前应用数量:", count);
+        for (let i = 0; i < count; i++) {
+            const appId = eos.app.getAppId(i);
+            eos.console.log("应用 ID:", appId);
+        }
+    } else {
+        eos.console.log("应用安装失败，错误码:", result);
+    }
+}
+
+// 示例：读取配置文件
+function readConfig() {
+    try {
+        const content = eos.fs.readFile("/path/to/config.json");
+        const config = JSON.parse(content);
+        eos.console.log("配置文件内容:", config);
+        return config;
+    } catch (error) {
+        eos.console.log("读取配置文件失败:", error);
+        return null;
+    }
+}
+
+// 示例：监听电池状态
+function monitorBattery() {
+    eos.console.log("开始监听电池状态...");
+    eos.on("battery.change", (level, charging) => {
+        eos.console.log(`电池电量: ${level}%, 充电状态: ${charging ? "正在充电" : "未充电"}`);
+        if (level < 20 && !charging) {
+            eos.console.log("电池电量低，请及时充电");
+        }
+    });
+}
+
+// 调用示例函数
+installApp();
+readConfig();
+monitorBattery();
+```
+
+## 注意事项
+
+1. **权限管理**：某些 API 需要特定权限才能调用，请确保应用具有相应的权限
+2. **资源管理**：使用文件系统 API 时，请注意资源的释放，避免内存泄漏
+3. **错误处理**：始终处理 API 调用可能产生的错误，确保应用的稳定性
+4. **性能考虑**：在资源受限的设备上，请注意 API 调用的频率和开销
+
+## 后续计划
+
+ElenaOS 的 API 会不断扩展和完善，未来将增加更多功能，如：
+
+- 网络通信 API
+- 蓝牙 API
+- 定位 API
+- 多媒体 API
+
+请关注项目的更新，获取最新的 API 文档。
