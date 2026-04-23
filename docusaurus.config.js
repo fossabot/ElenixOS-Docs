@@ -145,7 +145,7 @@ const config = {
               },
               {
                 label: '构建与使用',
-                href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/build.md',
+                href: '/docs/getting_started/build',
               },
             ],
           },
@@ -154,15 +154,15 @@ const config = {
             items: [
               {
                 label: '快速开始',
-                href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/quick_start.md',
+                href: '/docs/getting_started/quick_start',
               },
               {
                 label: '脚本引擎指南',
-                href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/script_engine.md',
+                href: '/docs/architecture/script_engine',
               },
               {
                 label: '开发工具',
-                href: 'https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/dev_tools.md',
+                href: '/docs/development/dev_tools',
               },
             ],
           },

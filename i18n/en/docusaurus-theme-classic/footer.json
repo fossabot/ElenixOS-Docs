@@ -17,19 +17,19 @@
   },
   "link.item.label.构建与使用": {
     "message": "Build and Use",
-    "description": "The label of footer link with label=构建与使用 linking to https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/build.md"
+    "description": "The label of footer link with label=构建与使用 linking to /docs/getting_started/build"
   },
   "link.item.label.快速开始": {
     "message": "Quick Start",
-    "description": "The label of footer link with label=快速开始 linking to https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/quick_start.md"
+    "description": "The label of footer link with label=快速开始 linking to /docs/getting_started/quick_start"
   },
   "link.item.label.脚本引擎指南": {
     "message": "Script Engine Guide",
-    "description": "The label of footer link with label=脚本引擎指南 linking to https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/script_engine.md"
+    "description": "The label of footer link with label=脚本引擎指南 linking to /docs/architecture/script_engine"
   },
   "link.item.label.开发工具": {
     "message": "Development Tools",
-    "description": "The label of footer link with label=开发工具 linking to https://github.com/Sab1e-dev/ElenaOS/blob/main/docs/dev_tools.md"
+    "description": "The label of footer link with label=开发工具 linking to /docs/development/dev_tools"
   },
   "link.item.label.博客": {
     "message": "Blog",
