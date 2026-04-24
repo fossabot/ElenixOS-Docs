@@ -1,15 +1,15 @@
 # File System Module
 
-The file system module is one of the core components of ElenaOS, providing file and directory operation functions, including file reading and writing, directory management, path operations, etc. This module provides a unified file system access interface for applications and system components, simplifying file operations.
+The file system module is one of the core components of ElenixOS, providing file and directory operation functions, including file reading and writing, directory management, path operations, etc. This module provides a unified file system access interface for applications and system components, simplifying file operations.
 
 ## Directory Structure
 
 ```
 ├── src/core/system/file_system/
-│   ├── elena_os_dfw.c         # File system distributed firmware update
-│   ├── elena_os_dfw.h         # File system distributed firmware update interface
-│   ├── elena_os_fs.c          # File system core implementation
-│   └── elena_os_fs.h          # File system interface definition
+│   ├── eos_dfw.c         # File system distributed firmware update
+│   ├── eos_dfw.h         # File system distributed firmware update interface
+│   ├── eos_fs.c          # File system core implementation
+│   └── eos_fs.h          # File system interface definition
 ```
 
 ## Core Features
@@ -94,7 +94,7 @@ if (content) {
 ### Write File
 
 ```c
-const char *data = "Hello, ElenaOS!";
+const char *data = "Hello, ElenixOS!";
 eos_fs_write_file("/path/to/file.txt", data, strlen(data));
 ```
 

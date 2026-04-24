@@ -5,11 +5,11 @@ title: Build and Use
 
 # Build and Use
 
-This document will detail the ElenaOS build process, dependency handling, resource management, and platform-related differences, helping you successfully build and deploy ElenaOS.
+This document will detail the ElenixOS build process, dependency handling, resource management, and platform-related differences, helping you successfully build and deploy ElenixOS.
 
 ## Build Prerequisites
 
-Before building ElenaOS, you need to meet the following prerequisites:
+Before building ElenixOS, you need to meet the following prerequisites:
 
 ### Hardware Requirements
 
@@ -47,7 +47,7 @@ brew install cmake python3
 
 ## LVGL Dependency Import
 
-ElenaOS uses LVGL as the graphics library, and LVGL is included as a submodule in the ElenaOS codebase:
+ElenixOS uses LVGL as the graphics library, and LVGL is included as a submodule in the ElenixOS codebase:
 
 ### Submodule Initialization
 
@@ -132,9 +132,9 @@ cmake --build .
 
 After building, the following artifacts will be generated:
 
-- **ElenaOS.elf**: Executable file (embedded platform)
-- **ElenaOS.bin**: Binary file (embedded platform)
-- **ElenaOS.hex**: Hexadecimal file (embedded platform)
+- **ElenixOS.elf**: Executable file (embedded platform)
+- **ElenixOS.bin**: Binary file (embedded platform)
+- **ElenixOS.hex**: Hexadecimal file (embedded platform)
 
 ### Deployment
 
@@ -145,7 +145,7 @@ Use the appropriate flashing tool to flash the binary file to the target device:
 Flash using STM32 CubeProgrammer:
 
 ```bash
-STM32_Programmer_CLI -c port=SWD -w ElenaOS.hex
+STM32_Programmer_CLI -c port=SWD -w ElenixOS.hex
 ```
 
 ##### ESP32
@@ -153,14 +153,14 @@ STM32_Programmer_CLI -c port=SWD -w ElenaOS.hex
 Flash using esptool.py:
 
 ```bash
-esptool.py --port /dev/ttyUSB0 write_flash 0x0 ElenaOS.bin
+esptool.py --port /dev/ttyUSB0 write_flash 0x0 ElenixOS.bin
 ```
 
 ## Resource Management
 
 ### Resource Files
 
-ElenaOS resource files include:
+ElenixOS resource files include:
 
 - **Fonts**: Located in `resources/font/` directory
 - **Icons**: Located in `resources/icon/` directory
@@ -185,7 +185,7 @@ Display drivers are implemented differently for different platforms and need to 
 Use STM32 hardware display driver:
 
 ```c
-// src/port/display/elena_os_display_port_stm32.c
+// src/port/display/eos_display_port_stm32.c
 ```
 
 #### ESP32
@@ -193,7 +193,7 @@ Use STM32 hardware display driver:
 Use ESP32 hardware display driver:
 
 ```c
-// src/port/display/elena_os_display_port_esp32.c
+// src/port/display/eos_display_port_esp32.c
 ```
 
 ### Input Drivers
@@ -205,7 +205,7 @@ Input drivers are implemented differently for different platforms and need to be
 Use STM32 hardware input driver:
 
 ```c
-// src/port/input/elena_os_input_port_stm32.c
+// src/port/input/eos_input_port_stm32.c
 ```
 
 #### ESP32
@@ -213,7 +213,7 @@ Use STM32 hardware input driver:
 Use ESP32 hardware input driver:
 
 ```c
-// src/port/input/elena_os_input_port_esp32.c
+// src/port/input/eos_input_port_esp32.c
 ```
 
 ### File System
@@ -225,7 +225,7 @@ File systems are implemented differently for different platforms and need to be 
 Use POSIX file system:
 
 ```c
-// src/port/file_system/elena_os_fs_port_posix.c
+// src/port/file_system/eos_fs_port_posix.c
 ```
 
 #### RT-Thread
@@ -233,12 +233,12 @@ Use POSIX file system:
 Use RT-Thread file system:
 
 ```c
-// src/port/file_system/elena_os_fs_port_rtthread.c
+// src/port/file_system/eos_fs_port_rtthread.c
 ```
 
 ## Build Scripts
 
-ElenaOS provides build scripts to simplify the build process:
+ElenixOS provides build scripts to simplify the build process:
 
 ### Build Embedded Version
 
@@ -291,6 +291,6 @@ ElenaOS provides build scripts to simplify the build process:
 
 ## Summary
 
-The ElenaOS build process involves multiple steps, including dependency installation, configuration settings, compilation, and deployment. By understanding the build process and platform-related differences, developers can successfully build and deploy ElenaOS to different hardware platforms.
+The ElenixOS build process involves multiple steps, including dependency installation, configuration settings, compilation, and deployment. By understanding the build process and platform-related differences, developers can successfully build and deploy ElenixOS to different hardware platforms.
 
-This document provides detailed build guidelines, including build prerequisites, LVGL dependency import, build commands and parameters, build artifacts and deployment methods, etc. Following these guidelines, developers can quickly build ElenaOS and start developing and testing applications.
+This document provides detailed build guidelines, including build prerequisites, LVGL dependency import, build commands and parameters, build artifacts and deployment methods, etc. Following these guidelines, developers can quickly build ElenixOS and start developing and testing applications.

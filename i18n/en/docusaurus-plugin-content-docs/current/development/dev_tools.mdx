@@ -5,7 +5,7 @@ title: Development Tools
 
 # Development Tools
 
-ElenaOS uses many scripting tools during development to assist development. Below, we will introduce the usage of these tools in detail.
+ElenixOS uses many scripting tools during development to assist development. Below, we will introduce the usage of these tools in detail.
 
 ## Environment Preparation
 
@@ -89,7 +89,7 @@ python scripts/sni/gen_sni_lv_types.py --input scripts/sni/config/lv_desc.json -
 
 ## Icon Generation Tool
 
-The icon generation tool is used to convert SVG icons to C code for use in ElenaOS.
+The icon generation tool is used to convert SVG icons to C code for use in ElenixOS.
 
 ### Tool List
 
@@ -100,7 +100,7 @@ The icon generation tool is used to convert SVG icons to C code for use in Elena
 
 ```bash
 # Generate icon definitions
-python scripts/icon/gen_icon_def.py --input icons/ --output src/core/lang/elena_os_icon.c
+python scripts/icon/gen_icon_def.py --input icons/ --output src/core/lang/eos_icon.c
 
 # Font management
 python scripts/icon/ttf_mgr.py --input font.ttf --output font.c --size 24
@@ -108,7 +108,7 @@ python scripts/icon/ttf_mgr.py --input font.ttf --output font.c --size 24
 
 ## Build Tools
 
-ElenaOS provides build scripts to simplify the build process:
+ElenixOS provides build scripts to simplify the build process:
 
 ### Tool List
 
@@ -129,7 +129,7 @@ ElenaOS provides build scripts to simplify the build process:
 
 ### Logging Tool
 
-ElenaOS provides logging tools for debugging and troubleshooting:
+ElenixOS provides logging tools for debugging and troubleshooting:
 
 ```c
 // Output logs
@@ -178,8 +178,8 @@ eos_log_d("Module", "Debug: %s", debug);
 
 ## Summary
 
-ElenaOS provides a series of development tools to help developers develop and deploy applications more efficiently. These tools include application packaging tools, binding layer generation tools, icon generation tools, and build tools.
+ElenixOS provides a series of development tools to help developers develop and deploy applications more efficiently. These tools include application packaging tools, binding layer generation tools, icon generation tools, and build tools.
 
-By using these tools, developers can simplify the development process, improve development efficiency, and ensure code quality. At the same time, these tools also provide support for ElenaOS's continuous integration and continuous deployment.
+By using these tools, developers can simplify the development process, improve development efficiency, and ensure code quality. At the same time, these tools also provide support for ElenixOS's continuous integration and continuous deployment.
 
-This document introduces the usage and best practices of ElenaOS development tools, hoping to help developers better use these tools and develop high-quality applications.
+This document introduces the usage and best practices of ElenixOS development tools, hoping to help developers better use these tools and develop high-quality applications.

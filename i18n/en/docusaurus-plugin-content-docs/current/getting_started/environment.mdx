@@ -5,17 +5,17 @@ title: Development Environment Setup
 
 # Development Environment Setup
 
-Before developing ElenaOS applications or systems, you need to prepare the development environment. This document will detail the ElenaOS development environment setup steps, including SDK acquisition, dependency installation, editor configuration, and target device preparation.
+Before developing ElenixOS applications or systems, you need to prepare the development environment. This document will detail the ElenixOS development environment setup steps, including SDK acquisition, dependency installation, editor configuration, and target device preparation.
 
 ## SDK or Repository Acquisition
 
 ### Clone the Repository
 
-Use Git to clone the ElenaOS repository:
+Use Git to clone the ElenixOS repository:
 
 ```bash
-git clone --recursive https://github.com/Sab1e-dev/ElenaOS.git
-cd ElenaOS
+git clone --recursive https://github.com/ElenixOS/ElenixOS.git
+cd ElenixOS
 ```
 
 > Note: Use the `--recursive` parameter to ensure that submodules are cloned simultaneously, including LVGL and JerryScript dependencies.
@@ -30,11 +30,11 @@ ls -la
 
 ## Dependency Installation
 
-ElenaOS development requires the installation of the following dependencies:
+ElenixOS development requires the installation of the following dependencies:
 
 ### Python Dependencies
 
-ElenaOS uses Python scripts for binding layer generation and application packaging, requiring Python 3.7 or higher:
+ElenixOS uses Python scripts for binding layer generation and application packaging, requiring Python 3.7 or higher:
 
 #### Ubuntu/Debian
 
@@ -72,7 +72,7 @@ brew install cmake ninja
 
 #### Cross-compilation Toolchain
 
-If you need to run ElenaOS on specific hardware platforms, you need to install the corresponding cross-compilation toolchain:
+If you need to run ElenixOS on specific hardware platforms, you need to install the corresponding cross-compilation toolchain:
 
 - **ARM Cortex-M**: `arm-none-eabi-gcc`
 - **ESP32**: ESP-IDF toolchain
@@ -80,7 +80,7 @@ If you need to run ElenaOS on specific hardware platforms, you need to install t
 
 ## Editor and Plugin Configuration
 
-We recommend using the following editors for ElenaOS development:
+We recommend using the following editors for ElenixOS development:
 
 ### Visual Studio Code
 
@@ -156,7 +156,7 @@ arm-none-eabi-gcc --version
 
 ### Compilation Test
 
-Compile the embedded version of ElenaOS to verify that the environment is correct:
+Compile the embedded version of ElenixOS to verify that the environment is correct:
 
 ```bash
 mkdir build && cd build
@@ -205,6 +205,6 @@ If the compilation is successful, the environment configuration is correct.
 
 ## Summary
 
-Development environment setup is an important step in ElenaOS development, ensuring the smooth progress of the development process. By correctly configuring the development environment, developers can develop and test ElenaOS applications and systems more efficiently.
+Development environment setup is an important step in ElenixOS development, ensuring the smooth progress of the development process. By correctly configuring the development environment, developers can develop and test ElenixOS applications and systems more efficiently.
 
-This document provides detailed development environment setup steps, including SDK acquisition, dependency installation, editor configuration, and target device preparation. Following these steps, developers can quickly set up the ElenaOS development environment and start development work.
+This document provides detailed development environment setup steps, including SDK acquisition, dependency installation, editor configuration, and target device preparation. Following these steps, developers can quickly set up the ElenixOS development environment and start development work.

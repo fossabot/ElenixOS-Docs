@@ -1,10 +1,10 @@
 {
   "title": {
-    "message": "ElenaOS",
+    "message": "ElenixOS",
     "description": "The title in the navbar"
   },
   "logo.alt": {
-    "message": "ElenaOS Logo",
+    "message": "ElenixOS Logo",
     "description": "The alt text of navbar logo"
   },
   "item.label.文档": {

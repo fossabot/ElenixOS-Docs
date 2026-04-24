@@ -10,8 +10,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'ElenaOS docs',
-  tagline: 'Documentation for ElenaOS',
+  title: 'ElenixOS docs',
+  tagline: 'Documentation for ElenixOS',
   favicon: 'img/favicon.ico',
 
   markdown: {
@@ -24,15 +24,15 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'https://elenaos.averin.cn',
+  url: 'https://elenixos.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'Sab1e-dev', // Usually your GitHub org/user name.
-  projectName: 'ElenaOS-docs', // Usually your repo name.
+  organizationName: 'ElenixOS', // Usually your GitHub org/user name.
+  projectName: 'ElenixOS-docs', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
@@ -54,7 +54,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/Sab1e-dev/ElenaOS-docs/tree/main/',
+            'https://github.com/ElenixOS/ElenixOS-docs/tree/main/',
         },
         blog: {
           showReadingTime: true,
@@ -65,7 +65,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/Sab1e-dev/ElenaOS-docs/tree/main/',
+            'https://github.com/ElenixOS/ElenixOS-docs/tree/main/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -105,9 +105,9 @@ const config = {
         theme: {light: 'neutral', dark: 'forest'},
       },
       navbar: {
-        title: 'ElenaOS',
+        title: 'ElenixOS',
         logo: {
-          alt: 'ElenaOS Logo',
+          alt: 'ElenixOS Logo',
           src: 'img/logo.png',
         },
         items: [
@@ -127,7 +127,7 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://github.com/Sab1e-dev/ElenaOS',
+            href: 'https://github.com/ElenixOS/ElenixOS',
             label: 'GitHub 仓库',
             position: 'right',
           },
@@ -175,12 +175,12 @@ const config = {
               },
               {
                 label: 'GitHub 仓库',
-                href: 'https://github.com/Sab1e-dev/ElenaOS',
+                href: 'https://github.com/ElenixOS/ElenixOS',
               },
             ],
           },
         ],
-        copyright: `版权所有 © ${new Date().getFullYear()} ElenaOS 贡献者。基于 Docusaurus 构建。`,
+        copyright: `版权所有 © ${new Date().getFullYear()} ElenixOS 贡献者。基于 Docusaurus 构建。`,
       },
       prism: {
         theme: prismThemes.github,

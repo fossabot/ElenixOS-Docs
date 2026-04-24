@@ -1,6 +1,6 @@
 # Development Guide
 
-This guide will help you understand the development process, coding standards, and contribution methods of ElenaOS, providing complete guidance for participating in ElenaOS development.
+This guide will help you understand the development process, coding standards, and contribution methods of ElenixOS, providing complete guidance for participating in ElenixOS development.
 
 ## Development Environment Setup
 
@@ -10,11 +10,11 @@ Please refer to the environment requirements section in [Quick Start](/docs/gett
 
 ### Code Acquisition
 
-Use Git to clone the ElenaOS repository:
+Use Git to clone the ElenixOS repository:
 
 ```bash
-git clone --recursive https://github.com/Sab1e-dev/ElenaOS.git
-cd ElenaOS
+git clone --recursive https://github.com/ElenixOS/ElenixOS.git
+cd ElenixOS
 ```
 
 ## Coding Standards
@@ -23,7 +23,7 @@ cd ElenaOS
 
 #### Naming Conventions
 
-- **File names**: Use lowercase letters and underscores, e.g., `elena_os_app.c`
+- **File names**: Use lowercase letters and underscores, e.g., `eos_app.c`
 - **Function names**: Use lowercase letters and underscores, e.g., `eos_app_install`
 - **Variable names**: Use lowercase letters and underscores, e.g., `app_id`
 - **Constant names**: Use uppercase letters and underscores, e.g., `EOS_APP_DIR`
@@ -85,7 +85,7 @@ function installApp(eapkPath)
 
 ### Branch Management
 
-ElenaOS uses Git for version control, adopting the following branch management strategy:
+ElenixOS uses Git for version control, adopting the following branch management strategy:
 
 - **main**: Main branch, contains stable versions
 - **develop**: Development branch, contains latest development code
@@ -189,7 +189,7 @@ Implemented the core logic for app installation, including parsing app packages,
 
 ### Unit Testing
 
-ElenaOS uses the Unity testing framework for unit testing. Test files are located in the `tests` directory.
+ElenixOS uses the Unity testing framework for unit testing. Test files are located in the `tests` directory.
 
 ### Integration Testing
 
@@ -205,7 +205,7 @@ Integration testing is used to test the overall functionality of the system, ens
 
 ### Documentation Structure
 
-ElenaOS documentation is located in the `docs` directory and written in Markdown format. The documentation structure is as follows:
+ElenixOS documentation is located in the `docs` directory and written in Markdown format. The documentation structure is as follows:
 
 - **introduction.mdx**: Project introduction
 - **architecture/arch.mdx**: System architecture
@@ -241,7 +241,7 @@ ElenaOS documentation is located in the `docs` directory and written in Markdown
   **Solution**: Use debugging tools to analyze the crash cause, check if memory usage is reasonable
 
 - **Issue**: Application cannot run
-  **Solution**: Check application permissions, ensure the application complies with ElenaOS application specifications
+  **Solution**: Check application permissions, ensure the application complies with ElenixOS application specifications
 
 ### Performance Issues
 
@@ -266,7 +266,7 @@ ElenaOS documentation is located in the `docs` directory and written in Markdown
 ## Next Steps
 
 - Check [Core Modules](../core/app) documentation to understand the core features of the system
-- Check [API Documentation](../js-api/elena_os) to understand how to use system APIs
+- Check [API Documentation](../js-api/elenix_os) to understand how to use system APIs
 - Check [Development Tools](/docs/development/dev_tools) documentation to understand the use of development tools
 
-Welcome to join the ElenaOS development community and contribute your strength to the project!
+Welcome to join the ElenixOS development community and contribute your strength to the project!

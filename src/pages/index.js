@@ -38,7 +38,7 @@ button.addEventCb((e) => {
   });
   const codeFooter = translate({
     id: 'homepage.codeCard.footer',
-    message: 'WASM for ElenaOS is under development, and the code below has been verified on real hardware.',
+    message: 'WASM for ElenixOS is under development, and the code below has been verified on real hardware.',
   });
 
   const handleButtonClick = () => {
@@ -59,7 +59,7 @@ button.addEventCb((e) => {
             <Translate id="homepage.badge">开源智能手表操作系统</Translate>
           </div>
           <Heading as="h1" className={styles.heroTitle}>
-            <Translate id="homepage.title">ElenaOS</Translate>
+            <Translate id="homepage.title">ElenixOS</Translate>
           </Heading>
           <p className={styles.heroSubtitle}>
             <Translate id="homepage.subtitle">
@@ -75,8 +75,8 @@ button.addEventCb((e) => {
             </Link>
             <Link
               className={clsx('button button--lg', styles.secondaryButton)}
-              to="https://github.com/Sab1e-dev/ElenaOS">
-              <Translate id="homepage.cta.repo">查看 ElenaOS 仓库</Translate>
+              to="https://github.com/ElenixOS/ElenixOS">
+              <Translate id="homepage.cta.repo">查看 ElenixOS 仓库</Translate>
             </Link>
           </div>
           <div className={styles.quickLinks}>
@@ -228,7 +228,7 @@ export default function Home() {
       })} | ${siteConfig.title}`}
       description={translate({
         id: 'homepage.layoutDescription',
-        message: 'ElenaOS 构建、脚本引擎与开发工具文档站点。',
+        message: 'ElenixOS 构建、脚本引擎与开发工具文档站点。',
       })}>
       <HomepageHeader />
       <main>

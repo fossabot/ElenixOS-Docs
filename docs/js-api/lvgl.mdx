@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # LVGL UI API
 
-ElenaOS 基于 LVGL（LittlevGL）图形库提供了丰富的 UI 组件和接口，允许开发者在 JavaScript 中创建和管理用户界面。本文档将详细介绍 ElenaOS 暴露给脚本运行时的 LVGL UI API，基于实际项目工程中的使用方式。
+ElenixOS 基于 LVGL（LittlevGL）图形库提供了丰富的 UI 组件和接口，允许开发者在 JavaScript 中创建和管理用户界面。本文档将详细介绍 ElenixOS 暴露给脚本运行时的 LVGL UI API，基于实际项目工程中的使用方式。
 
 ## 基本概念
 
@@ -21,12 +21,12 @@ LVGL 是一个轻量级的嵌入式图形库，专为资源受限的设备设计
 
 ### API 命名空间
 
-在 ElenaOS 中，LVGL API 通过 `lv` 命名空间暴露给 JavaScript 脚本：
+在 ElenixOS 中，LVGL API 通过 `lv` 命名空间暴露给 JavaScript 脚本：
 
 ```javascript
 // 创建一个标签
 const label = new lv.label(eos.view.active());
-label.setText("Hello, ElenaOS!");
+label.setText("Hello, ElenixOS!");
 ```
 
 ## 组件创建与布局
@@ -220,7 +220,7 @@ button.sendEvent(lv.EVENT_CLICKED, null);
 ```javascript
 // 创建标签
 const label = new lv.label(eos.view.active());
-label.setText("Hello, ElenaOS!");
+label.setText("Hello, ElenixOS!");
 label.align(lv.ALIGN_TOP_MID, 0, 10);
 ```
 

@@ -5,11 +5,11 @@ title: Runtime Overview
 
 # Runtime Overview
 
-ElenaOS's runtime system is based on the JerryScript engine, responsible for managing script execution, scheduling, and resource allocation. This document will detail ElenaOS's runtime mechanisms, scheduler, state management, and Realm lifecycle.
+ElenixOS's runtime system is based on the JerryScript engine, responsible for managing script execution, scheduling, and resource allocation. This document will detail ElenixOS's runtime mechanisms, scheduler, state management, and Realm lifecycle.
 
 ## Script Lifecycle
 
-Scripts (applications and watchfaces) in ElenaOS have a complete lifecycle, from loading to execution to destruction:
+Scripts (applications and watchfaces) in ElenixOS have a complete lifecycle, from loading to execution to destruction:
 
 ### 1. Loading Phase
 
@@ -33,7 +33,7 @@ Scripts (applications and watchfaces) in ElenaOS have a complete lifecycle, from
 
 ## Scheduling and Event Flow
 
-ElenaOS uses an event-driven scheduling mechanism to handle user input, system events, and script execution:
+ElenixOS uses an event-driven scheduling mechanism to handle user input, system events, and script execution:
 
 ### Scheduler
 
@@ -61,7 +61,7 @@ flowchart TD
 
 ## Resource Management Strategy
 
-ElenaOS runs in resource-constrained environments and adopts the following resource management strategies:
+ElenixOS runs in resource-constrained environments and adopts the following resource management strategies:
 
 ### Memory Management
 
@@ -83,7 +83,7 @@ ElenaOS runs in resource-constrained environments and adopts the following resou
 
 ## Runtime Error Handling
 
-ElenaOS adopts a multi-layer error handling mechanism to ensure system stability:
+ElenixOS adopts a multi-layer error handling mechanism to ensure system stability:
 
 ### Error Capture
 
@@ -108,7 +108,7 @@ ElenaOS adopts a multi-layer error handling mechanism to ensure system stability
 
 ## Realm Lifecycle
 
-Realm is a concept in the ECMAScript language specification used to implement JavaScript's multi-threaded execution environment. In ElenaOS, each script runs in an independent Realm:
+Realm is a concept in the ECMAScript language specification used to implement JavaScript's multi-threaded execution environment. In ElenixOS, each script runs in an independent Realm:
 
 ### Realm Creation
 
@@ -132,7 +132,7 @@ Realm is a concept in the ECMAScript language specification used to implement Ja
 
 ## Runtime Optimization
 
-ElenaOS adopts multiple optimization strategies to improve runtime performance:
+ElenixOS adopts multiple optimization strategies to improve runtime performance:
 
 1. **Bytecode Caching**: Cache compiled bytecode to reduce repeated compilation
 2. **Lazy Loading**: Load scripts and resources on demand
@@ -141,7 +141,7 @@ ElenaOS adopts multiple optimization strategies to improve runtime performance:
 
 ## Runtime Security
 
-ElenaOS values runtime security and has taken the following measures:
+ElenixOS values runtime security and has taken the following measures:
 
 1. **Sandbox Isolation**: Each script runs in an independent sandbox
 2. **Permission Control**: Strictly control script permissions
@@ -150,6 +150,6 @@ ElenaOS values runtime security and has taken the following measures:
 
 ## Summary
 
-ElenaOS's runtime system is a complex and efficient system that ensures system stability and responsiveness through reasonable scheduling mechanisms, resource management strategies, and error handling mechanisms. At the same time, it provides a safe and efficient runtime environment for application development.
+ElenixOS's runtime system is a complex and efficient system that ensures system stability and responsiveness through reasonable scheduling mechanisms, resource management strategies, and error handling mechanisms. At the same time, it provides a safe and efficient runtime environment for application development.
 
-By understanding ElenaOS's runtime mechanisms, developers can better understand how the system works, thereby developing more efficient and stable applications.
+By understanding ElenixOS's runtime mechanisms, developers can better understand how the system works, thereby developing more efficient and stable applications.

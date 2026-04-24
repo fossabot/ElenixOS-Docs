@@ -2,7 +2,7 @@
 
 ## Overall Architecture
 
-ElenaOS adopts a layered architecture design, from bottom to top: hardware layer, portable interface layer, kernel layer, and application layer. This architecture design gives the system good portability and scalability.
+ElenixOS adopts a layered architecture design, from bottom to top: hardware layer, portable interface layer, kernel layer, and application layer. This architecture design gives the system good portability and scalability.
 
 ```mermaid
 flowchart BT
@@ -150,7 +150,7 @@ graph TD
 
 ### 1. Hardware Layer
 
-The hardware layer includes various hardware components such as MCU/SoC, Bluetooth, sensors, storage, display, and power management ICs. These hardware components are the foundation for ElenaOS to run.
+The hardware layer includes various hardware components such as MCU/SoC, Bluetooth, sensors, storage, display, and power management ICs. These hardware components are the foundation for ElenixOS to run.
 
 ### 2. Portable Interface Layer
 
@@ -161,17 +161,17 @@ The portable interface layer provides hardware abstraction, including:
 - **Power Management Interface**: Power state management and control
 - **Other Peripheral Interfaces**: Access interfaces for other hardware peripherals
 
-This layer's design allows ElenaOS to run on different hardware platforms by simply implementing the corresponding interfaces.
+This layer's design allows ElenixOS to run on different hardware platforms by simply implementing the corresponding interfaces.
 
 ### 3. Kernel Layer
 
-The kernel layer is the core of ElenaOS, containing the following subsystems:
+The kernel layer is the core of ElenixOS, containing the following subsystems:
 
 - **System Services Subsystem**: Event dispatching, animation system, event system, scene system, user services, multi-language support, package manager, etc.
 - **Script Runtime Subsystem**: Script engine, JS API layer, etc.
 - **Built-in UI Controls**: Various UI components built based on LVGL
 
-This layer implements the core functions of ElenaOS and provides services and interfaces for the application layer.
+This layer implements the core functions of ElenixOS and provides services and interfaces for the application layer.
 
 ### 4. Application Layer
 
@@ -179,7 +179,7 @@ The application layer includes watchface system, third-party applications, and s
 
 ## Data Flow
 
-The data flow of ElenaOS is as follows:
+The data flow of ElenixOS is as follows:
 
 1. **User Input**: Obtain user input through hardware layer input devices (such as touch screen)
 2. **Event Processing**: Input events are passed through the portable interface layer to the kernel layer's event system

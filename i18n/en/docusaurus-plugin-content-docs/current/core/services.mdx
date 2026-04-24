@@ -1,15 +1,15 @@
 # System Services Module
 
-The system services module is one of the core components of ElenaOS, providing a series of system-level services and functions, including battery management, sensor management, etc. This module provides a unified service interface for applications and system components, simplifying access to hardware resources.
+The system services module is one of the core components of ElenixOS, providing a series of system-level services and functions, including battery management, sensor management, etc. This module provides a unified service interface for applications and system components, simplifying access to hardware resources.
 
 ## Directory Structure
 
 ```
 ├── src/core/system/services/
-│   ├── elena_os_services.c    # System services core implementation
-│   ├── elena_os_services.h    # System services interface definition
-│   ├── elena_os_sensor.c      # Sensor service implementation
-│   └── elena_os_sensor.h      # Sensor service interface definition
+│   ├── eos_services.c    # System services core implementation
+│   ├── eos_services.h    # System services interface definition
+│   ├── eos_sensor.c      # Sensor service implementation
+│   └── eos_sensor.h      # Sensor service interface definition
 ```
 
 ## Core Features
@@ -40,7 +40,7 @@ bool eos_battery_service_get_charging(void);
 
 ### Sensor Service Interfaces
 
-The sensor service provides access and management functions for various sensors. For specific interfaces, please refer to the `elena_os_sensor.h` file.
+The sensor service provides access and management functions for various sensors. For specific interfaces, please refer to the `eos_sensor.h` file.
 
 ### Service Startup Interface
 

@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # LVGL UI API
 
-ElenaOS provides rich UI components and interfaces based on the LVGL (LittlevGL) graphics library, allowing developers to create and manage user interfaces in JavaScript. This document will detail the LVGL UI API exposed by ElenaOS to the script runtime, based on the usage in actual project engineering.
+ElenixOS provides rich UI components and interfaces based on the LVGL (LittlevGL) graphics library, allowing developers to create and manage user interfaces in JavaScript. This document will detail the LVGL UI API exposed by ElenixOS to the script runtime, based on the usage in actual project engineering.
 
 ## Basic Concepts
 
@@ -21,12 +21,12 @@ LVGL is a lightweight embedded graphics library designed for resource-constraine
 
 ### API Namespace
 
-In ElenaOS, the LVGL API is exposed to JavaScript scripts through the `lv` namespace:
+In ElenixOS, the LVGL API is exposed to JavaScript scripts through the `lv` namespace:
 
 ```javascript
 // Create a label
 const label = new lv.label(eos.view.active());
-label.setText("Hello, ElenaOS!");
+label.setText("Hello, ElenixOS!");
 ```
 
 ## Component Creation and Layout
@@ -220,7 +220,7 @@ button.sendEvent(lv.EVENT_CLICKED, null);
 ```javascript
 // Create label
 const label = new lv.label(eos.view.active());
-label.setText("Hello, ElenaOS!");
+label.setText("Hello, ElenixOS!");
 label.align(lv.ALIGN_TOP_MID, 0, 10);
 ```
 

@@ -1,15 +1,15 @@
 ---
-title: ElenaOS System API
+title: ElenixOS System API
 sidebar_position: 1
 ---
 
-# ElenaOS System API
+# ElenixOS System API
 
-ElenaOS provides a series of system-level APIs for script runtime calls. These APIs encapsulate the core functions of the system, including application management, system services, file system, and more.
+ElenixOS provides a series of system-level APIs for script runtime calls. These APIs encapsulate the core functions of the system, including application management, system services, file system, and more.
 
 ## API Namespaces
 
-ElenaOS APIs are organized in namespaces, mainly including the following namespaces:
+ElenixOS APIs are organized in namespaces, mainly including the following namespaces:
 
 - **eos**: Core system API
 - **eos.app**: Application management API
@@ -96,7 +96,7 @@ const content = eos.fs.readFile("/path/to/file.txt");
 eos.console.log("File content:", content);
 
 // Write file
-const result = eos.fs.writeFile("/path/to/file.txt", "Hello, ElenaOS!");
+const result = eos.fs.writeFile("/path/to/file.txt", "Hello, ElenixOS!");
 eos.console.log("Write result:", result);
 ```
 
@@ -197,7 +197,7 @@ eos.on("battery.change", (level, charging) => {
 
 ## Error Handling Conventions
 
-ElenaOS API error handling follows the following conventions:
+ElenixOS API error handling follows the following conventions:
 
 1. **Synchronous API**: Returns error code or boolean value indicating operation result
 2. **Asynchronous API**: Returns error information through callback function
@@ -305,7 +305,7 @@ monitorBattery();
 
 ## Future Plans
 
-ElenaOS APIs will continue to expand and improve, and more features will be added in the future, such as:
+ElenixOS APIs will continue to expand and improve, and more features will be added in the future, such as:
 
 - Network communication API
 - Bluetooth API

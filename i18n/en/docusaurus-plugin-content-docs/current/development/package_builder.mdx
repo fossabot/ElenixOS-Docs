@@ -5,11 +5,11 @@ title: Application Packaging
 
 # Application Packaging
 
-ElenaOS uses an application packaging tool to package the source code, resources, and configuration files of an application or watch face into a unified installation package (.eapk file). This document will detail the application packaging format, resource organization, and output specifications.
+ElenixOS uses an application packaging tool to package the source code, resources, and configuration files of an application or watch face into a unified installation package (.eapk file). This document will detail the application packaging format, resource organization, and output specifications.
 
 ## Application Packaging Concept
 
-Application packaging is the process of combining all components of an application (scripts, resources, configuration) into an installable package file. In ElenaOS, the packaged product is a .eapk file, similar to installation package formats on other platforms.
+Application packaging is the process of combining all components of an application (scripts, resources, configuration) into an installable package file. In ElenixOS, the packaged product is a .eapk file, similar to installation package formats on other platforms.
 
 ### Functions of Packaging
 
@@ -46,7 +46,7 @@ app/
 
 ## Packaging Product Format
 
-ElenaOS's application packaging product is a .eapk file, which is a compressed file containing all components of the application.
+ElenixOS's application packaging product is a .eapk file, which is a compressed file containing all components of the application.
 
 ### .eapk File Structure
 
@@ -61,7 +61,7 @@ app.eapk/
 
 ### Packaging Tool
 
-ElenaOS uses the Python script `scripts/eos_pkg_builder.py` for application packaging:
+ElenixOS uses the Python script `scripts/eos_pkg_builder.py` for application packaging:
 
 ```bash
 python3 scripts/eos_pkg_builder.py --input app/ --output app.eapk
@@ -218,6 +218,6 @@ python3 scripts/eos_pkg_builder.py --input app/ --output app.eapk --verbose
 
 ## Summary
 
-Application packaging is an important part of ElenaOS application development, which combines all components of the application into an installable package file. By understanding the application packaging format, resource organization, and output specifications, developers can better manage and distribute applications.
+Application packaging is an important part of ElenixOS application development, which combines all components of the application into an installable package file. By understanding the application packaging format, resource organization, and output specifications, developers can better manage and distribute applications.
 
-ElenaOS's application packaging tool provides a simple and efficient way to package applications, ensuring that applications can be correctly installed and run on different devices. By following best practices, developers can create high-quality application packages and provide users with a good application experience.
+ElenixOS's application packaging tool provides a simple and efficient way to package applications, ensuring that applications can be correctly installed and run on different devices. By following best practices, developers can create high-quality application packages and provide users with a good application experience.

@@ -5,11 +5,11 @@ title: 绑定层生成
 
 # 绑定层生成
 
-ElenaOS 使用绑定层生成工具来自动生成 JavaScript 与原生代码之间的绑定代码，主要包括 SNI（Script Native Interface）和 LVGL 绑定层。本文档将详细介绍绑定层的生成流程、参数配置和验证方法。
+ElenixOS 使用绑定层生成工具来自动生成 JavaScript 与原生代码之间的绑定代码，主要包括 SNI（Script Native Interface）和 LVGL 绑定层。本文档将详细介绍绑定层的生成流程、参数配置和验证方法。
 
 ## 绑定层概念
 
-绑定层是连接 JavaScript 脚本和原生 C 代码的桥梁，它允许脚本调用原生函数，同时也允许原生代码调用脚本函数。ElenaOS 使用 SNI 来实现这种绑定机制。
+绑定层是连接 JavaScript 脚本和原生 C 代码的桥梁，它允许脚本调用原生函数，同时也允许原生代码调用脚本函数。ElenixOS 使用 SNI 来实现这种绑定机制。
 
 ### 绑定层的作用
 
@@ -39,7 +39,7 @@ ElenaOS 使用绑定层生成工具来自动生成 JavaScript 与原生代码之
 
 ### 生成脚本
 
-ElenaOS 使用 Python 脚本生成绑定层代码：
+ElenixOS 使用 Python 脚本生成绑定层代码：
 
 - `scripts/sni/extract_lvgl_types.py`：提取 LVGL 类型
 - `scripts/sni/gen_lvgl_desc.py`：生成 LVGL 描述
@@ -184,6 +184,6 @@ python3 scripts/sni/gen_sni_lv_types.py --input scripts/sni/config/lv_desc.json 
 
 ## 总结
 
-绑定层生成是 ElenaOS 中连接 JavaScript 脚本和原生代码的重要环节。通过自动生成绑定层代码，可以大大减少手动编写绑定代码的工作量，提高开发效率。同时，绑定层生成也确保了绑定代码的一致性和正确性。
+绑定层生成是 ElenixOS 中连接 JavaScript 脚本和原生代码的重要环节。通过自动生成绑定层代码，可以大大减少手动编写绑定代码的工作量，提高开发效率。同时，绑定层生成也确保了绑定代码的一致性和正确性。
 
-通过了解绑定层生成的流程和约束，开发者可以更好地使用和扩展 ElenaOS 的绑定层，从而开发出更加高效、稳定的应用。
+通过了解绑定层生成的流程和约束，开发者可以更好地使用和扩展 ElenixOS 的绑定层，从而开发出更加高效、稳定的应用。

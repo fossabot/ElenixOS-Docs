@@ -1,6 +1,6 @@
 # 贡献指南
 
-本指南将帮助你了解 ElenaOS 的贡献流程、编码规范和贡献方式，为参与 ElenaOS 开发提供完整的指导。
+本指南将帮助你了解 ElenixOS 的贡献流程、编码规范和贡献方式，为参与 ElenixOS 开发提供完整的指导。
 
 ## 编码规范
 
@@ -8,7 +8,7 @@
 
 #### 命名约定
 
-- **文件名**：使用小写字母和下划线，例如 `elena_os_app.c`
+- **文件名**：使用小写字母和下划线，例如 `eos_app.c`
 - **函数名**：使用小写字母和下划线，例如 `eos_app_install`
 - **变量名**：使用小写字母和下划线，例如 `app_id`
 - **常量名与宏定义**：使用大写字母和下划线，例如 `EOS_APP_DIR`
@@ -72,7 +72,7 @@ function installApp(eapkPath)
 
 ### 分支管理
 
-ElenaOS 使用 Git 进行版本控制，采用以下分支管理策略：
+ElenixOS 使用 Git 进行版本控制，采用以下分支管理策略：
 
 - **main**：主分支，包含稳定版本
 - **dev**：开发分支，包含最新开发代码
@@ -84,7 +84,7 @@ ElenaOS 使用 Git 进行版本控制，采用以下分支管理策略：
 2. **克隆项目**：将 Fork 后的项目克隆到本地仓库
 
 ```bash
-git clone https://github.com/你的用户名/ElenaOS.git
+git clone https://github.com/你的用户名/ElenixOS.git
 ```
 
 3. **切换分支**：切换到 dev 分支
@@ -174,7 +174,7 @@ TODO
 
 ### 文档结构
 
-ElenaOS 的文档位于 `docs` 目录，采用 Markdown 格式编写。
+ElenixOS 的文档位于 `docs` 目录，采用 Markdown 格式编写。
 
 每个文档只应有一个“主语言版本”（例如英文），其他语言的内容作为该文档的翻译版本，以避免多语言之间独立修改而导致内容不一致。
 
@@ -195,7 +195,7 @@ ElenaOS 的文档位于 `docs` 目录，采用 Markdown 格式编写。
 ## 后续步骤
 
 - 查看 [核心模块](./core/app) 文档，了解系统的核心功能
-- 查看 [API 文档](./js-api/elena_os)，了解如何使用系统 API
+- 查看 [API 文档](./js-api/elenix_os)，了解如何使用系统 API
 - 查看 [开发工具](/docs/development/dev_tools) 文档，了解开发工具的使用
 
-欢迎加入 ElenaOS 开发社区，为项目贡献你的力量！
+欢迎加入 ElenixOS 开发社区，为项目贡献你的力量！

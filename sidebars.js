@@ -69,7 +69,7 @@ const sidebars = {
       label: 'JS API',
       items: [
         'js-api/index',
-        'js-api/elena_os',
+        'js-api/elenix_os',
         'js-api/lvgl',
         'js-api/special',
         {

@@ -13,7 +13,7 @@ const FeatureList = [
     description: translate({
       id: 'homepage.features.scriptDriven.description',
       message:
-        'ElenaOS 采用脚本驱动的应用模型，由 JavaScript 定义 UI 与交互逻辑，由原生代码负责渲染与调度。',
+        'ElenixOS 采用脚本驱动的应用模型，由 JavaScript 定义 UI 与交互逻辑，由原生代码负责渲染与调度。',
     }),
   },
   {
@@ -37,7 +37,7 @@ const FeatureList = [
     description: translate({
       id: 'homepage.features.portable.description',
       message:
-        '清晰的抽象分层与统一 API，让 ElenaOS 更容易在不同 MCU 与硬件平台之间迁移与复用。',
+        '清晰的抽象分层与统一 API，让 ElenixOS 更容易在不同 MCU 与硬件平台之间迁移与复用。',
     }),
   },
   {
@@ -49,7 +49,7 @@ const FeatureList = [
     description: translate({
       id: 'homepage.features.ux.description',
       message:
-        '借鉴 Apple Watch 的交互理念，ElenaOS 强调手势流程、动画连贯性与嵌入式界面的信息层级。',
+        '借鉴 Apple Watch 的交互理念，ElenixOS 强调手势流程、动画连贯性与嵌入式界面的信息层级。',
     }),
   },
 ];

@@ -2,7 +2,7 @@
 
 ## Overview
 
-ElenaOS's watchfaces and applications are uniformly driven by Script Engine, which is based on [JerryScript](https://jerryscript.net) for compiling and executing JavaScript code.
+ElenixOS's watchfaces and applications are uniformly driven by Script Engine, which is based on [JerryScript](https://jerryscript.net) for compiling and executing JavaScript code.
 
 JerryScript is a lightweight JavaScript engine designed to run on resource-constrained devices, such as microcontrollers:
 
@@ -17,7 +17,7 @@ Open source address: https://github.com/jerryscript-project/jerryscript
 
 ## System Architecture
 
-The Script Engine is core module of ElenaOS, responsible for operation of watchfaces and applications.
+The Script Engine is core module of ElenixOS, responsible for operation of watchfaces and applications.
 
 The architecture of Script Engine is as follows:
 
@@ -41,11 +41,11 @@ flowchart BT
         subgraph SNI["Script Native Interface"]
             direction BT
             LVGL["LVGL UI API"]
-            ElenaOS["ElenaOS System API"]
+            ElenixOS["ElenixOS System API"]
             SNI_TB["SNI Type Bridge Layer"]
 
             SNI_TB-->LVGL
-            SNI_TB-->ElenaOS
+            SNI_TB-->ElenixOS
         end
     end
 
@@ -60,7 +60,7 @@ flowchart BT
 
 ## Realm
 
-In ElenaOS, each script runs in an independent ECMAScript Realm. Realm is a concept in ECMAScript language specification used to implement JavaScript's multi-threaded execution environment. Realm is a complete JavaScript runtime environment, including global objects, built-in objects, state, and APIs. The role of Realm is to isolate runtime environments between different scripts, ensuring that scripts do not interfere with each other. The system mounts public APIs to each Realm, enabling scripts to safely access UI, system services, and hardware interfaces while maintaining isolation of global objects, built-in objects, and state, thereby achieving a reliable and secure multi-script runtime environment.
+In ElenixOS, each script runs in an independent ECMAScript Realm. Realm is a concept in ECMAScript language specification used to implement JavaScript's multi-threaded execution environment. Realm is a complete JavaScript runtime environment, including global objects, built-in objects, state, and APIs. The role of Realm is to isolate runtime environments between different scripts, ensuring that scripts do not interfere with each other. The system mounts public APIs to each Realm, enabling scripts to safely access UI, system services, and hardware interfaces while maintaining isolation of global objects, built-in objects, and state, thereby achieving a reliable and secure multi-script runtime environment.
 
 Realm can only be used in single-threaded environment and cannot be shared across threads. Each Realm has its own global objects and built-in objects, and scripts can only access objects in their own Realm, cannot directly access objects in other Realms.
 
@@ -100,7 +100,7 @@ The startup process of script engine is as follows:
 
 1. **During system startup**: Need to call `script_engine_init` to initialize script engine and create necessary runtime environment
 2. **During script startup**: Will create a new `realm` to provide sandbox for isolation, ensuring that runtime environments between different scripts are independent
-3. **Automatic registration**: New `realm` will automatically register all functions and symbols, including LVGL UI API and ElenaOS system API
+3. **Automatic registration**: New `realm` will automatically register all functions and symbols, including LVGL UI API and ElenixOS system API
 4. **Script execution**: Use `eos.*` in script to access functions and symbols for UI drawing and system calls
 
 ## Script Usage
@@ -127,5 +127,5 @@ The JS API layer is interaction layer between Script Engine and underlying hardw
 
 ### JS API Directory
 
-1. ElenaOS System API: [ElenaOS](../js-api/elena_os)
+1. ElenixOS System API: [ElenixOS](../js-api/elenix_os)
 2. LVGL UI API: [LVGL](../js-api/lvgl)

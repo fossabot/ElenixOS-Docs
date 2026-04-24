@@ -3,8 +3,8 @@
   padding: 3.5rem 0 5rem;
   width: 100%;
   background:
-    radial-gradient(circle at 85% 8%, var(--elena-hero-glow-b), transparent 42%),
-    linear-gradient(180deg, transparent 0%, var(--elena-hero-bottom-fade) 100%);
+    radial-gradient(circle at 85% 8%, var(--elenix-hero-glow-b), transparent 42%),
+    linear-gradient(180deg, transparent 0%, var(--elenix-hero-bottom-fade) 100%);
 }
 
 .headerBlock {
@@ -35,16 +35,16 @@
 .featureCard {
   height: 100%;
   padding: 1.25rem;
-  border: 1px solid var(--elena-card-border);
+  border: 1px solid var(--elenix-card-border);
   border-radius: 16px;
-  background: linear-gradient(140deg, var(--elena-stat-bg) 0%, var(--elena-stack-bg) 100%);
-  box-shadow: 0 18px 45px var(--elena-stat-shadow);
+  background: linear-gradient(140deg, var(--elenix-stat-bg) 0%, var(--elenix-stack-bg) 100%);
+  box-shadow: 0 18px 45px var(--elenix-stat-shadow);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
 .featureCard:hover {
   transform: translateY(-6px);
-  box-shadow: 0 24px 52px var(--elena-visual-shadow);
+  box-shadow: 0 24px 52px var(--elenix-visual-shadow);
 }
 
 .featureIcon {
@@ -56,7 +56,7 @@
   padding: 0 0.75rem;
   margin-bottom: 0.85rem;
   border-radius: 999px;
-  background: var(--elena-accent-gradient);
+  background: var(--elenix-accent-gradient);
   color: #ffffff;
   font-size: 0.78rem;
   font-weight: 800;
@@ -70,7 +70,7 @@
 
 .featureDescription {
   margin: 0;
-  color: var(--elena-text-muted);
+  color: var(--elenix-text-muted);
   line-height: 1.6;
 }
 

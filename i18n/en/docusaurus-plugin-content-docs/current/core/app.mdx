@@ -1,15 +1,15 @@
 # Application Management Module
 
-The application management module is one of the core components of ElenaOS, responsible for application installation, uninstallation, management, and running. This module provides a complete application lifecycle management mechanism, supporting functions such as application installation, uninstallation, and list management.
+The application management module is one of the core components of ElenixOS, responsible for application installation, uninstallation, management, and running. This module provides a complete application lifecycle management mechanism, supporting functions such as application installation, uninstallation, and list management.
 
 ## Directory Structure
 
 ```
 ├── src/core/app/
-│   ├── elena_os_app.c        # Application management core implementation
-│   ├── elena_os_app.h        # Application management interface definition
-│   ├── elena_os_app_list.c   # Application list management implementation
-│   └── elena_os_app_list.h   # Application list management interface definition
+│   ├── eos_app.c        # Application management core implementation
+│   ├── eos_app.h        # Application management interface definition
+│   ├── eos_app_list.c   # Application list management implementation
+│   └── eos_app_list.h   # Application list management interface definition
 ```
 
 ## Core Features
@@ -73,7 +73,7 @@ eos_result_t eos_app_order_move(const char *app_id, size_t new_index);
 
 ## Application Package Structure
 
-ElenaOS application packages (.eapk files) contain the following key files:
+ElenixOS application packages (.eapk files) contain the following key files:
 
 - **manifest.json**: Application configuration file, containing application ID, name, version, type, etc.
 - **main.js**: Application main script file, containing application interface and logic
@@ -129,4 +129,4 @@ The core implementation of the application management module includes:
 3. **Application directory management**: Manage application installation directories and data directories
 4. **Application sorting**: Support application list sorting and persistence
 
-This module works closely with the file system module and script engine module to provide complete application management functionality for ElenaOS.
+This module works closely with the file system module and script engine module to provide complete application management functionality for ElenixOS.

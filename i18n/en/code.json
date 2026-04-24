@@ -3,7 +3,7 @@
     "message": "Open Source Smartwatch Operating System"
   },
   "homepage.title": {
-    "message": "ElenaOS"
+    "message": "ElenixOS"
   },
   "homepage.subtitle": {
     "message": "An embedded wearable system based on LVGL and JerryScript, designed for resource-constrained hardware to deliver smooth smartwatch experiences."
@@ -12,7 +12,7 @@
     "message": "Read Documentation"
   },
   "homepage.cta.repo": {
-    "message": "View ElenaOS Repository"
+    "message": "View ElenixOS Repository"
   },
   "homepage.quick.start": {
     "message": "Quick Start"
@@ -33,13 +33,13 @@
     "message": "Home"
   },
   "homepage.layoutDescription": {
-    "message": "ElenaOS build, script engine, and development tools documentation site."
+    "message": "ElenixOS build, script engine, and development tools documentation site."
   },
   "homepage.features.scriptDriven.title": {
     "message": "Script-Driven Architecture"
   },
   "homepage.features.scriptDriven.description": {
-    "message": "ElenaOS adopts a script-driven application model, with UI and interaction logic defined by JavaScript, and rendering and scheduling handled by native code."
+    "message": "ElenixOS adopts a script-driven application model, with UI and interaction logic defined by JavaScript, and rendering and scheduling handled by native code."
   },
   "homepage.features.runtime.title": {
     "message": "LVGL + JerryScript Runtime"
@@ -51,13 +51,13 @@
     "message": "Portable and Extensible"
   },
   "homepage.features.portable.description": {
-    "message": "Clear abstraction layers and unified API make ElenaOS easier to migrate and reuse across different MCUs and hardware platforms."
+    "message": "Clear abstraction layers and unified API make ElenixOS easier to migrate and reuse across different MCUs and hardware platforms."
   },
   "homepage.features.ux.title": {
     "message": "Focus on Wearable Interaction Experience"
   },
   "homepage.features.ux.description": {
-    "message": "Drawing inspiration from Apple Watch's interaction philosophy, ElenaOS emphasizes gesture flows, animation continuity, and information hierarchy for embedded interfaces."
+    "message": "Drawing inspiration from Apple Watch's interaction philosophy, ElenixOS emphasizes gesture flows, animation continuity, and information hierarchy for embedded interfaces."
   },
   "homepage.features.kicker": {
     "message": "Project Highlights"
@@ -69,7 +69,7 @@
     "message": "// Get the current active view\nconst view = eos.view.active();\n\n// Create a button\nconst button = new lv.button(view);\nbutton.setSize(180, 64);\nbutton.align(lv.ALIGN_CENTER, 0, 20);\n\n// Add a label\nconst label = new lv.label(button);\nlabel.setText('Click Me');\nlabel.center();\n\n// Bind the click event\nbutton.addEventCb((e) => {\n  eos.console.log('Button clicked!');\n  label.setText('Clicked!');\n}, lv.EVENT_CLICKED, null);"
   },
   "homepage.codeCard.footer": {
-    "message": "WASM for ElenaOS is under development, and the code below has been verified on real hardware."
+    "message": "WASM for ElenixOS is under development, and the code below has been verified on real hardware."
   },
   "theme.ErrorPageContent.title": {
     "message": "This page crashed.",
