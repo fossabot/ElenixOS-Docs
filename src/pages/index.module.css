@@ -5,7 +5,7 @@
 
 .heroBanner {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding: 3.2rem 0 4.6rem;
   background:
     radial-gradient(circle at 10% 14%, var(--elenix-hero-glow-a), transparent 38%),
@@ -31,7 +31,7 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 500px);
   align-items: center;
   gap: clamp(1.8rem, 4vw, 3.4rem);
 }
@@ -134,6 +134,71 @@
   transform: translateY(-2px);
 }
 
+.controlButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.controlButton {
+  padding: 0.6rem 1.2rem;
+  background: var(--elenix-accent-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px var(--elenix-accent-shadow);
+}
+
+.controlButton:hover {
+  filter: saturate(1.08) brightness(1.02);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--elenix-accent-shadow);
+}
+
+.controlButton:disabled {
+  background: var(--elenix-chip-bg);
+  color: var(--elenix-chip-fg);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  border: 1px solid var(--elenix-chip-border);
+}
+
+.statusText {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--elenix-hero-subtitle);
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.statusIndicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.statusReady {
+  background-color: #4CAF50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+}
+
+.statusNotReady {
+  background-color: #F44336;
+  box-shadow: 0 0 8px rgba(244, 67, 54, 0.6);
+}
+
 .heroStats {
   margin-top: 1.55rem;
   display: grid;
@@ -187,13 +252,18 @@
 
 .demoContainer {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 400px;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 500/520;
+  margin: 0 auto;
 }
 
 .codeCard {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1;
   border: 1px solid var(--elenix-visual-border);
   border-radius: 18px;
@@ -202,10 +272,18 @@
   box-shadow: 0 26px 55px var(--elenix-visual-shadow);
   backdrop-filter: blur(8px);
   cursor: pointer;
-  transition: box-shadow 0.3s ease;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  transform: translateX(-24px);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.demoContainer:hover .codeCard:not(.codeCardActive) {
+  transform: translateX(-100px);
+}
+
+.codeCardActive {
+  transform: translateX(-100%);
 }
 
 .codeCard:hover {
@@ -231,39 +309,50 @@
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  width: 100%;
+  height: 100%;
   z-index: 2;
-  border: 1px solid var(--elenix-visual-border);
+  border: none;
   border-radius: 18px;
   overflow: hidden;
-  background: var(--elenix-visual-bg);
-  box-shadow: 0 26px 55px var(--elenix-visual-shadow);
-  backdrop-filter: blur(8px);
-  transition: transform 0.3s ease;
+  background: transparent;
   display: flex;
   flex-direction: column;
-  height: 100%;
-}
-
-.previewCardDefault {
-  transform: translateX(40px);
-}
-
-.previewCardHover {
-  transform: translateX(80px);
-}
-
-.previewCardActive {
-  transform: translateX(100%);
 }
 
 .visualHeader {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  min-height: 42px;
+  gap: 0.85rem;
+  min-height: 48px;
   padding: 0 0.85rem;
   border-bottom: 1px solid var(--elenix-visual-divider);
+  justify-content: space-between;
+}
+
+.visualHeader > * {
+  flex-shrink: 0;
+}
+
+.visualTitle {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+
+.simulatorStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.simulatorStatus .statusText {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--elenix-visual-text);
+  opacity: 0.8;
+  display: inline;
 }
 
 .visualDot {
@@ -282,16 +371,118 @@
 }
 
 .visualBody {
-  padding: 1rem 1rem 1.1rem;
+  padding: 0;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.editorContainer {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+}
+
+.codeHighlighter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0;
+  background: var(--elenix-code-bg);
   font-family: var(--ifm-font-family-monospace);
   font-size: 0.84rem;
   line-height: 1.7;
-  flex: 1;
+  overflow: auto;
+  pointer-events: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  box-sizing: border-box;
 }
 
-.visualBody p {
-  margin: 0;
+.codeHighlighter code {
+  background: none !important;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.codeEditor {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  caret-color: var(--elenix-visual-text);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.84rem;
+  line-height: 1.7;
+  resize: none;
+  outline: none;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  box-sizing: border-box;
+}
+
+.codeEditor::placeholder {
   color: var(--elenix-visual-text);
+  -webkit-text-fill-color: var(--elenix-visual-text);
+  opacity: 0.5;
+}
+
+.codeEditor:focus {
+  box-shadow: inset 0 0 0 2px var(--elenix-accent);
+}
+
+.codeFooter {
+  padding: 1rem;
+  border-top: 1px solid var(--elenix-visual-divider);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.codeButton {
+  padding: 0.6rem 1.2rem;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.codeButton:hover:not(:disabled) {
+  filter: saturate(1.08) brightness(1.02);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--elenix-accent-shadow);
+}
+
+.codeButtonDisabled {
+  background: var(--elenix-chip-bg);
+  color: var(--elenix-chip-fg);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  border: 1px solid var(--elenix-chip-border);
 }
 
 .visualAccent {
@@ -316,13 +507,26 @@
 }
 
 .simulatedScreen {
-  padding: 1.5rem;
-  background: var(--elenix-code-bg);
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 160px;
-  flex-shrink: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.simulatedScreen iframe {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.simulatorFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 .simulatedButton {
@@ -490,19 +694,33 @@
   }
 
   .demoContainer {
-    min-height: 500px;
+    min-height: auto;
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
-  .previewCard,
-  .previewCardDefault,
-  .previewCardHover,
-  .previewCardActive {
-    transform: none;
+  .codeCard,
+  .codeCardActive {
     position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    height: auto;
+    min-height: 320px;
+    transform: none !important;
+    z-index: 1;
   }
 
-  .codeCard {
-    margin-top: 1rem;
+  .previewCard {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    z-index: 1;
   }
 }
 
@@ -516,8 +734,9 @@
   }
 
   .simulatedScreen {
-    min-height: 120px;
-    padding: 1rem;
+    width: 100%;
+    height: auto;
+    min-height: 300px;
   }
 
   .simulatedButton {
@@ -535,5 +754,20 @@
 
   .codeFooterText {
     font-size: 0.7rem;
+  }
+
+  .demoContainer {
+    max-width: 100%;
+    min-height: 300px;
+  }
+
+  .heroVisual {
+    max-width: 100%;
+  }
+
+  .previewCard,
+  .codeCard {
+    height: auto;
+    min-height: 300px;
   }
 }

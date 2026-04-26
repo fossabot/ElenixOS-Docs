@@ -177,6 +177,10 @@ const config = {
                 label: 'GitHub 仓库',
                 href: 'https://github.com/ElenixOS/ElenixOS',
               },
+              {
+                label: '联系我们',
+                href: 'mailto:contact@elenixos.com',
+              },
             ],
           },
         ],

@@ -68,6 +68,21 @@
   "homepage.codeCard.snippet": {
     "message": "// Get the current active view\nconst view = eos.view.active();\n\n// Create a button\nconst button = new lv.button(view);\nbutton.setSize(180, 64);\nbutton.align(lv.ALIGN_CENTER, 0, 20);\n\n// Add a label\nconst label = new lv.label(button);\nlabel.setText('Click Me');\nlabel.center();\n\n// Bind the click event\nbutton.addEventCb((e) => {\n  eos.console.log('Button clicked!');\n  label.setText('Clicked!');\n}, lv.EVENT_CLICKED, null);"
   },
+  "homepage.simulator.status.ready": {
+    "message": "Ready"
+  },
+  "homepage.simulator.status.connecting": {
+    "message": "Connecting..."
+  },
+  "homepage.codeEditor.placeholder": {
+    "message": "Enter your code..."
+  },
+  "homepage.stackCards.runtime": {
+    "message": "Event Loop + UI Scheduling"
+  },
+  "homepage.stackCards.toolkit": {
+    "message": "Build, Debug, Package Pipeline"
+  },
   "homepage.codeCard.footer": {
     "message": "WASM for ElenixOS is under development, and the code below has been verified on real hardware."
   },

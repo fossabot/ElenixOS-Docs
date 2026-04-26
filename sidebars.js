@@ -29,6 +29,15 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: '模拟器',
+      items: [
+        'simulator/overview',
+        'simulator/native',
+        'simulator/wasm',
+      ],
+    },
+    {
+      type: 'category',
       label: '集成指南',
       items: [
         'integration/overview',
