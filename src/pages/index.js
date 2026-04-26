@@ -12,9 +12,9 @@ import {useColorMode} from '@docusaurus/theme-common';
 import styles from './index.module.css';
 
 // 模拟器URL常量
-// const SIMULATOR_URL = 'https://simulator.elenixos.com/wasm/latest/main.html';
+const SIMULATOR_URL = 'https://simulator.elenixos.com/wasm/latest/main.html';
 // 本地调试URL
-const SIMULATOR_URL = 'http://127.0.0.1:5500/build-wasm/bin/main.html';
+// const SIMULATOR_URL = 'http://127.0.0.1:5500/build-wasm/bin/main.html';
 
 // Demo应用ID常量
 const DEMO_APP_ID = 'com.elenixos.demo';
