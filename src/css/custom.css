@@ -153,6 +153,14 @@ h6 {
   border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
+.navbar-sidebar {
+  height: 100vh;
+}
+
+.navbar-sidebar__items {
+  height: calc(100vh - var(--ifm-navbar-height));
+}
+
 [data-theme='dark'] .footer {
   --ifm-footer-background-color: #1c1c1c;
   --ifm-footer-color: #e0e0e0;
