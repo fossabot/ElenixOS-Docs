@@ -7,174 +7,37 @@ title: Quick Start
 
 This guide will help you quickly get started with the ElenixOS project, including code acquisition, environment setup, compilation and running, and basic usage.
 
-## Project Acquisition
+[ElenixOS-Simulator](https://github.com/ElenixOS/ElenixOS-Simulator) is based on [lv_port_pc_vscode](https://github.com/lvgl/lv_port_pc_vscode) and ported to ElenixOS,
+allowing you to compile and run ElenixOS simulation on any PC for rapid iteration and debugging.
 
-### Clone the Repository
+## Choose Your Starting Method
 
-Use Git to clone the ElenixOS repository:
+Based on your needs and environment, choose one of the following methods to start using ElenixOS:
 
-```bash
-git clone --recursive https://github.com/ElenixOS/ElenixOS.git
-```
+### 1. Online Experience
 
-:::note
-Note: Use the `--recursive` parameter to ensure submodules are also cloned.
-If you didn't use `--recursive` when cloning, you can get the submodules with the following command:
+If you want to quickly experience ElenixOS without installing any software, you can use the online simulator:
 
-```bash
-git submodule update --init --recursive
-```
-:::
+- [Online Simulator](https://simulator.elenixos.com/wasm/latest/main.html) - Experience ElenixOS directly in your browser without installing any software
 
-## Development Environment Requirements
+### 2. Local Development
 
-### Hardware Requirements
+If you plan to develop ElenixOS applications or customize the system, it is recommended to set up a local development environment:
 
-- **Development board**: Embedded development board supporting LVGL (such as STM32, ESP32, etc.)
-- **Memory**: At least 64KB RAM
-- **Storage**: At least 200KB ROM
-- **Display**: Display supporting LVGL
-- **Input device**: Touch screen or other input device
+1. **Environment Setup** - Install necessary development tools and dependencies
+   - [Environment Setup](./environment.mdx) - Detailed environment setup guide
 
-### Software Requirements
+2. **Build Project** - Compile and run the ElenixOS simulator
+   - [Build Guide](./build.mdx) - Complete build process and command instructions
 
-- **Operating system**: Linux, macOS, or Windows
-- **Compilation toolchain**:
-  - GCC (for x86 simulation)
-  - Cross-compilation toolchain for the corresponding development board
-- **Dependency libraries**:
-  - CMake (3.13+)
-  - Python 3.7+ (for script tools)
-  - LVGL (included as a submodule)
-  - JerryScript (included as a submodule)
-
-### Install Dependencies
-
-#### Ubuntu/Debian
-
-```bash
-sudo apt-get update
-sudo apt-get install build-essential cmake python3 python3-pip
-```
-
-#### macOS
-
-```bash
-brew install cmake python3
-```
-
-#### Windows
-
-- Install [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
-- Install [CMake](https://cmake.org/download/)
-- Install [Python 3](https://www.python.org/downloads/)
-
-## Compilation and Running
-
-### Compile x86 Simulation Version
-
-1. Create and enter the build directory:
-
-```bash
-mkdir build && cd build
-```
-
-2. Configure CMake:
-
-```bash
-cmake .. -DCMAKE_BUILD_TYPE=Debug
-```
-
-3. Compile the project:
-
-```bash
-cmake --build .
-```
-
-### Run the Simulation Version
-
-After compilation, you can run the simulation version:
-
-```bash
-./ElenixOS
-```
-
-### Cross-Compile to Target Board
-
-1. Set up the cross-compilation toolchain:
-
-```bash
-export CROSS_COMPILE=arm-none-eabi-
-```
-
-2. Configure CMake:
-
-```bash
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=toolchain.cmake
-```
-
-3. Compile the project:
-
-```bash
-cmake --build .
-```
-
-4. Flash the compiled product to the target board
-
-## Basic Usage
-
-### Application Management
-
-#### Install Application
-
-```bash
-# Assuming the application package path is /path/to/app.eapk
-eos_app_install("/path/to/app.eapk");
-```
-
-#### Run Application
-
-Applications will be automatically loaded after system startup, or can be manually started through the application list.
-
-### Watch Face Management
-
-ElenixOS supports multiple watch faces, and you can switch between different watch faces through system settings.
-
-### System Settings
-
-Through the control center or settings application, you can adjust various system settings such as brightness, volume, language, etc.
-
-## First Debugging Suggestions
-
-1. **Check dependencies**: Ensure all dependency libraries are correctly installed
-2. **Compilation test**: First compile the x86 simulation version to ensure the code compiles normally
-3. **Run simulation**: Run the simulation version in x86 environment to test basic functionality
-4. **Hardware test**: Flash the compiled product to the target board to test hardware compatibility
-5. **Debugging tools**: Use GDB or other debugging tools for debugging
-
-## Common Issues
-
-### Compilation Failure
-
-- Check if dependencies are completely installed
-- Check if CMake version meets requirements
-- Check if cross-compilation toolchain is correctly configured
-
-### Runtime Errors
-
-- Check if memory usage is reasonable
-- Check if hardware drivers are correctly implemented
-- Check if application code has errors
-
-### Interface Display Issues
-
-- Check if display driver is correct
-- Check if LVGL configuration is appropriate
-- Check if resolution settings are correct
+3. **Develop Applications** - Understand ElenixOS core concepts and APIs
+   - [File System Module](../core/fs.mdx) - File operations and directory management
+   - [Activity and View](../core/activity.mdx) - Page management and lifecycle
+   - [JavaScript API](../js-api/elenix_os.mdx) - System API reference
 
 ## Next Steps
 
-- Check [System Architecture](../architecture/arch) to understand the design of ElenixOS
-- Check [Script Engine](../architecture/script_engine) to understand application development
-- Check [Development Tools](../development/dev_tools) to understand the development process
-- Check [Build and Use](./build) to learn more build options
+- Check the [Environment Setup](./environment.mdx) page to learn how to set up a development environment
+- Check the [Build Guide](./build.mdx) page to learn how to compile and run the ElenixOS simulator
+- Explore the [Core Modules](../core/index.md) documentation to understand ElenixOS core functionality
+- Check the [JavaScript API](../js-api/index.md) documentation to learn how to develop ElenixOS applications

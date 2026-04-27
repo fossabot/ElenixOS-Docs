@@ -5,206 +5,224 @@ title: Development Environment Setup
 
 # Development Environment Setup
 
-Before developing ElenixOS applications or systems, you need to prepare the development environment. This document will detail the ElenixOS development environment setup steps, including SDK acquisition, dependency installation, editor configuration, and target device preparation.
+This document will guide you through setting up the ElenixOS development environment, including necessary tool installations, system requirements, and environment verification methods.
 
-## SDK or Repository Acquisition
+## System Requirements
 
-### Clone the Repository
+### Supported Operating Systems
 
-Use Git to clone the ElenixOS repository:
-
-```bash
-git clone --recursive https://github.com/ElenixOS/ElenixOS.git
-cd ElenixOS
-```
-
-> Note: Use the `--recursive` parameter to ensure that submodules are cloned simultaneously, including LVGL and JerryScript dependencies.
-
-### Check the Repository
-
-After cloning, check the repository structure to ensure all files and submodules are correctly obtained:
-
-```bash
-ls -la
-```
-
-## Dependency Installation
-
-ElenixOS development requires the installation of the following dependencies:
-
-### Python Dependencies
-
-ElenixOS uses Python scripts for binding layer generation and application packaging, requiring Python 3.7 or higher:
-
-#### Ubuntu/Debian
-
-```bash
-sudo apt-get update
-sudo apt-get install python3 python3-pip
-```
-
-#### macOS
-
-```bash
-brew install python3
-```
-
-### Other Dependencies
-
-#### Build Tools
-
-- **CMake**: 3.13 or higher
-- **Ninja**: For fast builds
-
-#### Ubuntu/Debian
-
-```bash
-sudo apt-get install cmake ninja-build
-```
-
-#### macOS
-
-```bash
-brew install cmake ninja
-```
-
-### Compilation Toolchain
-
-#### Cross-compilation Toolchain
-
-If you need to run ElenixOS on specific hardware platforms, you need to install the corresponding cross-compilation toolchain:
-
-- **ARM Cortex-M**: `arm-none-eabi-gcc`
-- **ESP32**: ESP-IDF toolchain
-- **STM32**: STM32 CubeIDE toolchain
-
-## Editor and Plugin Configuration
-
-We recommend using the following editors for ElenixOS development:
-
-### Visual Studio Code
-
-Visual Studio Code is a lightweight code editor that supports multiple programming languages and plugins:
-
-1. **Install Visual Studio Code**: Download and install from the [official website](https://code.visualstudio.com/)
-
-2. **Install plugins**:
-   - **C/C++**: Provides C/C++ language support
-   - **JavaScript**: Provides JavaScript language support
-   - **Python**: Provides Python language support
-   - **CMake Tools**: Provides CMake integration
-   - **GitLens**: Provides Git integration
-
-3. **Configuration**:
-   - Open `File > Preferences > Settings`
-   - Configure C/C++ extension include paths
-   - Configure Python interpreter path
-
-### Other Editors
-
-- **CLion**: C/C++ IDE developed by JetBrains
-- **Vim**: Command-line editor, suitable for developers who are accustomed to command-line operations
-- **Sublime Text**: Lightweight code editor
-
-## Target Device Preparation
+| Operating System | Support Status | Notes |
+|------------------|----------------|-------|
+| macOS (Intel / Apple Silicon) | Fully supported | Recommended to use Homebrew for dependency installation |
+| Ubuntu 20.04+ / Debian 11+ | Fully supported | Recommended to use apt for dependency installation |
+| Windows 10+ (x86_64) | Fully supported | Recommended to use MSYS2 or WSL2 |
+| Other Linux distributions | Basic support | Need to install corresponding dependency packages yourself |
 
 ### Hardware Requirements
 
-- **Development board**: Embedded development board supporting LVGL (such as STM32, ESP32, etc.)
-- **Memory**: At least 64KB RAM
-- **Storage**: At least 200KB ROM
-- **Display screen**: Display screen supporting LVGL
-- **Input device**: Touch screen or other input devices
+- **CPU**: Dual-core or higher, supporting `march=native` compilation optimization
+- **Memory**: At least 4GB RAM (8GB or more recommended)
+- **Disk space**: At least 2GB available space (including dependencies and build artifacts)
+- **Display**: Supports OpenGL 2.0 or higher (for simulator GUI display)
 
-### Device Preparation
+## Required Tools
 
-1. **Hardware connection**: Connect the development board to the computer
-2. **Driver installation**: Install the USB driver for the development board
-3. **Debug configuration**: Configure the debugger (such as J-Link, ST-Link, etc.)
+### Compiler Toolchain
 
-### Flashing Tools
+| Tool | Minimum Version | Purpose |
+|------|----------------|--------|
+| CMake | 3.10 | Build system configuration |
+| C compiler (GCC/Clang) | C99 standard support | C code compilation |
+| C++ compiler | C++17 standard support | Some component compilation |
+| Make / Ninja | - | Build execution |
 
-Select the appropriate flashing tool according to the target device:
+### SDL2
 
-- **STM32**: STM32 CubeProgrammer
-- **ESP32**: esptool.py
-- **Other devices**: Flashing tools provided by the device manufacturer
+The simulator uses SDL2 for window display and input handling, which is a required dependency for the simulator to run.
 
-## Environment Verification
+### Python 3.10
 
-After installing all dependencies, verify that the environment is correctly configured:
+ElenixOS uses Python scripts to assist the development process, including API binding generation and other tasks.
 
-### Check Python Version
+## Environment Setup Steps
+
+### macOS
+
+Use Homebrew to install required dependencies:
 
 ```bash
-python3 --version
+# Install CMake
+brew install cmake
+
+# Install SDL2
+brew install sdl2
+
+# Install Python 3.10 (if not already installed)
+brew install python@3.10
+
+# Verify installation
+cmake --version
+sdl2-config --version
+python3.10 --version
 ```
 
-### Check CMake Version
+### Ubuntu / Debian
+
+Use apt to install required dependencies:
+
+```bash
+# Update package index
+sudo apt update
+
+# Install CMake
+sudo apt install cmake
+
+# Install SDL2 development library
+sudo apt install libsdl2-dev
+
+# Install Python 3.10
+sudo apt install python3.10 python3.10-venv
+
+# Install build tools
+sudo apt install build-essential
+
+# Verify installation
+cmake --version
+sdl2-config --version
+python3.10 --version
+```
+
+### Windows (MSYS2)
+
+Use MSYS2 to install required dependencies:
+
+```bash
+# Update package database
+pacman -Sy
+
+# Install CMake
+pacman -S mingw-w64-x86_64-cmake
+
+# Install SDL2
+pacman -S mingw-w64-x86_64-SDL2
+
+# Install GCC toolchain
+pacman -S mingw-w64-x86_64-toolchain
+
+# Install Python 3.10
+pacman -S mingw-w64-x86_64-python3.10
+
+# Install Make
+pacman -S make
+```
+
+### Windows (WSL2)
+
+In the WSL2 Ubuntu environment, follow the Ubuntu steps above. If you need to use the native Windows GUI, additional configuration is required:
+
+```bash
+# Install necessary graphics libraries for WSL2
+sudo apt install libx11-dev libxext-dev libxrender-dev libxrandr-dev libxcursor-dev
+
+# Install freetype development library (optional, for font rendering)
+sudo apt install libfreetype6-dev
+```
+
+## Verify Environment
+
+### Check CMake
 
 ```bash
 cmake --version
 ```
 
-### Check Compilation Toolchain
+Output should include version information, such as `cmake version 3.10.0` or higher.
+
+### Check SDL2
+
+```bash
+sdl2-config --version
+```
+
+Output should be the SDL2 version number, such as `2.0.20`.
+
+### Check Compiler
 
 ```bash
 gcc --version
-# Cross-compilation toolchain
-arm-none-eabi-gcc --version
+# or
+clang --version
 ```
 
-### Compilation Test
+Ensure the compiler supports C99 standard.
 
-Compile the embedded version of ElenixOS to verify that the environment is correct:
+### Check Python
 
 ```bash
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=toolchain/arm-none-eabi.cmake
-cmake --build .
+python3.10 --version
 ```
 
-If the compilation is successful, the environment configuration is correct.
+Output should be `Python 3.10.x`.
 
-## Common Issues and Solutions
+## Get Code
 
-### Dependency Installation Failure
+```bash
+# Clone simulator repository (with submodules)
+git clone --recursive https://github.com/ElenixOS/ElenixOS-Simulator.git
+cd ElenixOS-Simulator
 
-**Issue**: Dependency installation failed
+# If already cloned but submodules not pulled
+git submodule update --init --recursive
+```
 
-**Solution**:
-1. Check if the network connection is normal
-2. Check if the package manager is updated
-3. Try installing with administrator privileges
+The repository contains the following main components:
 
-### Compilation Failure
+| Directory | Description |
+|-----------|-------------|
+| `ElenixOS/` | ElenixOS core source code |
+| `lvgl/` | LVGL graphics library |
+| `FreeRTOS/` | FreeRTOS real-time kernel (optional) |
+| `lv_drivers/` | LVGL display and input drivers |
+| `main/` | Simulator main program |
+| `config/` | FreeRTOS configuration |
+| `fs/` | File system simulation directory |
 
-**Issue**: Compilation failed, prompting missing dependencies
+## Optional Dependencies
 
-**Solution**:
-1. Ensure all dependencies are correctly installed
-2. Ensure all submodules are correctly cloned
-3. Check if CMake configuration is correct
+### FreeRTOS
 
-### Device Connection Issues
+To enable FreeRTOS support in the simulator, no additional dependencies are needed as the project already includes FreeRTOS source code.
 
-**Issue**: Unable to connect to the target device
+### LVGL Extended Features
 
-**Solution**:
-1. Check if the device is correctly connected
-2. Check if the device driver is installed
-3. Check if the device is in the correct mode
+Some advanced LVGL features require additional library support:
 
-## Best Practices
+| Feature | Dependency Library | CMake Option |
+|---------|-------------------|-------------|
+| SDL rendering acceleration | SDL2 | `LV_USE_DRAW_SDL=ON` |
+| PNG decoding | libpng | `LV_USE_LIBPNG=ON` |
+| JPEG decoding | libjpeg-turbo | `LV_USE_LIBJPEG_TURBO=ON` |
+| Video playback | FFmpeg | `LV_USE_FFMPEG=ON` |
+| Font rendering | freetype | `LV_USE_FREETYPE=ON` |
 
-1. **Environment isolation**: Use virtual environments (such as Python venv) to isolate the development environment
-2. **Version control**: Use Git to manage code and commit changes regularly
-3. **Backup**: Regularly back up code and configuration files
-4. **Documentation**: Record development environment configuration for future reference
-5. **Updates**: Regularly update dependencies and toolchains to ensure the latest versions are used
+## Common Issues
 
-## Summary
+### CMake Cannot Find SDL2
 
-Development environment setup is an important step in ElenixOS development, ensuring the smooth progress of the development process. By correctly configuring the development environment, developers can develop and test ElenixOS applications and systems more efficiently.
+Ensure SDL2 development library is correctly installed and `sdl2-config` is in PATH. If still not found, manually specify SDL2 path:
 
-This document provides detailed development environment setup steps, including SDK acquisition, dependency installation, editor configuration, and target device preparation. Following these steps, developers can quickly set up the ElenixOS development environment and start development work.
+```bash
+cmake -DSDL2_DIR=/path/to/sdl2 ..
+```
+
+### Compilation Error with `march=native`
+
+If the compiler does not support `march=native` optimization flag, disable it in CMake configuration:
+
+```bash
+cmake -DCMAKE_C_FLAGS="-march=x86-64" ..
+```
+
+### Python Script Execution Failure
+
+ElenixOS-Tools.py requires Python 3.10. If multiple Python versions are installed on the system, ensure 3.10 is the default version or use it in a virtual environment.

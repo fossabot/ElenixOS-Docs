@@ -5,292 +5,251 @@ title: Build and Use
 
 # Build and Use
 
-This document will detail the ElenixOS build process, dependency handling, resource management, and platform-related differences, helping you successfully build and deploy ElenixOS.
+This document provides the complete build process for the ElenixOS simulator, including build command descriptions, configuration options, and solutions to common issues.
 
-## Build Prerequisites
+## Build Overview
 
-Before building ElenixOS, you need to meet the following prerequisites:
+The ElenixOS simulator uses CMake as the build system, supporting two platforms: **Native** (local desktop) and **WASM** (WebAssembly). The default build target is the Native platform.
 
-### Hardware Requirements
+## Build Configuration
 
-- **Development board**: Embedded development board supporting LVGL (such as STM32, ESP32, etc.)
-- **Memory**: At least 64KB RAM
-- **Storage**: At least 200KB ROM
-- **Display screen**: Display screen supporting LVGL
-- **Input device**: Touch screen or other input devices
+### Build Types
 
-### Software Requirements
+| Build Type | CMake Option | Description |
+|------------|-------------|-------------|
+| Debug | `-DCMAKE_BUILD_TYPE=Debug` | Debug mode, enables debug symbols and assertions |
+| Release | `-DCMAKE_BUILD_TYPE=Release` | Release mode, enables optimizations |
+| MinSizeRel | `-DCMAKE_BUILD_TYPE=MinSizeRel` | Minimum size release mode |
 
-- **Operating system**: Linux or macOS
-- **Compilation toolchain**:
-  - Cross-compilation toolchain for the corresponding development board
-- **Dependency libraries**:
-  - CMake (3.13+)
-  - Python 3.7+ (for scripting tools)
-  - LVGL (included as a submodule)
-  - JerryScript (included as a submodule)
+### Platform Configuration
 
-### Dependency Installation
+| Platform | CMake Option | Description |
+|----------|-------------|-------------|
+| Native | `-DEOS_PLATFORM=Native` | Local desktop application (default) |
+| WASM | `-DEOS_PLATFORM=WASM` | WebAssembly platform |
 
-#### Ubuntu/Debian
+### Feature Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `USE_FREERTOS` | `OFF` | Enable FreeRTOS real-time kernel |
+| `LV_USE_DRAW_SDL` | `OFF` | Enable SDL rendering acceleration |
+| `LV_USE_LIBPNG` | `OFF` | Enable libpng PNG decoding |
+| `LV_USE_LIBJPEG_TURBO` | `OFF` | Enable libjpeg-turbo JPEG decoding |
+| `LV_USE_FFMPEG` | `OFF` | Enable FFmpeg video playback |
+| `LV_USE_FREETYPE` | `OFF` | Enable freetype font rendering |
+
+## Build Steps
+
+### Native Platform Build
 
 ```bash
-sudo apt-get update
-sudo apt-get install build-essential cmake python3 python3-pip
+# Enter project root directory
+cd ElenixOS-Simulator
+
+# Create build directory
+mkdir build && cd build
+
+# Configure CMake (Debug mode)
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+
+# Compile
+cmake --build . -j$(nproc)
+
+# Run simulator
+./bin/main
 ```
 
-#### macOS
+### Release Mode Build
 
 ```bash
-brew install cmake python3
+mkdir -p build-release && cd build-release
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build . -j$(nproc)
 ```
 
-## LVGL Dependency Import
+### WASM Platform Build
 
-ElenixOS uses LVGL as the graphics library, and LVGL is included as a submodule in the ElenixOS codebase:
+WASM build requires the Emscripten toolchain. Ensure Emscripten SDK is installed and activated:
 
-### Submodule Initialization
+```bash
+# Install Emscripten SDK (if not already installed)
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+./emsdk install latest
+./emsdk activate latest
+source ./emsdk_env.sh
+
+# Return to project directory, create WASM build directory
+cd ElenixOS-Simulator
+mkdir -p build-wasm && cd build-wasm
+
+# Configure CMake (WASM platform)
+cmake .. -DEOS_PLATFORM=WASM -DCMAKE_BUILD_TYPE=Release
+
+# Compile
+cmake --build . -j$(nproc)
+
+# Build artifacts are in build-wasm/bin/ directory
+# Use HTTP server to open bin/main.html to run
+```
+
+### Enable FreeRTOS
+
+```bash
+mkdir -p build-freertos && cd build-freertos
+cmake .. -DUSE_FREERTOS=ON -DCMAKE_BUILD_TYPE=Debug
+cmake --build . -j$(nproc)
+```
+
+## Complete Build Process
+
+The following diagram shows the complete build process for the ElenixOS simulator:
+
+```
+Source code (C/C++/JS)
+    │
+    ├── ElenixOS/          ──┐
+    ├── lvgl/              ──┤── CMake compilation ──► elenixos_lib (static library)
+    ├── FreeRTOS/          ──┘
+    │
+    └── main/              ──┬── Linking ──► main (executable)
+        ├── main.c          │
+        ├── eos_port.c      │
+        ├── jerry_port.c    │
+        └── mac_api.c       │
+                            │
+                    Runtime directory structure:
+                    bin/
+                    ├── main (or main.html)
+                    └── fs/
+                        ├── .sys/
+                        │   ├── config/
+                        │   └── res/
+                        └── .simulator/
+```
+
+## Build Artifacts
+
+After building for Native platform, artifacts are located in `build/bin/` directory:
+
+| File | Description |
+|------|-------------|
+| `main` | Simulator executable |
+| `fs/` | Runtime file system directory (automatically copied by CMake) |
+
+After building for WASM platform, artifacts are located in `build-wasm/bin/` directory:
+
+| File | Description |
+|------|-------------|
+| `main.html` | Simulator web page |
+| `main.js` | WASM glue code |
+| `main.wasm` | WebAssembly binary |
+| `static/` | Static resource directory |
+
+## ElenixOS-Tools Development Tool
+
+The project provides the `ElenixOS-Tools.py` tool script to assist with the development process:
+
+```bash
+# Run the tool
+python3.10 ElenixOS-Tools.py
+```
+
+This script provides the following functionality:
+
+1. **Generate lvgl.json**: Generate JSON API description file from LVGL source code
+2. **Generate sni_lv_types.c**: Generate type definition file for LVGL JavaScript bindings based on lvgl.json
+
+The tool automatically creates a Python virtual environment and installs dependencies.
+
+## Run the Simulator
+
+### Native Platform
+
+Execute the build artifact directly:
+
+```bash
+./bin/main
+```
+
+The simulator window includes:
+
+- **Central display area**: Simulated watch screen (390x450 pixels)
+- **Right side Crown**: Click to simulate crown press
+- **Right side Side Button**: Click to simulate side button press
+
+### WASM Platform
+
+Use an HTTP server to serve the build artifacts:
+
+```bash
+# Use Python built-in HTTP server
+cd build-wasm/bin
+python3 -m http.server 8000
+
+# Open http://localhost:8000/build-wasm/bin/main.html in browser
+```
+
+## Common Build Issues
+
+### CMake Configuration Failure
+
+**Error message**: `Could NOT find SDL2`
+
+**Solution**: Install SDL2 development library, see [Environment Setup](/docs/getting_started/environment) documentation.
+
+### Compilation Error: Header File Not Found
+
+```text
+fatal error: 'lvgl/lvgl.h' file not found
+```
+
+**Solution**: Ensure submodules are correctly initialized:
 
 ```bash
 git submodule update --init --recursive
 ```
 
-### LVGL Configuration
+### Linking Error: Undefined Symbols
 
-The LVGL configuration file is located at `src/port/lvgl/lv_conf.h`, and you can modify the configuration as needed:
-
-```c
-// Enable or disable LVGL features
-#define LV_USE_XXX 1 // Enable feature
-#define LV_USE_XXX 0 // Disable feature
-
-// Configure LVGL memory usage
-#define LV_MEM_SIZE (128 * 1024) // 128KB
-
-// Configure LVGL display resolution
-#define LV_HOR_RES_MAX 320
-#define LV_VER_RES_MAX 240
+```text
+undefined reference to 'eos_xxx'
 ```
 
-## Build Commands and Parameters
-
-### Build Parameters
-
-| Parameter | Description | Example |
-|-----------|-------------|---------|
-| `CMAKE_BUILD_TYPE` | Build type | `Debug`, `Release`, `RelWithDebInfo` |
-| `CMAKE_TOOLCHAIN_FILE` | Cross-compilation toolchain file | `toolchain.cmake` |
-| `EOS_PLATFORM` | Target platform | `stm32`, `esp32` |
-| `EOS_DISPLAY_WIDTH` | Display width | `320` |
-| `EOS_DISPLAY_HEIGHT` | Display height | `240` |
-
-### Cross-compilation
-
-#### Compile to ARM Cortex-M
-
-1. Set the cross-compilation toolchain:
+**Solution**: Clean build cache and recompile:
 
 ```bash
-export CROSS_COMPILE=arm-none-eabi-
-```
-
-2. Configure CMake:
-
-```bash
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=toolchain/arm-none-eabi.cmake
-```
-
-3. Build the project:
-
-```bash
+rm -rf build
+mkdir build && cd build
+cmake ..
 cmake --build .
 ```
 
-#### Compile to ESP32
+### WASM Build: Emscripten Not Found
 
-1. Set up the ESP-IDF environment:
+```text
+CMake Error: Could not find CMAKE_ROOT
+```
+
+**Solution**: Ensure Emscripten environment is correctly activated:
 
 ```bash
-. $HOME/esp/esp-idf/export.sh
+source /path/to/emsdk/emsdk_env.sh
 ```
 
-2. Configure CMake:
+### FreeRTOS Build Failure
 
-```bash
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=toolchain/esp32.cmake
-```
+When enabling FreeRTOS, ensure the compiler supports POSIX threads (pthreads). Linux and macOS usually have built-in support, for Windows it is recommended to use WSL2.
 
-3. Build the project:
+### WASM Platform Does Not Support FreeRTOS
 
-```bash
-cmake --build .
-```
+When building for WASM, `USE_FREERTOS` is automatically disabled because the Emscripten environment does not support FreeRTOS's POSIX porting layer.
 
-## Build Artifacts and Deployment
+## Next Steps
 
-### Build Artifacts
+After successful build, it is recommended to continue exploring in the following order:
 
-After building, the following artifacts will be generated:
-
-- **ElenixOS.elf**: Executable file (embedded platform)
-- **ElenixOS.bin**: Binary file (embedded platform)
-- **ElenixOS.hex**: Hexadecimal file (embedded platform)
-
-### Deployment
-
-Use the appropriate flashing tool to flash the binary file to the target device:
-
-##### STM32
-
-Flash using STM32 CubeProgrammer:
-
-```bash
-STM32_Programmer_CLI -c port=SWD -w ElenixOS.hex
-```
-
-##### ESP32
-
-Flash using esptool.py:
-
-```bash
-esptool.py --port /dev/ttyUSB0 write_flash 0x0 ElenixOS.bin
-```
-
-## Resource Management
-
-### Resource Files
-
-ElenixOS resource files include:
-
-- **Fonts**: Located in `resources/font/` directory
-- **Icons**: Located in `resources/icon/` directory
-- **Images**: Located in `resources/image/` directory
-
-### Resource Compilation
-
-Resource files will be compiled into the firmware, and use `scripts/icon/gen_icon_def.py` to generate icon definitions:
-
-```bash
-python3 scripts/icon/gen_icon_def.py
-```
-
-## Platform-related Differences
-
-### Display Drivers
-
-Display drivers are implemented differently for different platforms and need to be adapted according to the platform:
-
-#### STM32
-
-Use STM32 hardware display driver:
-
-```c
-// src/port/display/eos_display_port_stm32.c
-```
-
-#### ESP32
-
-Use ESP32 hardware display driver:
-
-```c
-// src/port/display/eos_display_port_esp32.c
-```
-
-### Input Drivers
-
-Input drivers are implemented differently for different platforms and need to be adapted according to the platform:
-
-#### STM32
-
-Use STM32 hardware input driver:
-
-```c
-// src/port/input/eos_input_port_stm32.c
-```
-
-#### ESP32
-
-Use ESP32 hardware input driver:
-
-```c
-// src/port/input/eos_input_port_esp32.c
-```
-
-### File System
-
-File systems are implemented differently for different platforms and need to be adapted according to the platform:
-
-#### POSIX Systems
-
-Use POSIX file system:
-
-```c
-// src/port/file_system/eos_fs_port_posix.c
-```
-
-#### RT-Thread
-
-Use RT-Thread file system:
-
-```c
-// src/port/file_system/eos_fs_port_rtthread.c
-```
-
-## Build Scripts
-
-ElenixOS provides build scripts to simplify the build process:
-
-### Build Embedded Version
-
-```bash
-./scripts/build.sh --platform stm32
-```
-
-### Clean Build
-
-```bash
-./scripts/clean.sh
-```
-
-## Common Issues and Solutions
-
-### Build Failure
-
-**Issue**: Compilation failed, prompting missing dependencies
-
-**Solution**:
-1. Ensure all dependencies are correctly installed
-2. Ensure all submodules are correctly cloned
-3. Check if CMake version meets the requirements
-
-### Link Failure
-
-**Issue**: Link failed, prompting missing symbols
-
-**Solution**:
-1. Check if platform-related drivers are correctly implemented
-2. Check if LVGL is correctly configured
-3. Check if all dependency libraries are correctly linked
-
-### Runtime Error
-
-**Issue**: Runtime crash
-
-**Solution**:
-1. Check if memory usage is reasonable
-2. Check if hardware drivers are correctly implemented
-3. Check if application code has errors
-
-## Best Practices
-
-1. **Modular build**: Build only necessary modules according to platform requirements
-2. **Optimize configuration**: Optimize LVGL and system configurations according to the resource situation of the target device
-3. **Test and verify**: Conduct sufficient testing and verification after building
-4. **Document**: Record the build process and configuration for future reference
-5. **Version control**: Use version control system to manage build configuration and code
-
-## Summary
-
-The ElenixOS build process involves multiple steps, including dependency installation, configuration settings, compilation, and deployment. By understanding the build process and platform-related differences, developers can successfully build and deploy ElenixOS to different hardware platforms.
-
-This document provides detailed build guidelines, including build prerequisites, LVGL dependency import, build commands and parameters, build artifacts and deployment methods, etc. Following these guidelines, developers can quickly build ElenixOS and start developing and testing applications.
+1. Read [System Architecture](/docs/architecture/arch) to understand ElenixOS design
+2. Read [Quick Start](/docs/getting_started/quick_start) to understand basic usage
+3. Check [JS API](/docs/js-api/index) to start developing applications
