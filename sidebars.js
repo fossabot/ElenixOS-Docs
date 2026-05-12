@@ -4,15 +4,15 @@
 
 /**
  * Creating a sidebar enables you to:
- - create an ordered group of docs
- - render a sidebar for each doc of that group
- - provide next/previous navigation
-
- The sidebars can be generated from the filesystem, or explicitly defined here.
-
- Create as many sidebars as you want.
-
- @type {import('@docusaurus/plugin-content-docs').SidebarsConfig}
+ * - create an ordered group of docs
+ * - render a sidebar for each doc of that group
+ * - provide next/previous navigation
+ *
+ * The sidebars can be generated from the filesystem, or explicitly defined here.
+ *
+ * Create as many sidebars as you want.
+ *
+ * @type {import('@docusaurus/plugin-content-docs').SidebarsConfig}
  */
 const sidebars = {
   tutorialSidebar: [
@@ -48,51 +48,74 @@ const sidebars = {
       label: '系统架构',
       items: [
         'architecture/arch',
-        'architecture/script_engine',
+        'architecture/overview',
         'architecture/runtime',
-        'sni/sni',
-      ],
-    },
-    {
-      type: 'category',
-      label: '核心模块',
-      items: [
-        'core/app',
-        'core/services',
-        'core/events',
-        'core/fs',
+        'architecture/device_architecture_design',
         {
           type: 'category',
-          label: 'UI',
+          label: '框架层',
           items: [
-            'core/ui',
-            'core/card_pager',
-            'core/slide_widget',
+            'architecture/framework/app/app',
+            'architecture/framework/activity/activity',
           ],
         },
-        'core/activity',
-        'core/dispatcher'],
-    },
-    {
-      type: 'category',
-      label: 'JS API',
-      items: [
-        'js-api/index',
-        'js-api/elenix_os',
-        'js-api/lvgl',
-        'js-api/special',
         {
           type: 'category',
-          label: '特殊组件',
+          label: '内核层',
           items: [
-            'js-api/widgets/anim',
-            'js-api/widgets/btnm',
-            'js-api/widgets/calendar',
-            'js-api/widgets/canvas',
-            'js-api/widgets/dropdown',
-            'js-api/widgets/image',
-            'js-api/widgets/obj',
-            'js-api/widgets/timer',
+            'architecture/kernel/event/events',
+            'architecture/kernel/scheduler/dispatcher',
+          ],
+        },
+        {
+          type: 'category',
+          label: '服务层',
+          items: [
+            'architecture/services/storage/storage',
+            'architecture/services/battery/battery',
+            'architecture/services/config/config',
+            'architecture/services/display/display',
+            'architecture/services/haptic/haptic',
+            'architecture/services/log/log',
+            'architecture/services/pm/pm',
+            'architecture/services/sensor/sensor',
+            'architecture/services/state/state',
+            'architecture/services/time/time',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'UI层',
+          items: [
+            'architecture/ui/ui',
+            'architecture/ui/widgets/card_pager/card_pager',
+            'architecture/ui/widgets/slide_widget/slide_widget',
+            'architecture/ui/widgets/swipe_panel/swipe_panel',
+          ],
+        },
+        {
+          type: 'category',
+          label: '脚本引擎',
+          items: [
+            'architecture/script_engine/index',
+            'architecture/script_engine/elenix_os',
+            'architecture/script_engine/lvgl',
+            'architecture/script_engine/special',
+            'architecture/script_engine/sni/sni',
+            {
+              type: 'category',
+              label: '特殊组件',
+              items: [
+                'architecture/script_engine/sni/sni_api/lv/special/anim',
+                'architecture/script_engine/sni/sni_api/lv/special/btnm',
+                'architecture/script_engine/sni/sni_api/lv/special/calendar',
+                'architecture/script_engine/sni/sni_api/lv/special/canvas',
+                'architecture/script_engine/sni/sni_api/lv/special/dropdown',
+                'architecture/script_engine/sni/sni_api/lv/special/image',
+                'architecture/script_engine/sni/sni_api/lv/special/obj',
+                'architecture/script_engine/sni/sni_api/lv/special/timer',
+              ],
+            },
           ],
         },
       ],

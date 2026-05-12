@@ -226,7 +226,7 @@ button.addEventCb((e) => {
             >
               <Translate id="homepage.quick.start">快速开始</Translate>
             </Link>
-            <Link className={styles.quickLink} to="/docs/js-api/">
+            <Link className={styles.quickLink} to="/docs/architecture/script_engine/elenix_os">
               <Translate id="homepage.quick.api">JS API</Translate>
             </Link>
             <Link className={styles.quickLink} to="/docs/architecture/arch">

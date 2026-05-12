@@ -1,0 +1,22 @@
+---
+sidebar_position: 13
+title: Time Service
+---
+
+The time service provides functionality to get the system time.
+
+## Service Initialization
+
+```c
+eos_result_t eos_service_time_init(void);
+```
+
+Returns `EOS_OK` on success, or an error code on failure.
+
+## Get System Time
+
+```c
+eos_datetime_t eos_time_get(void);
+```
+
+Returns the current date and time with millisecond precision.

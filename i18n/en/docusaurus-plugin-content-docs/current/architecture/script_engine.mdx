@@ -127,5 +127,259 @@ The JS API layer is interaction layer between Script Engine and underlying hardw
 
 ### JS API Directory
 
-1. ElenixOS System API: [ElenixOS](../js-api/elenix_os)
-2. LVGL UI API: [LVGL](../js-api/lvgl)
+1. ElenixOS System API: [ElenixOS](./script_engine/elenix_os)
+2. LVGL UI API: [LVGL](./script_engine/lvgl)
+
+## Timeout Mechanism
+
+### Overview
+
+Since JavaScript is single-threaded, if there are infinite loops or long-time blocking operations in the script, it will cause the entire system to become unresponsive. To prevent this, ElenixOS Script Engine implements a timeout mechanism that can automatically detect and terminate timed-out script execution.
+
+### Timeout Mechanism Principle
+
+The timeout mechanism of the script engine is implemented based on JerryScript's `jerry_execution_stop_callback` mechanism. When JerryScript executes JavaScript code, it regularly calls the registered stop callback function, which the script engine uses to detect whether execution time has timed out.
+
+**Timeout Detection Flow:**
+
+```mermaid
+flowchart TD
+    A[Script starts execution] --> B[Record start time]
+    B --> C{Execute JavaScript code}
+    C --> D[JerryScript calls stop callback]
+    D --> E{Check if timeout}
+    E -->|Yes| F[Set timeout flag]
+    F --> G[Switch to STOPPING state]
+    G --> H[Throw timeout exception]
+    H --> I[Terminate script execution]
+    E -->|No| J[Continue execution]
+    J --> C
+```
+
+### Core Implementation
+
+#### Timeout Detection Callback Function
+
+```c
+static jerry_value_t _vm_exec_stop_callback(void *user_p)
+{
+    (void)user_p;
+
+    if (engine_ctx.state == SCRIPT_STATE_STOPPING)
+    {
+        return jerry_string_sz("Script terminated by request");
+    }
+
+    if (engine_ctx.script_timeout_ms > 0 && engine_ctx.state == SCRIPT_STATE_RUNNING)
+    {
+        uint32_t elapsed = eos_tick_get() - engine_ctx.script_start_time;
+        if (elapsed >= engine_ctx.script_timeout_ms)
+        {
+            EOS_LOG_W("Script execution timeout (%u ms)", elapsed);
+            engine_ctx.stop_is_timeout = true;
+            _change_state(SCRIPT_STATE_STOPPING);
+            return jerry_string_sz("Script execution timeout");
+        }
+    }
+
+    return jerry_undefined();
+}
+```
+
+#### Key Data Structure
+
+```c
+typedef struct {
+    script_state_t state;         /**< Current state */
+    uint32_t script_start_time;   /**< Script execution start time (tick) */
+    uint32_t script_timeout_ms;   /**< Script execution timeout (ms), 0 = no timeout */
+    bool stop_is_timeout;         /**< Flag indicating if stop was caused by timeout */
+} script_engine_context_t;
+```
+
+### Timeout Configuration
+
+#### Default Timeout
+
+```c
+#define SCRIPT_DEFAULT_TIMEOUT_MS 3000  // Default timeout: 3 seconds
+```
+
+#### Set Timeout
+
+```c
+void script_engine_set_timeout(uint32_t timeout_ms);
+uint32_t script_engine_get_timeout(void);
+```
+
+**Parameters:**
+- `timeout_ms`: Timeout in milliseconds, set to 0 to disable timeout detection
+
+### Dead Loop Solution
+
+#### Problem Scenario
+
+Infinite loops in JavaScript scripts cause scripts to execute indefinitely and fail to respond to system events:
+
+```javascript
+// Dangerous: infinite loop
+while (true) {
+    // Do something
+}
+
+// Dangerous: long-time blocking
+function heavyCalculation() {
+    let result = 0;
+    for (let i = 0; i < 1000000000; i++) {
+        result += i;
+    }
+    return result;
+}
+```
+
+#### Solution
+
+The timeout mechanism solves the dead loop problem in the following ways:
+
+1. **Periodic Detection**: JerryScript calls the stop callback after executing a certain number of bytecode instructions
+2. **Time Calculation**: Calculate the time elapsed since the script started execution in the callback
+3. **Timeout Handling**: If the elapsed time exceeds the set timeout:
+   - Set `stop_is_timeout` flag to true
+   - Switch script state to `SCRIPT_STATE_STOPPING`
+   - Return error message, JerryScript throws exception to terminate execution
+4. **Error Handling**: After catching the timeout exception, the system calls `eos_app_handle_script_error` to handle the script error
+
+#### Timeout Handling Flow
+
+```mermaid
+sequenceDiagram
+    participant Script as JavaScript Script
+    participant Engine as Script Engine
+    participant Jerry as JerryScript Core
+    participant System as System Service
+
+    Script->>Engine: Execute script
+    Engine->>Engine: Record start time
+    Engine->>Jerry: jerry_run()
+    
+    loop Bytecode execution loop
+        Jerry->>Engine: Call stop callback
+        Engine->>Engine: Calculate elapsed time
+        alt Not timeout
+            Engine-->>Jerry: Return undefined, continue execution
+        else Timeout
+            Engine->>Engine: Set stop_is_timeout = true
+            Engine->>Engine: Switch state to STOPPING
+            Engine-->>Jerry: Return error message
+            Jerry-->>Engine: Throw exception
+            Engine->>System: Call eos_app_handle_script_error()
+            Note over System: Error Type: EOS_SCRIPT_FAULT_UNRESPONSIVE
+            Note over System: Error Code: SE_ERR_TIMEOUT
+        end
+    end
+```
+
+### Error Types
+
+The script engine defines dedicated timeout error types:
+
+| Error Type | Error Code | Description |
+|------------|------------|-------------|
+| `EOS_SCRIPT_FAULT_UNRESPONSIVE` | `SE_ERR_TIMEOUT` | Script execution timeout/unresponsive |
+| `EOS_SCRIPT_FAULT_ERROR_EXCEPTION` | `SE_ERR_JERRY_EXCEPTION` | Script execution exception |
+
+### Timeout Detection Timing
+
+Timeout detection occurs at the following times:
+
+1. **When script starts executing**: Record start time `script_start_time`
+2. **When callback function is called**: When script resumes from suspended state, re-record start time
+3. **JerryScript periodic callback**: Regular detection during execution
+
+### Best Practices
+
+#### Avoid Long-Time Blocking
+
+```javascript
+// Not recommended: blocks main thread for a long time
+function processData(data) {
+    for (let i = 0; i < data.length; i++) {
+        // Process each data item
+        heavyProcessing(data[i]);
+    }
+}
+
+// Recommended: process in batches using timers
+function processDataAsync(data, index = 0) {
+    if (index >= data.length) return;
+    
+    // Process only a small portion each time
+    const batchSize = 100;
+    for (let i = index; i < Math.min(index + batchSize, data.length); i++) {
+        heavyProcessing(data[i]);
+    }
+    
+    // Continue processing in next event loop
+    setTimeout(() => processDataAsync(data, index + batchSize), 0);
+}
+```
+
+#### Use LVGL Timer Component (SNI)
+
+For computationally intensive tasks, it is recommended to use the LVGL Timer component to split tasks into multiple small tasks to avoid blocking the main thread. By executing in batches through timers, UI responsiveness can be maintained.
+
+```javascript
+// Execute time-consuming operations using LVGL Timer
+function heavyTask(data, total, current = 0) {
+    // Number of items to process per frame
+    const chunkSize = 100;
+    let processed = 0;
+    
+    // Process current batch
+    for (let i = current; i < current + chunkSize && i < total; i++) {
+        // Execute single item processing
+        processItem(data[i]);
+        processed++;
+    }
+    
+    // Update progress
+    const newCurrent = current + processed;
+    
+    if (newCurrent < total) {
+        // Create timer to continue processing in next frame
+        const timer = new lv.timer();
+        timer.setCb(() => {
+            heavyTask(data, total, newCurrent);
+            timer.delete(); // Delete timer after completion
+        });
+        timer.setPeriod(0); // Execute as soon as possible (next LVGL tick)
+        timer.start();
+    } else {
+        // Task completed
+        eos.console.log("Heavy task completed");
+    }
+}
+
+// Usage example
+const largeData = generateLargeData();
+heavyTask(largeData, largeData.length);
+```
+
+#### Set Appropriate Timeout
+
+Adjust timeout according to actual script requirements:
+
+```c
+// For simple UI scripts, use default timeout
+script_engine_set_timeout(3000);  // 3 seconds
+
+// For scripts requiring long-time calculations, extend timeout appropriately
+script_engine_set_timeout(10000); // 10 seconds
+
+// Disable timeout detection (not recommended)
+script_engine_set_timeout(0);
+```
+
+### Summary
+
+The timeout mechanism is an important security guarantee for the ElenixOS Script Engine. By periodically detecting script execution time, it can effectively prevent system unresponsiveness caused by infinite loops or long-time blocking. When timeout is detected, the system gracefully terminates script execution and notifies the application management module for error handling, ensuring system stability and reliability.

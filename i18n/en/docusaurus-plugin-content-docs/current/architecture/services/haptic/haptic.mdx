@@ -1,0 +1,56 @@
+---
+sidebar_position: 8
+title: Haptic Service
+---
+
+The haptic service is responsible for managing device vibration functions, providing different intensities of haptic feedback.
+
+## Haptic Strength Presets
+
+```c
+typedef enum {
+    EOS_HAPTIC_STRENGTH_OFF = 0,       // Off
+    EOS_HAPTIC_STRENGTH_NORMAL = 128,   // Normal strength
+    EOS_HAPTIC_STRENGTH_INTENSE = 255, // Intense strength
+} eos_haptic_strength_t;
+```
+
+## Haptic Feedback Patterns
+
+### Short Light Vibration
+
+Used for light haptic feedback prompts:
+
+```c
+void eos_haptic_tick(void);
+```
+
+### Stronger Longer Vibration
+
+Used for scenarios requiring stronger haptic feedback:
+
+```c
+void eos_haptic_buzz(void);
+```
+
+### Strongest Longest Vibration
+
+Used for important notifications or alerts:
+
+```c
+void eos_haptic_vibrate_long(void);
+```
+
+## Service Management
+
+### Initialize
+
+```c
+void eos_service_haptic_init(void);
+```
+
+### Set Global Vibration Strength
+
+```c
+void eos_haptic_set_strength(eos_haptic_strength_t s);
+```

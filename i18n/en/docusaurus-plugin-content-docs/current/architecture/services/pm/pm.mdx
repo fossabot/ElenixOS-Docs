@@ -1,0 +1,72 @@
+---
+sidebar_position: 10
+title: Power Management Service
+---
+
+The power management service is responsible for managing device power states, including wake, sleep, and AOD (Always-On Display) modes.
+
+## Power States
+
+```c
+typedef enum {
+    EOS_PM_DISPLAY_ON,      // Wake mode (screen on)
+    EOS_PM_DISPLAY_AOD,     // AOD mode (Always-On Display)
+    EOS_PM_SLEEP,           // Sleep mode
+} eos_pm_state_t;
+```
+
+## Service Initialization
+
+```c
+void eos_service_pm_init(void);
+```
+
+## Power Control
+
+### Wake Device
+
+```c
+void eos_pm_wake_up(void);
+```
+
+### Request Sleep
+
+If AOD mode is enabled, enters AOD mode; otherwise enters sleep mode:
+
+```c
+void eos_pm_request_sleep(void);
+```
+
+### Reset Timer
+
+Reset the sleep timer:
+
+```c
+void eos_pm_reset_timer(void);
+```
+
+### Set Sleep Timeout
+
+Set how long without operation before entering sleep (unit: seconds):
+
+```c
+void eos_pm_set_sleep_timeout(uint32_t sec);
+```
+
+## AOD Mode
+
+### Set AOD Mode
+
+```c
+void eos_pm_set_aod_mode(bool enable);
+```
+
+Pass true to enable AOD mode, false to disable AOD mode.
+
+## Get Power State
+
+```c
+eos_pm_state_t eos_pm_get_state(void);
+```
+
+Returns the current power state.

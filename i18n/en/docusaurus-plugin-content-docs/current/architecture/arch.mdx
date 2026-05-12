@@ -2,7 +2,7 @@
 
 ## Overall Architecture
 
-ElenixOS adopts a layered architecture design, from bottom to top: hardware layer, portable interface layer, kernel layer, and application layer. This architecture design gives the system good portability and scalability.
+ElenixOS adopts a layered architecture design, from bottom to top: Hardware Layer, Driver Layer, Device Manager, Service Layer, Kernel Layer, and Application Layer. This architecture provides good portability and scalability.
 
 ```mermaid
 flowchart BT
@@ -10,79 +10,101 @@ flowchart BT
     subgraph L1["Application Layer"]
         direction BT
         WATCHFACE["Watchface System"]
-        APP["Third-party Applications"]
-        SYSAPP["System Applications"]
+        APP["Third-party Apps"]
+        SYSAPP["System Apps"]
     end
 
     subgraph L2["Kernel Layer"]
         direction BT
 
-        subgraph R1["System Services Subsystem"]
+        subgraph R1["System Service Subsystem"]
             direction BT
-            DISPATHCER["Event Dispatching"]
+            DISPATHCER["Event Dispatcher"]
             ANIM["Animation System"]
             EVENT["Event System"]
-            SCENE["Scene System"]
-            SERVICES["User Services"]
+            ACTIVITY["Activity Controller"]
             LANG["Multi-language Support"]
             PKG["Package Manager"]
         end
 
         subgraph R2["Script Runtime Subsystem"]
             direction BT
-            SE["Script Engine"]
-            JS_API["JS API Layer"]
+            subgraph SE["Script Engine"]
+                direction BT
+                JERRY["JerryScript"]
+                REALM["Realm Isolation"]
+            end
+            subgraph SNI["SNI Interface Layer"]
+                direction BT
+                SNI_SERVICE["Service APIs"]
+                SNI_UI["UI Component APIs"]
+                SNI_EVENT["Event APIs"]
+            end
         end
 
-        UI["Built-in UI Controls"]
+        UI["Built-in UI Widgets"]
     end
 
-
-    subgraph THIRD_PARTY["Dependency Libraries"]
+    subgraph L3["Service Layer"]
         direction BT
-        subgraph LVGL["LVGL"]
-            GUI["GUI"]
-            INPUT["Input"]
-            TIME["Time System"]
-        end
+        SENSOR_SERVICE["Sensor Service"]
+        DISPLAY_SERVICE["Display Service"]
+        BATTERY_SERVICE["Battery Service"]
+        PM_SERVICE["Power Management Service"]
+        HAPTIC_SERVICE["Haptic Service"]
+        TIME_SERVICE["Time Service"]
+        STORAGE_SERVICE["Storage Service"]
+        CONFIG_SERVICE["Config Service"]
+        STATE_SERVICE["State Service"]
+        LOG_SERVICE["Log Service"]
+    end
+
+    subgraph L4["Device Manager"]
+        direction BT
+        DEV_MGR["Device Manager"]
+        SENSOR_DEV["Sensor Device"]
+        DISPLAY_DEV["Display Device"]
+        BATTERY_DEV["Battery Device"]
+        POWER_DEV["Power Device"]
+        TIME_DEV["Time Device"]
+        VIBRATOR_DEV["Vibrator Device"]
+    end
+
+    subgraph THIRD_PARTY["Third-party Libraries"]
+        direction BT
+        LVGL["LVGL"]
         JERRYSCRIPT["JerryScript"]
-        OtherSW["Other Software"]
+        OtherSW["Other Libraries"]
     end
 
-
-    subgraph L3["Portable Interface Layer"]
+    subgraph L5["Driver Layer"]
         direction BT
-
-        subgraph OSABS["OS Abstraction Layer"]
-            direction BT
-            MEM["Memory Management"]
-            SEM["Synchronization Primitives"]
-            FS["File System"]
-        end
-
-        SENSOR["Sensor Interface"]
-        POWER["Power Management Interface"]
-        OTHERDEVICES["Other Peripheral Interfaces"]
+        SENSOR_DRIVER["Sensor Driver"]
+        DISPLAY_DRIVER["Display Driver"]
+        BATTERY_DRIVER["Battery Driver"]
+        POWER_DRIVER["Power Driver"]
+        TIME_DRIVER["Time Driver"]
+        VIBRATOR_DRIVER["Vibrator Driver"]
+        FS_DRIVER["File System Driver"]
     end
 
-
-    subgraph L4["Hardware Layer"]
+    subgraph L6["Hardware Layer"]
         direction BT
         MCU["MCU / SoC"]
         BLUETOOTH["Bluetooth"]
         SENSORS_HW["Sensor Hardware"]
         STORAGE["Storage"]
-        DISPLAY_HW["Display and Input"]
-        PMIC["Power Management IC"]
+        DISPLAY_HW["Display & Input"]
+        PMIC["PMIC"]
     end
 
-
+    L6 --> L5
+    L5 --> L4
     L4 --> L3
-    L4 --> THIRD_PARTY
-    THIRD_PARTY --> L2
     L3 --> L2
     L2 --> L1
-
+    THIRD_PARTY --> L2
+    L5 --> THIRD_PARTY
 ```
 
 ## Module Dependencies
@@ -91,31 +113,48 @@ flowchart BT
 
 ```mermaid
 graph TD
-    subgraph ApplicationLayer["Application Layer"]
-        AppMgr["Application Management"]
-        WatchfaceMgr["Watchface Management"]
-        SystemApp["System Applications"]
-        ThirdPartyApp["Third-party Applications"]
+    subgraph Application Layer
+        AppMgr["App Manager"]
+        WatchfaceMgr["Watchface Manager"]
+        SystemApp["System Apps"]
+        ThirdPartyApp["Third-party Apps"]
     end
 
-    subgraph KernelLayer["Kernel Layer"]
+    subgraph Kernel Layer
         ScriptEngine["Script Engine"]
         UIModule["UI Module"]
-        SystemServices["System Services"]
-        FileSystem["File System"]
         EventSystem["Event System"]
     end
 
-    subgraph PortableInterfaceLayer["Portable Interface Layer"]
-        PortLayer["Porting Layer"]
-        HAL["Hardware Abstraction Layer"]
+    subgraph Service Layer
+        SensorService["Sensor Service"]
+        DisplayService["Display Service"]
+        BatteryService["Battery Service"]
+        PMService["Power Management Service"]
+        StorageService["Storage Service"]
     end
 
-    subgraph HardwareLayer["Hardware Layer"]
+    subgraph Device Manager
+        DeviceManager["Device Manager"]
+        SensorDevice["Sensor Device"]
+        DisplayDevice["Display Device"]
+        BatteryDevice["Battery Device"]
+        PowerDevice["Power Device"]
+    end
+
+    subgraph Driver Layer
+        SensorDriver["Sensor Driver"]
+        DisplayDriver["Display Driver"]
+        BatteryDriver["Battery Driver"]
+        PowerDriver["Power Driver"]
+        FileSystemDriver["File System Driver"]
+    end
+
+    subgraph Hardware Layer
         Hardware["Hardware"]
     end
 
-    subgraph ThirdPartyLibraries["Third-party Libraries"]
+    subgraph Third-party Libraries
         LVGL["LVGL"]
         JerryScript["JerryScript"]
         CJSON["cJSON"]
@@ -127,79 +166,137 @@ graph TD
     ThirdPartyApp --> ScriptEngine
 
     ScriptEngine --> UIModule
-    ScriptEngine --> SystemServices
-    ScriptEngine --> FileSystem
+    ScriptEngine --> SensorService
+    ScriptEngine --> DisplayService
+    ScriptEngine --> BatteryService
+    ScriptEngine --> PMService
+    ScriptEngine --> StorageService
     ScriptEngine --> EventSystem
 
     UIModule --> LVGL
-    SystemServices --> HAL
-    FileSystem --> PortLayer
-    EventSystem --> HAL
+    SensorService --> DeviceManager
+    DisplayService --> DeviceManager
+    BatteryService --> DeviceManager
+    PMService --> DeviceManager
+    StorageService --> FileSystemDriver
+
+    DeviceManager --> SensorDevice
+    DeviceManager --> DisplayDevice
+    DeviceManager --> BatteryDevice
+    DeviceManager --> PowerDevice
+
+    SensorDevice --> SensorDriver
+    DisplayDevice --> DisplayDriver
+    BatteryDevice --> BatteryDriver
+    PowerDevice --> PowerDriver
+
+    SensorDriver --> Hardware
+    DisplayDriver --> Hardware
+    BatteryDriver --> Hardware
+    PowerDriver --> Hardware
+    FileSystemDriver --> Hardware
+
+    ScriptEngine --> JerryScript
+    StorageService --> CJSON
 
     LVGL --> Hardware
     JerryScript --> Hardware
-    PortLayer --> Hardware
-    HAL --> Hardware
-
-    ScriptEngine --> JerryScript
-    FileSystem --> CJSON
-    SystemServices --> CJSON
 ```
 
 ## Architecture Layer Description
 
 ### 1. Hardware Layer
 
-The hardware layer includes various hardware components such as MCU/SoC, Bluetooth, sensors, storage, display, and power management ICs. These hardware components are the foundation for ElenixOS to run.
+The hardware layer includes various hardware components such as MCU/SoC, Bluetooth, sensors, storage, display, and power management chips. These hardware components form the foundation for ElenixOS operation.
 
-### 2. Portable Interface Layer
+### 2. Driver Layer
 
-The portable interface layer provides hardware abstraction, including:
+The driver layer is the lowest level of hardware abstraction, implemented by the porting party:
+- Sensor drivers: accelerometer, gyroscope, heart rate sensor, etc.
+- Display driver: screen control and display output
+- Battery driver: battery status collection
+- Power driver: power management chip control
+- File system driver: storage device access
 
-- **OS Abstraction Layer**: Memory management, synchronization primitives, file system, etc.
-- **Sensor Interface**: Unified sensor access interface
-- **Power Management Interface**: Power state management and control
-- **Other Peripheral Interfaces**: Access interfaces for other hardware peripherals
+### 3. Device Manager
 
-This layer's design allows ElenixOS to run on different hardware platforms by simply implementing the corresponding interfaces.
+The device manager is the only path for upper layers to obtain device instances:
+- Unified management of device instance registration and lookup
+- Maintains device state machines
+- Provides status reporting mechanism
+- Supports single-instance and multi-instance device management
 
-### 3. Kernel Layer
+### 4. Service Layer
+
+The service layer provides standard API interfaces to upper layers:
+
+| Service Name | Description |
+|-------------|-------------|
+| Sensor Service | Sensor sampling and data processing, supports Pull/Push modes |
+| Display Service | Screen brightness management and power control |
+| Battery Service | Battery status monitoring and power management |
+| Power Management Service | System power state and sleep management |
+| Haptic Service | Haptic feedback control |
+| Time Service | System time retrieval |
+| Storage Service | File system operations and JSON storage |
+| Config Service | System configuration management |
+| State Service | Runtime persistent state management |
+| Log Service | Listener-based logging system |
+
+### 5. Kernel Layer
 
 The kernel layer is the core of ElenixOS, containing the following subsystems:
 
-- **System Services Subsystem**: Event dispatching, animation system, event system, scene system, user services, multi-language support, package manager, etc.
-- **Script Runtime Subsystem**: Script engine, JS API layer, etc.
-- **Built-in UI Controls**: Various UI components built based on LVGL
+- **System Service Subsystem**: Event dispatching, animation system, event system, activity controller, multi-language support, package manager, etc.
+- **Script Runtime Subsystem**: Script engine, SNI, etc.
+- **Built-in UI Widgets**: Various UI components built on LVGL
 
-This layer implements the core functions of ElenixOS and provides services and interfaces for the application layer.
+### 6. Application Layer
 
-### 4. Application Layer
+The application layer includes the watchface system, third-party applications, and system applications. These applications run on the script engine and use SNI to access system services and UI components.
 
-The application layer includes watchface system, third-party applications, and system applications. These applications run based on the script engine and use JS API to access system services and UI components.
+## Core Design Principles
 
-## Data Flow
+### Device-Service Interaction Principle
 
-The data flow of ElenixOS is as follows:
+The system follows the core principle of "upper layers send control commands, lower layers only report status":
 
-1. **User Input**: Obtain user input through hardware layer input devices (such as touch screen)
-2. **Event Processing**: Input events are passed through the portable interface layer to the kernel layer's event system
-3. **Event Dispatching**: The event system distributes events to corresponding handlers
-4. **Application Response**: Applications execute corresponding logic based on events
-5. **UI Update**: Applications update the interface through the UI module
-6. **Display Output**: The UI module renders the interface to the display
+```mermaid
+flowchart LR
+    driver["Driver Layer"] -->|Report Status| device_manager["Device Manager"]
+    device_manager -->|Update State| device_manager
+    service["Service Layer"] -->|Query Control| device_manager
+    application["Application Layer"] -->|Control Commands| service
+```
 
-## Script Execution Process
+### Data Flow
+
+The data flow in ElenixOS is as follows:
+
+1. **User Input**: Obtain user input through hardware input devices (e.g., touchscreen)
+2. **Event Processing**: Input events are passed to the device manager through the driver layer
+3. **Status Reporting**: Device manager updates status and notifies the service layer
+4. **Service Processing**: Service layer processes business logic and responds to requests
+5. **Event Dispatching**: Event system distributes events to corresponding handlers
+6. **Application Response**: Applications execute corresponding logic based on events
+7. **UI Update**: Applications update the interface through the UI module
+8. **Display Output**: UI module renders the interface to the display
+
+### Sensor Data Reporting Flow
+
+```mermaid
+flowchart LR
+    driver["driver"] -->|sensor_report| fast_queue["Fast Enqueue"]
+    fast_queue -->|Write| ring_buffer["Ring Buffer"]
+    ring_buffer -->|Schedule| service_layer["Service Layer"]
+    service_layer -->|Callback Dispatch| subscribers["Subscribers"]
+```
+
+## Script Execution Flow
 
 1. **Script Loading**: Load application or watchface script files from the file system
-2. **Script Parsing**: The script engine parses JavaScript code
-3. **Script Execution**: Execute scripts in Realm, call JS API
-4. **Native Call**: JS API calls native code to access system services and hardware
-5. **Result Return**: Return execution results to the script
-
-## Architecture Advantages
-
-1. **Layered Design**: Clear layered structure makes the system easy to understand and maintain
-2. **Portability**: The portable interface layer allows the system to run on different hardware platforms
-3. **Scalability**: Modular design makes the system easy to extend and customize
-4. **Script-driven**: Scripted development makes application development more flexible and efficient
-5. **Unified Interface**: Unified API design makes application development simpler
+2. **Script Parsing**: Script engine parses JavaScript code
+3. **Module Import**: Script imports required modules and APIs through ScriptEngine
+4. **Script Execution**: Execute script in Realm, call SNI
+5. **Native Call**: SNI calls native code to access system services and hardware
+6. **Result Return**: Return execution results to the script

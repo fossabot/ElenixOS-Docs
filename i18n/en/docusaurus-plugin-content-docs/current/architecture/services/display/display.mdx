@@ -1,0 +1,52 @@
+---
+sidebar_position: 7
+title: Display Service
+---
+
+The display service is responsible for managing screen brightness, power on/off and other display-related functions.
+
+## Brightness Settings
+
+Set screen brightness:
+
+```c
+void eos_display_set_brightness(uint8_t brightness, eos_display_duration_t duration_ms, bool is_temporary);
+```
+
+Parameters:
+- `brightness`: Brightness value (0-100)
+- `duration_ms`: Animation duration in milliseconds, use `eos_display_duration_t` presets or `EOS_DISPLAY_DURATION_OFF` for immediate change
+- `is_temporary`: If true, saves current brightness and temporarily sets new brightness; calling `eos_display_restore()` can restore the saved brightness
+
+### Animation Duration Presets
+
+```c
+typedef enum {
+    EOS_DISPLAY_DURATION_OFF = 0,      // Immediate change
+    EOS_DISPLAY_DURATION_FAST = 100,  // Fast (100ms)
+    EOS_DISPLAY_DURATION_MEDIUM = 300, // Medium (300ms)
+    EOS_DISPLAY_DURATION_SLOW = 500,   // Slow (500ms)
+} eos_display_duration_t;
+```
+
+## Screen Power Control
+
+### Turn On Screen
+
+```c
+void eos_display_power_on(void);
+```
+
+### Turn Off Screen
+
+```c
+void eos_display_power_off(void);
+```
+
+## Restore Brightness
+
+Restore to the brightness saved when `eos_display_set_brightness()` was called:
+
+```c
+void eos_display_restore(eos_display_duration_t duration_ms);
+```

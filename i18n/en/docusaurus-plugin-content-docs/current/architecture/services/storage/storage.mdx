@@ -1,0 +1,215 @@
+---
+sidebar_position: 4
+title: File System Module
+---
+
+ElenixOS uses a unified path format, namely POSIX-style paths. All file operations must go through the storage service, and the system cannot directly access the underlying file system.
+
+## LVGL File System Integration
+
+The LVGL file system driver works as an adapter layer:
+
+- Intercepts all LVGL file operations
+- Translates them into eos_service_storage API calls
+- Ensures all file access goes through the ElenixOS storage sandbox
+
+### Architecture
+
+LVGL → FS driver → eos_service_storage → eos_fs_port
+
+### Why LV_FS_DEFAULT_DRIVE_LETTER Must Be Fixed?
+
+LVGL uses a "drive letter" mechanism (e.g. 'S:/path') to select file system drivers. If a path does not contain a drive letter, LVGL falls back to LV_FS_DEFAULT_DRIVE_LETTER.
+
+In ElenixOS:
+- A single unified file system is exposed to applications
+- All paths should be POSIX-style (e.g. "/data/config.json")
+- The LVGL driver internally handles drive letter translation
+
+Therefore, LV_FS_DEFAULT_DRIVE_LETTER must point to the ElenixOS driver, otherwise LVGL may route file operations to an unexpected backend.
+
+```c
+#if LV_FS_DEFAULT_DRIVE_LETTER != EOS_LVGL_FS_LETTER
+#error "LV_FS_DEFAULT_DRIVE_LETTER must match EOS_LVGL_FS_LETTER"
+#endif
+```
+
+## Path Handling
+
+### Path Sanitization
+
+The `_storage_sanitize_path` function ensures all paths have the EOS_SYS_ROOT_DIR prefix:
+
+- If the path already contains the system root directory prefix, it remains unchanged
+- If the path starts with "/" (absolute path), the system root directory prefix is added
+- If the path is a relative path, the system root directory prefix is added
+
+## JSON Storage API
+
+The storage service provides a complete set of JSON file operation interfaces for reading and modifying JSON format configuration files.
+
+### Load JSON File
+
+Load a JSON file from storage:
+
+```c
+cJSON *eos_storage_json_load(const char *path);
+```
+
+Returns a cJSON root object, or NULL on failure.
+
+### Save JSON File
+
+Save a cJSON object to a file:
+
+```c
+eos_result_t eos_storage_json_save(const char *path, cJSON *root);
+```
+
+### Boolean Operations
+
+```c
+bool eos_storage_json_get_bool(const char *path, const char *key, bool default_value);
+eos_result_t eos_storage_json_set_bool(const char *path, const char *key, bool value);
+```
+
+### String Operations
+
+```c
+char *eos_storage_json_get_string(const char *path, const char *key, const char *default_value);
+eos_result_t eos_storage_json_set_string(const char *path, const char *key, const char *value);
+```
+
+The returned string needs to be freed using `eos_free` after use.
+
+### Number Operations
+
+```c
+double eos_storage_json_get_number(const char *path, const char *key, double default_value);
+eos_result_t eos_storage_json_set_number(const char *path, const char *key, double value);
+```
+
+### JSON Object Operations
+
+```c
+cJSON *eos_storage_json_get_json(const char *path, const char *key);
+eos_result_t eos_storage_json_set_json(const char *path, const char *key, cJSON *json_value);
+```
+
+The returned cJSON object needs to be freed using `cJSON_Delete` after use.
+
+### Create JSON File
+
+Creates a JSON file with default content if the file does not exist:
+
+```c
+eos_result_t eos_storage_json_create_if_not_exist(const char *path, const char *default_json);
+```
+
+## File System Operations
+
+### Check File Type
+
+```c
+bool eos_storage_is_dir(const char *path);
+bool eos_storage_is_file(const char *path);
+bool eos_storage_is_valid_filename(const char *name);
+```
+
+### Write to File
+
+Write a string to a file (automatically adds newline at the end):
+
+```c
+eos_result_t eos_storage_puts(const char *s, eos_file_t fp);
+```
+
+### Create Directory
+
+Creates the directory if it does not exist:
+
+```c
+eos_result_t eos_storage_mkdir_if_not_exist(const char *path);
+```
+
+Recursively create directory tree:
+
+```c
+eos_result_t eos_storage_mkdir_recursive(const char *path);
+```
+
+### Create File
+
+Creates a file with default content if it does not exist:
+
+```c
+eos_result_t eos_storage_create_file_if_not_exist(const char *path, const char *default_content);
+```
+
+### Read File
+
+Read entire file content into dynamically allocated buffer (can only read text files):
+
+```c
+char *eos_storage_read_file(const char *path);
+```
+
+Returns a dynamically allocated buffer that needs to be freed using `eos_free` after use.
+
+### Write File
+
+```c
+eos_result_t eos_storage_write_file(const char *path, const void *data, size_t data_size);
+```
+
+### Immediate Write (Bypass Deferred Writer)
+
+```c
+eos_result_t eos_storage_write_file_immediate(const char *path, const void *data, size_t data_size);
+char *eos_storage_read_file_immediate(const char *path);
+```
+
+## Deferred File Writer (DFW)
+
+The Deferred File Writer is used for batch writing files, reducing frequent Flash write operations to extend Flash lifespan.
+
+### How It Works
+
+- When writing data, it first writes to the buffer
+- When `eos_dfw_sync()` is called, buffer data is synchronized to the file system
+
+### Sync Buffer to File System
+
+```c
+void eos_dfw_sync(void);
+```
+
+### Write Data
+
+```c
+bool eos_dfw_write(const char *path, const uint8_t *data, size_t data_size);
+```
+
+Returns true if the task has been added to the queue and will be written to the file when `eos_dfw_sync()` is called next time.
+
+### Read File Data
+
+```c
+uint8_t *eos_dfw_read(const char *path);
+```
+
+Returns file content on success, NULL on failure. The returned pointer needs to be freed manually.
+
+### Initialize
+
+```c
+void eos_dfw_init(void);
+```
+
+## LVGL File System Registration
+
+Register the LVGL file system driver, routing all file operations to the ElenixOS storage service:
+
+```c
+void eos_lvgl_fs_register(void);
+```

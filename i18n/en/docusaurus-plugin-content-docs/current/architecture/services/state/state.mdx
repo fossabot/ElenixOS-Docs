@@ -1,0 +1,41 @@
+---
+sidebar_position: 12
+title: State Service
+---
+
+The state service is used for managing runtime persistent state, similar to the configuration service but specifically for storing runtime state information (such as battery capacity, cycle count, etc.).
+
+## State File Path
+
+```c
+#define EOS_STATE_FILE_PATH EOS_SYS_DIR "state.json"
+```
+
+## Service Initialization
+
+```c
+void eos_service_state_init(void);
+```
+
+## Boolean State
+
+```c
+eos_result_t eos_state_set_bool(const char *key, bool value);
+bool eos_state_get_bool(const char *key, bool default_value);
+```
+
+## String State
+
+```c
+eos_result_t eos_state_set_string(const char *key, const char *value);
+char *eos_state_get_string(const char *key, const char *default_value);
+```
+
+The returned string needs to be freed using `eos_free` when no longer needed.
+
+## Number State
+
+```c
+eos_result_t eos_state_set_number(const char *key, double value);
+double eos_state_get_number(const char *key, double default_value);
+```

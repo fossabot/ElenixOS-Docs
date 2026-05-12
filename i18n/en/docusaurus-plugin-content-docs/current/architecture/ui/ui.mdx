@@ -1,0 +1,89 @@
+# UI Components Module
+
+The UI components module is one of the core components of ElenixOS, providing a series of user interface components and interaction functions, built based on the LVGL graphics library. This module provides a unified UI components and interaction methods for applications, ensuring the consistency and aesthetics of the system interface.
+
+## Core Features
+
+### Basic Components
+
+Basic components include buttons, labels, input fields and other basic UI elements, providing basic user interaction functions for applications.
+
+### Advanced Components
+
+Advanced components include card pagers, bubble grids, swipe panels and other complex UI elements, providing rich interaction methods for applications.
+
+### Animation System
+
+The animation system provides rich animation effects, including fade in/out, slide, scale, etc., enhancing the visual effects and interactive experience of the user interface.
+
+### Activity Controller
+
+The activity controller is responsible for managing the activity lifecycle of applications, including activity creation, switching, destruction, etc.
+
+## Key Interfaces
+
+### Standard Components Interfaces
+
+```c
+lv_obj_t *eos_std_info_create(lv_obj_t *scr,
+                              lv_color_t icon_bg_color,
+                              const char *icon,
+                              const char *title_txt,
+                              const char *txt);
+
+void eos_std_title_comment_create(lv_obj_t *parent,
+                                  const char *title,
+                                  const char *comment);
+```
+
+- `eos_std_info_create`：Create message page, including icon, title and text
+- `eos_std_title_comment_create`：Create title and comment combination
+
+### Animation Interfaces
+
+The animation system provides rich animation effect interfaces. For details, please refer to the `eos_anim.h` file.
+
+### Activity Controller Interfaces
+
+The activity controller provides activity management interfaces. For details, please refer to the `eos_activity.h` file.
+
+## Implementation Details
+
+The core implementation of the UI components module includes:
+
+1. **Component encapsulation**：Encapsulate LVGL basic components to provide more advanced components and functions
+2. **Style management**：Unified management of component styles to ensure consistent interface style
+3. **Animation effects**：Implement various animation effects to enhance user experience
+4. **Interaction processing**：Handle user input and interaction events
+
+This module is based on the LVGL graphics library, providing rich UI components and interaction functions for ElenixOS.
+
+## Usage Examples
+
+### Create Message Page
+
+```c
+lv_obj_t *info_page = eos_std_info_create(lv_scr_act(),
+                                         lv_color_hex(0x007AFF),
+                                         "icon_info",
+                                         "Notification",
+                                         "This is a notification message");
+```
+
+### Create Title and Comment
+
+```c
+eos_std_title_comment_create(parent,
+                           "Title",
+                           "This is comment content");
+```
+
+## UI Architecture
+
+The UI components module adopts a layered architecture:
+
+1. **Basic component layer**：Based on LVGL-provided basic components
+2. **Advanced component layer**：Encapsulate and extend basic components to provide more advanced functions
+3. **Application component layer**：Components for specific application scenarios
+
+This architectural design allows UI components to maintain consistent style and interaction methods across different application scenarios, while providing sufficient flexibility and scalability.

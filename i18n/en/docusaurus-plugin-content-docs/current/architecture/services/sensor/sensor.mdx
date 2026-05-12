@@ -1,0 +1,120 @@
+---
+sidebar_position: 11
+title: Sensor Service
+---
+
+The sensor service is responsible for managing various sensors on the device, supporting two data acquisition modes: Pull (synchronous polling) and Push (asynchronous subscription).
+
+## Core Concepts
+
+### Pull Mode (Synchronous Polling)
+
+The upper layer actively reads data from the sensor, with the data source being the sensor data cache (FIFO).
+
+### Push Mode (Asynchronous Subscription)
+
+The upper layer registers a sensor data callback function, and the service actively notifies when new data is available.
+
+Both modes share the same data source (sensor data cache/FIFO), uniformly scheduled by the sensor service.
+
+## FIFO Capacity
+
+```c
+#define EOS_SENSOR_FIFO_CAPACITY    64
+```
+
+## Sensor Data Structures
+
+### Sensor Instance
+
+```c
+typedef struct {
+    eos_sensor_type_t type;           // Sensor type
+    eos_dev_sensor_t *device;         // Sensor device pointer
+    eos_fifo_t *fifo;                 // Data FIFO
+    eos_sensor_raw_data_t latest_data;// Latest data
+    uint8_t subscriber_count;         // Subscriber count
+    uint32_t sample_period_ms;        // Sample period
+    uint32_t last_sample_time;         // Last sample time
+    bool is_active;                   // Whether active
+} eos_sensor_service_instance_t;
+```
+
+## Service Initialization
+
+```c
+eos_result_t eos_service_sensor_init(void);
+```
+
+## Pull Mode API
+
+### Read Sensor Data from FIFO
+
+```c
+eos_result_t eos_sensor_read(eos_sensor_type_t type, eos_sensor_raw_data_t *data);
+```
+
+### Read Latest Sensor Data
+
+```c
+eos_result_t eos_sensor_read_latest(eos_sensor_type_t type, eos_sensor_raw_data_t *data);
+```
+
+## Push Mode API
+
+### Subscribe to Sensor Data
+
+Register a sensor data callback function:
+
+```c
+eos_result_t eos_sensor_subscribe(
+    eos_sensor_type_t type,
+    eos_sensor_data_cb_t cb,
+    void *user_data,
+    uint32_t min_interval_ms
+);
+```
+
+Parameters:
+- `type`: Sensor type
+- `cb`: Callback function
+- `user_data`: User data passed to callback
+- `min_interval_ms`: Minimum callback interval in milliseconds
+
+### Unsubscribe
+
+```c
+eos_result_t eos_sensor_unsubscribe(
+    eos_sensor_type_t type,
+    eos_sensor_data_cb_t cb,
+    void *user_data
+);
+```
+
+## Sample Period Management
+
+### Set Sample Period
+
+```c
+eos_result_t eos_sensor_set_sample_period(eos_sensor_type_t type, uint32_t period_ms);
+```
+
+### Get Sample Period
+
+```c
+uint32_t eos_sensor_get_sample_period(eos_sensor_type_t type);
+```
+
+## Sensor Data Notification
+
+Called by the driver to notify that new data is available:
+
+```c
+void eos_sensor_notify(eos_sensor_type_t type, const eos_sensor_data_t *data, uint32_t timestamp);
+```
+
+## Sensor Data Callback
+
+```c
+typedef eos_event_cb_t eos_sensor_data_cb_t;
+```
