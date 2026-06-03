@@ -85,16 +85,60 @@ Activity 可见 (visible)
 
 ElenixOS 使用栈结构管理 Activity。栈底固定为表盘（Watchface）Activity，新打开的 Activity 被压入栈顶。
 
+### Root Activity 机制
+
+**重要概念**：表盘作为 **Root Activity**（根活动），独立于 Activity 栈管理，具有特殊地位：
+
+```mermaid
+flowchart TB
+    subgraph Stack["Activity 栈"]
+        direction TB
+        C["App List (栈顶)"]
+        B["Calculator App"]
+    end
+
+    subgraph Root["Root Activity (独立)"]
+        direction TB
+        WF["Watchface (表盘)"]
+    end
+
+    Stack -->|"back() 退栈"| Root
+    Root -->|"replace_root() 切换"| Root2["New Watchface"]
 ```
-栈顶  ┌──────────────────┐
-      │  Activity C (当前)  │  ← 当前可见的 Activity
+
+**Root Activity 特性**：
+
+| 特性 | 普通 Activity | Root Activity |
+|------|--------------|---------------|
+| **位置** | 在栈中 | 独立于栈外 |
+| **生命周期** | 随入栈/退栈创建销毁 | 持久存在直到切换 |
+| **创建方式** | `eos_activity_create()` | `eos_activity_create_root()` |
+| **View 创建** | 延迟创建（on_enter 中） | **立即创建**（create_root 时） |
+| **退栈影响** | 销毁并释放 | 不受退栈影响 |
+| **切换方式** | N/A | `eos_activity_replace_root()` |
+
+**Root Activity 使用场景**：
+- 表盘（内建或 JS）
+- 作为系统的"首页"，始终存在
+- 切换时通过 `replace_root()` 替换，而非入栈/退栈
+
+### 栈结构示意
+
+```
+栈顶  
+      ┌──────────────────┐
+      │  Activity C      │  ← 当前可见的 Activity
       ├──────────────────┤
-      │  Activity B       │  ← 暂停状态
+      │  Activity B      │  ← 暂停状态
       ├──────────────────┤
-      │  Activity A       │  ← 暂停状态
-      ├──────────────────┤
-栈底  │  Watchface        │  ← 始终存在
+      │  Activity A      │  ← 暂停状态
       └──────────────────┘
+           │
+           │ (独立于栈)
+           ▼
+     ┌─────────────┐
+     │  Watchface  │  ← Root Activity (始终存在)
+     └─────────────┘
 ```
 
 ### 导航操作
@@ -136,16 +180,44 @@ void eos_activity_back_cb(lv_event_t *e);
 ### 创建与初始化
 
 ```c
+// 普通 Activity（用于应用、列表等）
 eos_result_t eos_activity_controller_init(eos_activity_t *initial_activity);
 void eos_activity_controller_deinit(void);
 eos_activity_t *eos_activity_create(const eos_activity_lifecycle_t *lifecycle);
+
+// Root Activity（专用于表盘）
+eos_activity_t *eos_activity_create_root(const eos_activity_lifecycle_t *lifecycle);
+eos_result_t eos_activity_replace_root(eos_activity_t *new_root);
 ```
 
 | 函数 | 说明 |
 |------|------|
-| `eos_activity_controller_init` | 初始化 Activity 控制器，需传入初始 Activity |
+| `eos_activity_controller_init` | 初始化 Activity 控制器，需传入 Root Activity（表盘） |
 | `eos_activity_controller_deinit` | 反初始化，释放所有 Activity |
-| `eos_activity_create` | 创建新 Activity，传入生命周期回调结构体 |
+| `eos_activity_create` | 创建普通 Activity，View 延迟创建 |
+| **`eos_activity_create_root`** | **创建 Root Activity（表盘），View 立即创建** |
+| **`eos_activity_replace_root`** | **替换当前 Root Activity（切换表盘）** |
+
+#### 智能懒加载机制
+
+Activity 系统采用**智能懒加载**设计，简化初始化流程：
+
+```mermaid
+flowchart TD
+    A["eos_watchface_init()"] --> B["eos_activity_create_root()"]
+    B --> C{"root_screen 存在?"}
+    C -->|"否"| D["自动创建 root_screen"]
+    C -->|"是"| E["复用已有 root_screen"]
+    D --> F["立即创建 View"]
+    E --> F
+    F --> G["返回完整 Activity"]
+
+    H["eos_activity_controller_init()"] --> I{"root_screen 存在?"}
+    I -->|"否 (create_root 未调用)"| J["自动创建 root_screen + stack"]
+    I -->|"是 (已被 create_root 创建)"| K["跳过，仅创建 stack"]
+    J --> L["设置 Root Activity"]
+    K --> L
+```
 
 ### Activity 查询
 

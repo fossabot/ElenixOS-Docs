@@ -1,0 +1,91 @@
+---
+title: Timer
+sidebar_position: 8
+---
+
+# Timer
+
+Timer is a special API component in ElenixOS used to create and manage timers. This document describes the functionality, usage methods, and notes for the timer component.
+
+## Feature Introduction
+
+The timer component allows developers to create timers that execute callbacks at specified intervals. Timers are typically used for periodic tasks, animations, and time-based operations.
+
+## Usage Methods
+
+### Creating Timer
+
+Use the `new lv.timer()` constructor to create a timer object:
+
+```javascript
+// Create timer object
+const timer = new lv.timer(callback, period, userData);
+```
+
+### Parameters
+
+- `callback`: Function to execute when timer triggers
+- `period`: Timer period in milliseconds
+- `userData`: Optional user data to pass to callback
+
+### Configuring Timer
+
+Use the following methods to configure the timer:
+
+```javascript
+// Set timer period
+timer.setPeriod(1000);
+
+// Pause timer
+timer.pause();
+
+// Resume timer
+timer.resume();
+
+// Stop timer
+timer.stop();
+
+// Check if timer is running
+const isRunning = timer.isRunning();
+```
+
+### Example: Creating a Simple Timer
+
+```javascript
+// Create timer that triggers every second
+const timer = new lv.timer(function() {
+    eos.console.log("Timer triggered");
+}, 1000, null);
+
+// Pause timer after 5 seconds
+setTimeout(function() {
+    timer.pause();
+}, 5000);
+
+// Resume timer after 10 seconds
+setTimeout(function() {
+    timer.resume();
+}, 10000);
+```
+
+### Example: Creating a Countdown Timer
+
+```javascript
+let count = 10;
+
+// Create countdown timer
+const timer = new lv.timer(function() {
+    count--;
+    eos.console.log("Countdown:", count);
+    
+    if (count <= 0) {
+        timer.stop();
+        eos.console.log("Countdown finished");
+    }
+}, 1000, null);
+```
+
+### Notes
+
+- Timers should be stopped when no longer needed to avoid memory leaks
+- Timer callbacks should be lightweight to avoid blocking the main thread

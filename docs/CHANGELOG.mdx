@@ -5,6 +5,87 @@ title: Changelog
 
 # Changelog
 
+## [v0.4.0-alpha]
+
+### Breaking Changes
+
+- **脚本引擎分层架构重构**：引入脚本程序管理器 (SPM) 作为核心引擎与上层框架之间的中间层，分离程序生命周期与 JS 执行。
+- **Activity Root 模式**：采用 Root Activity 模式替代原有的 watchface-activity 单例，生命周期结构体替代指针方式管理。
+- **服务模块重构**：移除 `eos_misc` 模块，使用 `eos_service_*` 系列服务替代原有功能。
+- **项目分层架构重组**：重构项目布局为 kernel、services、framework、ui、apps 分层结构。
+
+### Changed
+
+- **脚本引擎**：
+  - 重构生命周期管理，支持上下文保存/恢复（SUSPEND → IDLE，新增 SUSPENDED 状态）
+  - 添加 per-program realm 隔离助手
+  - 从异常对象改进错误回溯提取
+  - 统一 SNI handle 类型，用单一托管资源范围替代 LC_EXTERNAL/LC_REALM 分离
+
+- **Overlay 架构**：
+  - 实现统一的 overlay 管理器，通过 `get_foreground_obj()` 接口分离 Z-order 管理和 Crown scrollable targets
+  - 修复 Z-order bug：关闭后控制中心阻塞消息列表
+  - 移除硬编码的 crown 依赖，使用接口查询
+
+- **Radio 组件**：用 `eos_radio_page` 替代 `eos_radio_list`，改进单选功能
+
+- **代码规范**：
+  - 重命名全局变量为下划线前缀，提高封装性
+  - 更新脚本引擎核心注释，提高清晰度和一致性
+
+### Added
+
+- 新增 `eos_chrome_manager`：集中式 overlay 管理器
+- 新增通用脚本错误处理和 `eos_fault_panel` 故障面板
+- 新增 `eos_accordion` 手风琴组件，用于错误回溯显示
+- 新增脚本执行超时和状态感知函数调用
+- 新增错误位置和回溯处理
+- 新增容器删除回调 (`eos_container_delete_cb_t`)，支持自动内存管理
+- 新增 `eos_input_page` 输入页面功能
+- 新增 `clock_hand` 组件的 `attach()` 和 `center_style()` 函数
+- 新增基于监听器的日志系统 (`eos_log`) 及标准输出支持
+- 新增启动信息日志增强，显示构建时间和模式详情
+- 新增国际化默认语言配置
+- 新增 FIFO 环缓冲区实现
+- 新增临界区管理 (`eos_critical`)
+- 新增传感器服务 (`eos_service_sensor`) 及状态管理
+- 新增时间服务和设备 (`eos_service_time`)
+- 新增双链表实现 (`eos_dlist`)
+- 新增事件注册功能和用户事件范围定义
+- 新增测试应用支持 (`eos_test`)，包含音频播放功能
+
+### Fixed
+
+- 清理 Activity 快照和 teardown 泄漏
+- 修复卸载应用时动画未停止的问题
+- 修复 LVGL 事件回调签名问题（WASM 函数签名不匹配）
+- 解决 `eos_virtual_display` 中的 typedef 警告
+- 为临界区函数添加 `EOS_WEAK` 属性，确保正确链接
+- 修复 `slide_widget_move` 中冗余的 slide_change toggle 与 chrome manager 的冲突
+
+## [v0.3.0-alpha.1]
+
+### Added
+- 新增中文说明文档（README.zh-CN），补充中英文文档一致性。
+- 新增应用列表气泡网格能力（`bubble_grid`）及相关组件 API。
+- 新增应用管理与脚本热重载相关函数，增强运行时管理能力。
+- 新增部分资源素材（如应用图标与设计资源）用于界面与示例完善。
+- 在文档中新增在线模拟器入口，提升体验与验证效率。
+
+### Changed
+- 项目命名由 **ElenaOS** 统一调整为 **ElenixOS**，并完成大规模命名与路径迁移（含核心模块、接口、头文件与脚本）。
+- 构建系统重构：优化 CMake 源文件/头文件收集逻辑，规范 CMakeLists.txt 命名与平台根目录处理。
+- 核心初始化流程调整：将 `eos_run` 重命名为 `eos_init`，并同步更新相关原型与调用语义。
+- 精简核心逻辑：移除 logo 动画处理路径，简化处理流程与生命周期中的状态切换逻辑。
+- README 与文档结构持续整理，格式统一并补充演示说明。
+
+### Fixed
+- 修复 Activity 生命周期中目标视图短暂闪现问题（进入/切换时的瞬时显示异常）。
+- 修复 README 中快速开始与文档链接错误问题。
+- 修复 Windows 环境下 `mkdir` 兼容性问题。
+- 修复 CMake 中 `uthash` 头文件包含路径错误。
+- 修复 .gitignore 漏配构建目录的问题，避免构建产物误入版本控制。
+
 ## [v0.2.0-alpha.1]
 
 ### Changed
@@ -104,6 +185,7 @@ title: Changelog
 - 提供脚本与系统核心之间的隔离机制，提升系统稳定性与安全性。
 - 提供基础调试与开发支持能力，提升桌面端开发与调试效率。
 
-
+[v0.4.0-alpha]:https://github.com/ElenixOS/ElenixOS/releases/tag/v0.4.0-alpha
+[v0.3.0-alpha.1]:https://github.com/ElenixOS/ElenixOS/releases/tag/v0.3.0-alpha.1
 [v0.2.0-alpha.1]:https://github.com/ElenixOS/ElenixOS/releases/tag/v0.2.0-alpha.1
 [v0.1.0-alpha.1]:https://github.com/ElenixOS/ElenixOS/releases/tag/v0.1.0-alpha.1

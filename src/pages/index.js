@@ -201,8 +201,7 @@ button.addEventCb((e) => {
           </Heading>
           <p className={styles.heroSubtitle}>
             <Translate id="homepage.subtitle">
-              基于 LVGL 与 JerryScript 的嵌入式可穿戴系统，面向资源受限硬件打造
-              流畅的智能手表体验。
+              基于 LVGL 与 JerryScript 的嵌入式可穿戴系统，面向资源受限硬件打造流畅的智能手表体验。
             </Translate>
           </p>
           <div className={styles.buttons}>

@@ -1,0 +1,172 @@
+---
+title: JS API General Usage
+sidebar_position: 1
+---
+
+# JS API General Usage
+
+ElenixOS provides rich JavaScript APIs for developing applications and watchfaces. This document introduces the general usage of JS APIs, including basic concepts, naming conventions, error handling, and more.
+
+## Script Engine Architecture
+
+ElenixOS's script engine adopts a three-layer architecture design:
+
+### Three-Layer Architecture
+
+1. **Core Engine Layer (Script Engine Core)**
+   - Responsible for JerryScript's underlying operations
+   - Realm management, compilation execution, memory operations
+
+2. **SPM Layer (Script Program Manager)**
+   - Intermediate management layer, separating program lifecycle from JS execution
+   - Manages program startup, suspend, resume, and termination
+   - Supports context save/restore for state persistence
+   - JS callback gate validation and error snapshot persistence
+
+3. **SNI Layer (Script Native Interface)**
+   - Provides interface between scripts and native code
+   - Includes service API, UI component API, event API, etc.
+
+## Basic Concepts
+
+### API Namespaces
+
+ElenixOS's JavaScript APIs are exposed to scripts through the following namespaces:
+
+- `eos` - System API
+- `lv` - LVGL UI API
+
+### Object-Oriented Style
+
+ElenixOS's JavaScript APIs adopt an object-oriented style, using constructors to create objects and instance methods to operate objects:
+
+```javascript
+// Create a button
+const button = new lv.button(eos.view.active());
+
+// Set button size and position
+button.setSize(100, 50);
+button.setPos(10, 10);
+
+// Add label
+const label = new lv.label(button);
+label.setText("Click Me");
+```
+
+### Event Handling
+
+ElenixOS's JavaScript APIs use callback functions to handle events:
+
+```javascript
+// Bind click event
+button.addEventCb((e) => {
+    eos.console.log("Button clicked!");
+}, lv.EVENT_CLICKED, null);
+```
+
+## Naming Conventions
+
+### Constant Naming
+
+Constants use all uppercase letters with underscores between words:
+
+```javascript
+// Event types
+lv.EVENT_CLICKED
+lv.EVENT_PRESSED
+
+// Object flags
+lv.OBJ_FLAG_CLICKABLE
+lv.OBJ_FLAG_CHECKABLE
+
+// Alignment
+lv.ALIGN_CENTER
+lv.ALIGN_TOP_LEFT
+```
+
+### Method Naming
+
+Methods use camelCase naming convention with lowercase first letter:
+
+```javascript
+// Set methods
+button.setSize(width, height);
+button.setPos(x, y);
+
+// Get methods
+const width = button.getWidth();
+const height = button.getHeight();
+```
+
+### Constructor Naming
+
+Constructors use camelCase naming convention with lowercase first letter:
+
+```javascript
+// Create objects
+const button = new lv.button(parent);
+const label = new lv.label(parent);
+```
+
+## Error Handling
+
+### Exception Handling
+
+Use try-catch to catch potential errors:
+
+```javascript
+try {
+    // Code that may throw errors
+    const button = new lv.button(null);
+} catch (e) {
+    // Handle error
+    eos.console.error("Error creating button:", e);
+}
+```
+
+### Error Types
+
+ElenixOS's JavaScript APIs may throw the following types of errors:
+
+- **TypeError** - Parameter type error
+- **ReferenceError** - Reference to non-existent object
+- **RangeError** - Parameter value out of range
+
+## Memory Management
+
+### Object Lifecycle
+
+In ElenixOS, object lifecycles are managed by the garbage collector. When objects are no longer referenced, the garbage collector automatically reclaims their memory.
+
+### Manual Release
+
+For some resource-intensive objects, manual release can be performed to save memory:
+
+```javascript
+// Create object
+const timer = new lv.timer(parent);
+
+// Use object
+// ...
+
+// Manually release object
+timer.delete();
+```
+
+## Asynchronous Operations
+
+### Timers
+
+See [Timer](widgets/timer).
+
+## Debugging Tips
+
+### Log Output
+
+Use `eos.console.log` to output log information:
+
+```javascript
+eos.console.log("Debug information");
+eos.console.error("Error information");
+eos.console.warn("Warning information");
+```

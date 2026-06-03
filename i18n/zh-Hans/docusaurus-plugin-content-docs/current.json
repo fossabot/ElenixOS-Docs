@@ -4,47 +4,47 @@
     "description": "The label for version current"
   },
   "sidebar.tutorialSidebar.category.入门": {
-    "message": "Getting Started",
+    "message": "入门",
     "description": "The label for category '入门' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.模拟器": {
-    "message": "Simulator",
+    "message": "模拟器",
     "description": "The label for category '模拟器' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.集成指南": {
-    "message": "Integration Guide",
+    "message": "集成指南",
     "description": "The label for category '集成指南' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.系统架构": {
-    "message": "System Architecture",
+    "message": "系统架构",
     "description": "The label for category '系统架构' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.框架层": {
-    "message": "Framework Layer",
+    "message": "框架层",
     "description": "The label for category '框架层' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.内核层": {
-    "message": "Kernel Layer",
+    "message": "内核层",
     "description": "The label for category '内核层' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.服务层": {
-    "message": "Services Layer",
+    "message": "服务层",
     "description": "The label for category '服务层' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.UI层": {
-    "message": "UI Layer",
+    "message": "UI层",
     "description": "The label for category 'UI层' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.脚本引擎": {
-    "message": "Script Engine",
+    "message": "脚本引擎",
     "description": "The label for category '脚本引擎' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.特殊组件": {
-    "message": "Special Components",
+    "message": "特殊组件",
     "description": "The label for category '特殊组件' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.开发指南": {
-    "message": "Development Guide",
+    "message": "开发指南",
     "description": "The label for category '开发指南' in sidebar 'tutorialSidebar'"
   }
 }

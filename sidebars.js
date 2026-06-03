@@ -48,7 +48,6 @@ const sidebars = {
       label: '系统架构',
       items: [
         'architecture/arch',
-        'architecture/overview',
         'architecture/runtime',
         'architecture/device_architecture_design',
         {

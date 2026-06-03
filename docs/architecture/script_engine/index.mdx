@@ -7,6 +7,26 @@ sidebar_position: 1
 
 ElenixOS 提供了丰富的 JavaScript API，用于开发应用和表盘。本文档将介绍 JS API 的通用使用方法，包括基本概念、命名规范、错误处理等内容。
 
+## 脚本引擎架构
+
+ElenixOS 的脚本引擎采用三层架构设计：
+
+### 三层架构
+
+1. **核心引擎层（Script Engine Core）**
+   - 负责 JerryScript 的底层操作
+   - Realm 管理、编译执行、内存操作
+
+2. **SPM层（Script Program Manager）**
+   - 中间管理层，分离程序生命周期与 JS 执行
+   - 管理程序的启动、挂起、恢复和终止
+   - 支持上下文保存/恢复，实现状态持久化
+   - JS 回调门验证和错误快照持久化
+
+3. **SNI层（Script Native Interface）**
+   - 提供脚本与原生代码之间的接口
+   - 包含服务API、UI组件API、事件API等
+
 ## 基本概念
 
 ### API 命名空间

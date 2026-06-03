@@ -1,0 +1,62 @@
+---
+title: Image
+sidebar_position: 6
+---
+
+# Image
+
+Image is a special API component in ElenixOS used to display images. This document describes the functionality, usage methods, and notes for the image component.
+
+## Feature Introduction
+
+The image component allows developers to display images in applications. It supports various image formats and provides methods for loading and displaying images from different sources.
+
+## Usage Methods
+
+### Creating Image
+
+Use the `new lv.image()` constructor to create an image object:
+
+```javascript
+// Create image object
+const image = new lv.image(eos.view.active());
+```
+
+### Configuring Image
+
+Use the following methods to configure the image:
+
+```javascript
+// Set image size
+image.setSize(100, 100);
+
+// Set image position
+image.setPos(10, 10);
+
+// Set image source
+image.setSrc("A:image.png");
+
+// Set image scaling mode
+image.setScale(2);
+
+// Set image alignment
+image.center();
+```
+
+### Example: Creating a Simple Image
+
+```javascript
+// Create image
+const image = new lv.image(eos.view.active());
+image.setSize(100, 100);
+image.align(lv.ALIGN_CENTER, 0, 0);
+
+// Set image source
+image.setSrc("A:image.png");
+```
+
+### Notes
+
+- Image files should be placed in the application's assets directory
+- Supported image formats: PNG, JPG, BMP, etc.
+- Use `A:` prefix to reference assets directory

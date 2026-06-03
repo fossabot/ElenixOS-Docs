@@ -1,0 +1,100 @@
+---
+title: LVGL UI API
+sidebar_position: 2
+---
+
+# LVGL UI API
+
+ElenixOS provides rich UI components and interfaces based on the LVGL (LittlevGL) graphics library, allowing developers to create and manage user interfaces in JavaScript. This document will detail the LVGL UI API exposed by ElenixOS to the script runtime, based on actual usage patterns in project engineering.
+
+## Basic Concepts
+
+### LVGL Introduction
+
+LVGL is a lightweight embedded graphics library designed for resource-constrained devices such as microcontrollers. It provides rich UI components and features, including:
+
+- Various UI controls (buttons, labels, input fields, etc.)
+- Layout system
+- Style system
+- Animation effects
+- Event handling
+
+### API Namespace
+
+In ElenixOS, the LVGL API is exposed to JavaScript scripts through the `lv` namespace:
+
+```javascript
+// Create a label
+const label = new lv.label(eos.view.active());
+label.setText("Hello, ElenixOS!");
+```
+
+## Component Creation and Layout
+
+### Component Creation
+
+Create UI components using constructor syntax:
+
+```javascript
+// Create a button
+const button = new lv.button(eos.view.active());
+
+// Create a label
+const label = new lv.label(button);
+label.setText("Click Me");
+```
+
+### Layout System
+
+LVGL provides multiple layout methods, including:
+
+#### Absolute Layout
+
+```javascript
+// Set component position
+button.setPos(10, 10);
+
+// Set component size
+button.setSize(100, 50);
+```
+
+#### Flex Layout
+
+```javascript
+// Create a flex layout container
+const container = new lv.obj(eos.view.active());
+container.setSize(lv.pct(100), 50);
+container.align(lv.ALIGN_CENTER, 0, 0);
+container.setFlexFlow(lv.FLEX_FLOW_ROW);
+
+// Add child components
+const button1 = new lv.button(container);
+const label1 = new lv.label(button1);
+label1.setText("Button 1");
+
+const button2 = new lv.button(container);
+const label2 = new lv.label(button2);
+label2.setText("Button 2");
+```
+
+#### Grid Layout
+
+```javascript
+// Create a grid layout container
+const container = new lv.obj(eos.view.active());
+container.setSize(lv.pct(100), 100);
+container.align(lv.ALIGN_CENTER, 0, 0);
+
+// Add child components
+const button1 = new lv.button(container);
+button1.setSize(100, 50);
+button1.align(lv.ALIGN_TOP_LEFT, 10, 10);
+
+const button2 = new lv.button(container);
+button2.setSize(100, 50);
+button2.align(lv.ALIGN_TOP_RIGHT, -10, 10);
+
+const button3 = new lv.button(container);
+button3.setSize(100, 50);
+button3.align(lv.ALIGN_BOTTOM_LEFT, 10, -10);
+```

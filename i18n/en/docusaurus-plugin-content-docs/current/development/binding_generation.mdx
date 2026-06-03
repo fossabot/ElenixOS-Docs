@@ -1,189 +1,266 @@
 ---
 sidebar_position: 3
-title: 绑定层生成
+title: Binding Layer Generation
 ---
 
-# 绑定层生成
+# Binding Layer Generation
 
-ElenixOS 使用绑定层生成工具来自动生成 JavaScript 与原生代码之间的绑定代码，主要包括 SNI（Script Native Interface）和 LVGL 绑定层。本文档将详细介绍绑定层的生成流程、参数配置和验证方法。
+ElenixOS uses a binding layer generation tool to automatically generate binding code between JavaScript and native code, mainly including SNI (Script Native Interface) and LVGL binding layers. This document will detail the binding layer generation process, parameter configuration, and verification methods.
 
-## 绑定层概念
+## Binding Layer Concept
 
-绑定层是连接 JavaScript 脚本和原生 C 代码的桥梁，它允许脚本调用原生函数，同时也允许原生代码调用脚本函数。ElenixOS 使用 SNI 来实现这种绑定机制。
+The binding layer is a bridge connecting JavaScript scripts and native C code, allowing scripts to call native functions and native code to call script functions. ElenixOS uses SNI to implement this binding mechanism.
 
-### 绑定层的作用
+### Functions of Binding Layer
 
-1. **函数映射**：将 JavaScript 函数调用映射到原生 C 函数
-2. **类型转换**：处理 JavaScript 类型和 C 类型之间的转换
-3. **内存管理**：管理跨语言调用的内存分配和释放
-4. **错误处理**：处理跨语言调用中的错误
+1. **Function Mapping**: Map JavaScript function calls to native C functions
+2. **Type Conversion**: Handle conversion between JavaScript types and C types
+3. **Memory Management**: Manage memory allocation and deallocation for cross-language calls
+4. **Error Handling**: Handle errors in cross-language calls
 
-## 描述表来源
+## Generation Process
 
-绑定层生成工具使用描述表来定义 JavaScript 与原生代码之间的绑定关系。描述表是 JSON 格式的文件，包含了函数、类型和常量的定义。
+The binding layer generation tool reads configuration files and generates corresponding binding code. The generation process mainly includes the following steps:
 
-### 描述表类型
+### 1. Prepare Configuration Files
 
-1. **API 描述表**：定义 API 函数和参数
-2. **类型描述表**：定义类型和结构体
-3. **常量描述表**：定义常量和枚举
+Create a configuration file describing the functions, types, and constants to be bound. The configuration file uses JSON format, including the following main sections:
 
-### 描述表位置
+- **functions**: Functions to be bound
+- **types**: Data types to be bound
+- **constants**: Constants to be bound
 
-描述表位于 `scripts/sni/config/` 目录下：
+### 2. Run Generation Tool
 
-- `api_table.json`：API 描述表
-- `lv_types.json`：LVGL 类型描述表
-
-## 生成脚本参数
-
-### 生成脚本
-
-ElenixOS 使用 Python 脚本生成绑定层代码：
-
-- `scripts/sni/extract_lvgl_types.py`：提取 LVGL 类型
-- `scripts/sni/gen_lvgl_desc.py`：生成 LVGL 描述
-- `scripts/sni/gen_sni_lv_types.py`：生成 SNI LVGL 类型
-
-### 脚本参数
-
-| 脚本 | 参数 | 描述 |
-|------|------|------|
-| `extract_lvgl_types.py` | `--input` | 输入头文件路径 |
-| `extract_lvgl_types.py` | `--output` | 输出类型描述文件路径 |
-| `gen_lvgl_desc.py` | `--input` | 输入类型描述文件路径 |
-| `gen_lvgl_desc.py` | `--output` | 输出 LVGL 描述文件路径 |
-| `gen_sni_lv_types.py` | `--input` | 输入 LVGL 描述文件路径 |
-| `gen_sni_lv_types.py` | `--output` | 输出 SNI LVGL 类型文件路径 |
-
-### 运行示例
+Execute the binding layer generation tool with the configuration file as a parameter:
 
 ```bash
-# 提取 LVGL 类型
-python3 scripts/sni/extract_lvgl_types.py --input include/lvgl.h --output scripts/sni/config/lv_types.json
-
-# 生成 LVGL 描述
-python3 scripts/sni/gen_lvgl_desc.py --input scripts/sni/config/lv_types.json --output scripts/sni/config/lv_desc.json
-
-# 生成 SNI LVGL 类型
-python3 scripts/sni/gen_sni_lv_types.py --input scripts/sni/config/lv_desc.json --output src/script_engine/sni/sni_gen/sni_lv_types.c
+python tools/binding_generator.py config/sni_config.json
 ```
 
-## 输出文件说明
+### 3. Generated Files
 
-### 生成的文件
+The generation tool will generate the following files:
 
-绑定层生成工具会生成以下文件：
+- **Header files**: Declaration of binding functions
+- **Source files**: Implementation of binding functions
+- **Type definition files**: JavaScript type definitions
 
-1. **SNI 类型文件**：`src/script_engine/sni/sni_gen/sni_lv_types.c` 和 `src/script_engine/sni/sni_gen/sni_lv_types.h`
-2. **SNI API 文件**：`src/script_engine/sni/sni_api/lv/sni_api_lv.c` 和 `src/script_engine/sni/sni_api/lv/sni_api_lv.h`
-3. **SNI 特殊 API 文件**：`src/script_engine/sni/sni_api/lv/sni_api_lv_special.h`
+## Configuration File Format
 
-### 文件内容
+### Basic Structure
 
-- **SNI 类型文件**：包含 LVGL 类型的 SNI 绑定代码
-- **SNI API 文件**：包含 LVGL API 的 SNI 绑定代码
-- **SNI 特殊 API 文件**：包含特殊 LVGL API 的绑定代码
+```json
+{
+    "name": "sni_module",
+    "output": "src/sni/",
+    "functions": [],
+    "types": [],
+    "constants": []
+}
+```
 
-## 生成后验证建议
+### Function Configuration
 
-生成绑定层代码后，建议进行以下验证：
+```json
+{
+    "name": "eos_log_print",
+    "return_type": "void",
+    "parameters": [
+        {"name": "level", "type": "eos_log_level_t"},
+        {"name": "format", "type": "const char*"},
+        {"name": "ap", "type": "va_list"}
+    ],
+    "js_name": "logPrint"
+}
+```
 
-### 编译验证
+### Type Configuration
 
-1. **编译检查**：确保生成的代码能够正常编译
-2. **链接检查**：确保生成的代码能够正常链接
-3. **警告检查**：确保生成的代码没有编译警告
+```json
+{
+    "name": "eos_log_level_t",
+    "type": "enum",
+    "values": [
+        {"name": "EOS_LOG_LEVEL_DEBUG", "value": 0},
+        {"name": "EOS_LOG_LEVEL_INFO", "value": 1},
+        {"name": "EOS_LOG_LEVEL_WARN", "value": 2},
+        {"name": "EOS_LOG_LEVEL_ERROR", "value": 3}
+    ],
+    "js_name": "LogLevel"
+}
+```
 
-### 功能验证
+### Constant Configuration
 
-1. **API 调用测试**：测试 JavaScript 能否正确调用 LVGL API
-2. **类型转换测试**：测试 JavaScript 类型和 C 类型之间的转换是否正确
-3. **错误处理测试**：测试错误处理是否正确
+```json
+{
+    "name": "EOS_APP_DIR",
+    "type": "const char*",
+    "value": "\"/apps/\""
+}
+```
 
-### 性能验证
+## LVGL Binding Generation
 
-1. **执行速度测试**：测试绑定层的执行速度
-2. **内存使用测试**：测试绑定层的内存使用情况
+The LVGL binding layer is a special part of the binding layer, used to expose LVGL API to JavaScript.
 
-## 绑定层生成流程
+### LVGL Configuration File
 
-### 1. 准备阶段
+The LVGL binding configuration file needs to describe the LVGL objects, methods, and properties to be bound:
 
-1. **获取 LVGL 头文件**：确保 LVGL 头文件可用
-2. **配置描述表**：配置 API 描述表和类型描述表
-3. **设置生成参数**：设置生成脚本的参数
+```json
+{
+    "name": "lvgl",
+    "output": "src/sni/lv/",
+    "objects": [],
+    "methods": [],
+    "properties": []
+}
+```
 
-### 2. 生成阶段
+### Object Configuration
 
-1. **提取类型**：使用 `extract_lvgl_types.py` 提取 LVGL 类型
-2. **生成描述**：使用 `gen_lvgl_desc.py` 生成 LVGL 描述
-3. **生成绑定代码**：使用 `gen_sni_lv_types.py` 生成 SNI LVGL 类型
+```json
+{
+    "name": "lv_obj_t",
+    "parent": "lv_obj_t",
+    "js_name": "obj",
+    "constructor": "lv_obj_create",
+    "destructor": "lv_obj_del"
+}
+```
 
-### 3. 验证阶段
+### Method Configuration
 
-1. **编译代码**：编译生成的绑定代码
-2. **测试功能**：测试绑定层的功能
-3. **优化性能**：优化绑定层的性能
+```json
+{
+    "name": "lv_obj_set_size",
+    "object_type": "lv_obj_t",
+    "return_type": "void",
+    "parameters": [
+        {"name": "obj", "type": "lv_obj_t*"},
+        {"name": "w", "type": "lv_coord_t"},
+        {"name": "h", "type": "lv_coord_t"}
+    ],
+    "js_name": "setSize"
+}
+```
 
-## 绑定层约束
+## Verification Methods
 
-### 类型约束
+After generating the binding layer code, it needs to be verified to ensure correctness.
 
-1. **基本类型**：支持基本类型如 int、float、bool 等
-2. **结构体类型**：支持结构体类型，但需要在描述表中定义
-3. **回调函数**：支持回调函数，但需要特殊处理
+### Compilation Verification
 
-### 命名约束
+Compile the generated code to check for syntax errors:
 
-1. **函数命名**：JavaScript 函数名应与 C 函数名保持一致
-2. **参数命名**：JavaScript 参数名应与 C 参数名保持一致
-3. **常量命名**：JavaScript 常量名应与 C 常量名保持一致
+```bash
+make
+```
 
-### 性能约束
+### Unit Testing
 
-1. **调用开销**：绑定层调用会有一定的开销，应避免频繁调用
-2. **内存使用**：绑定层会使用一定的内存，应合理使用
-3. **类型转换**：类型转换会有一定的开销，应避免不必要的转换
+Write unit tests to verify the binding functions:
 
-## 常见问题与解决方案
+```javascript
+// Test binding function
+const result = eos.log.print(eos.log.DEBUG, "Test message");
+console.log(result);
+```
 
-### 生成失败
+### Integration Testing
 
-**问题**：生成脚本执行失败
+Integrate the generated binding layer into the ElenixOS system for overall testing:
 
-**解决方案**：
-1. 检查输入文件路径是否正确
-2. 检查描述表格式是否正确
-3. 检查 Python 环境是否正确
+1. Load the binding module
+2. Call binding functions in JavaScript
+3. Verify the execution results
 
-### 编译错误
+## Notes
 
-**问题**：生成的代码编译错误
+### Type Safety
 
-**解决方案**：
-1. 检查 LVGL 版本是否与描述表匹配
-2. 检查生成的代码是否有语法错误
-3. 检查头文件包含是否正确
+Ensure type safety when generating binding layers:
 
-### 运行时错误
+- Check parameter types
+- Handle pointer operations carefully
+- Avoid memory leaks
 
-**问题**：绑定层运行时错误
+### Performance Optimization
 
-**解决方案**：
-1. 检查类型转换是否正确
-2. 检查内存管理是否正确
-3. 检查错误处理是否正确
+Optimize the generated binding code:
 
-## 最佳实践
+- Reduce type conversion overhead
+- Use inline functions for frequently called functions
+- Cache frequently used objects
 
-1. **版本控制**：将生成的代码纳入版本控制，确保代码一致性
-2. **自动化**：使用构建系统自动化绑定层生成过程
-3. **测试**：为绑定层编写测试用例，确保功能正确
-4. **文档**：为绑定层编写文档，说明使用方法和注意事项
+### Version Compatibility
 
-## 总结
+Ensure the generated binding layer is compatible with different versions:
 
-绑定层生成是 ElenixOS 中连接 JavaScript 脚本和原生代码的重要环节。通过自动生成绑定层代码，可以大大减少手动编写绑定代码的工作量，提高开发效率。同时，绑定层生成也确保了绑定代码的一致性和正确性。
+- Version checks when generating
+- Handle API changes gracefully
+- Provide backward compatibility
 
-通过了解绑定层生成的流程和约束，开发者可以更好地使用和扩展 ElenixOS 的绑定层，从而开发出更加高效、稳定的应用。
+## Tool Usage
+
+### Command Line Parameters
+
+```bash
+python tools/binding_generator.py [options] config.json
+```
+
+| Parameter | Description |
+|-----------|-------------|
+| `-o, --output` | Specify output directory |
+| `-v, --verbose` | Enable verbose output |
+| `-d, --dry-run` | Dry run mode (no actual generation) |
+| `-h, --help` | Show help information |
+
+### Configuration Examples
+
+#### SNI Binding Configuration Example
+
+```json
+{
+    "name": "eos_sni",
+    "output": "src/sni/eos/",
+    "functions": [
+        {
+            "name": "eos_console_log",
+            "return_type": "void",
+            "parameters": [
+                {"name": "message", "type": "const char*"}
+            ],
+            "js_name": "console.log"
+        }
+    ],
+    "types": [],
+    "constants": []
+}
+```
+
+#### LVGL Binding Configuration Example
+
+```json
+{
+    "name": "lvgl_sni",
+    "output": "src/sni/lv/",
+    "objects": [
+        {
+            "name": "lv_button_t",
+            "parent": "lv_obj_t",
+            "js_name": "button",
+            "constructor": "lv_button_create",
+            "destructor": "lv_obj_del"
+        }
+    ],
+    "methods": [],
+    "properties": []
+}
+```
+
+## Summary
+
+The binding layer generation tool is an important part of ElenixOS development, which can automatically generate JavaScript and native code binding code, improving development efficiency and code quality. By properly configuring and using the binding layer generation tool, developers can quickly expose native functions to JavaScript, enabling flexible and powerful script development capabilities.

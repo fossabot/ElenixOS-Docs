@@ -2,7 +2,7 @@
 
 ## Overall Architecture
 
-ElenixOS adopts a layered architecture design, from bottom to top: Hardware Layer, Driver Layer, Device Manager, Service Layer, Kernel Layer, and Application Layer. This architecture provides good portability and scalability.
+ElenixOS adopts a layered architecture design, from bottom to top: hardware layer, driver layer, device manager, service layer, framework layer, and application layer. The kernel functions are integrated into the framework layer, including core components such as script engine, event system, and Activity management. This architecture design provides good portability and scalability.
 
 ```mermaid
 flowchart BT
@@ -10,20 +10,20 @@ flowchart BT
     subgraph L1["Application Layer"]
         direction BT
         WATCHFACE["Watchface System"]
-        APP["Third-party Apps"]
-        SYSAPP["System Apps"]
+        APP["Third-Party Applications"]
+        SYSAPP["System Applications"]
     end
 
     subgraph L2["Kernel Layer"]
         direction BT
 
-        subgraph R1["System Service Subsystem"]
+        subgraph R1["System Services Subsystem"]
             direction BT
             DISPATHCER["Event Dispatcher"]
             ANIM["Animation System"]
             EVENT["Event System"]
             ACTIVITY["Activity Controller"]
-            LANG["Multi-language Support"]
+            LANG["Multi-Language Support"]
             PKG["Package Manager"]
         end
 
@@ -34,15 +34,21 @@ flowchart BT
                 JERRY["JerryScript"]
                 REALM["Realm Isolation"]
             end
+            subgraph SPM["SPM Layer"]
+                direction BT
+                SPM_LIFECYCLE["Lifecycle Management"]
+                SPM_CONTEXT["Context Management"]
+                SPM_ERROR["Error Handling"]
+            end
             subgraph SNI["SNI Interface Layer"]
                 direction BT
-                SNI_SERVICE["Service APIs"]
-                SNI_UI["UI Component APIs"]
-                SNI_EVENT["Event APIs"]
+                SNI_SERVICE["Service API"]
+                SNI_UI["UI Component API"]
+                SNI_EVENT["Event API"]
             end
         end
 
-        UI["Built-in UI Widgets"]
+        UI["Built-in UI Controls"]
     end
 
     subgraph L3["Service Layer"]
@@ -54,7 +60,7 @@ flowchart BT
         HAPTIC_SERVICE["Haptic Service"]
         TIME_SERVICE["Time Service"]
         STORAGE_SERVICE["Storage Service"]
-        CONFIG_SERVICE["Config Service"]
+        CONFIG_SERVICE["Configuration Service"]
         STATE_SERVICE["State Service"]
         LOG_SERVICE["Log Service"]
     end
@@ -62,15 +68,15 @@ flowchart BT
     subgraph L4["Device Manager"]
         direction BT
         DEV_MGR["Device Manager"]
-        SENSOR_DEV["Sensor Device"]
-        DISPLAY_DEV["Display Device"]
-        BATTERY_DEV["Battery Device"]
-        POWER_DEV["Power Device"]
-        TIME_DEV["Time Device"]
-        VIBRATOR_DEV["Vibrator Device"]
+        SENSOR_DEV["Sensor Devices"]
+        DISPLAY_DEV["Display Devices"]
+        BATTERY_DEV["Battery Devices"]
+        POWER_DEV["Power Devices"]
+        TIME_DEV["Time Devices"]
+        VIBRATOR_DEV["Vibrator Devices"]
     end
 
-    subgraph THIRD_PARTY["Third-party Libraries"]
+    subgraph THIRD_PARTY["Dependencies"]
         direction BT
         LVGL["LVGL"]
         JERRYSCRIPT["JerryScript"]
@@ -79,13 +85,13 @@ flowchart BT
 
     subgraph L5["Driver Layer"]
         direction BT
-        SENSOR_DRIVER["Sensor Driver"]
-        DISPLAY_DRIVER["Display Driver"]
-        BATTERY_DRIVER["Battery Driver"]
-        POWER_DRIVER["Power Driver"]
-        TIME_DRIVER["Time Driver"]
-        VIBRATOR_DRIVER["Vibrator Driver"]
-        FS_DRIVER["File System Driver"]
+        SENSOR_DRIVER["Sensor Drivers"]
+        DISPLAY_DRIVER["Display Drivers"]
+        BATTERY_DRIVER["Battery Drivers"]
+        POWER_DRIVER["Power Drivers"]
+        TIME_DRIVER["Time Drivers"]
+        VIBRATOR_DRIVER["Vibrator Drivers"]
+        FS_DRIVER["File System Drivers"]
     end
 
     subgraph L6["Hardware Layer"]
@@ -95,7 +101,7 @@ flowchart BT
         SENSORS_HW["Sensor Hardware"]
         STORAGE["Storage"]
         DISPLAY_HW["Display & Input"]
-        PMIC["PMIC"]
+        PMIC["Power Management IC"]
     end
 
     L6 --> L5
@@ -109,15 +115,15 @@ flowchart BT
 
 ## Module Dependencies
 
-### Core Module Dependency Graph
+### Core Module Dependency Diagram
 
 ```mermaid
 graph TD
     subgraph Application Layer
-        AppMgr["App Manager"]
-        WatchfaceMgr["Watchface Manager"]
-        SystemApp["System Apps"]
-        ThirdPartyApp["Third-party Apps"]
+        AppMgr["Application Management"]
+        WatchfaceMgr["Watchface Management"]
+        SystemApp["System Applications"]
+        ThirdPartyApp["Third-Party Applications"]
     end
 
     subgraph Kernel Layer
@@ -136,25 +142,25 @@ graph TD
 
     subgraph Device Manager
         DeviceManager["Device Manager"]
-        SensorDevice["Sensor Device"]
-        DisplayDevice["Display Device"]
-        BatteryDevice["Battery Device"]
-        PowerDevice["Power Device"]
+        SensorDevice["Sensor Devices"]
+        DisplayDevice["Display Devices"]
+        BatteryDevice["Battery Devices"]
+        PowerDevice["Power Devices"]
     end
 
     subgraph Driver Layer
-        SensorDriver["Sensor Driver"]
-        DisplayDriver["Display Driver"]
-        BatteryDriver["Battery Driver"]
-        PowerDriver["Power Driver"]
-        FileSystemDriver["File System Driver"]
+        SensorDriver["Sensor Drivers"]
+        DisplayDriver["Display Drivers"]
+        BatteryDriver["Battery Drivers"]
+        PowerDriver["Power Drivers"]
+        FileSystemDriver["File System Drivers"]
     end
 
     subgraph Hardware Layer
         Hardware["Hardware"]
     end
 
-    subgraph Third-party Libraries
+    subgraph Third-Party Libraries
         LVGL["LVGL"]
         JerryScript["JerryScript"]
         CJSON["cJSON"]
@@ -207,7 +213,7 @@ graph TD
 
 ### 1. Hardware Layer
 
-The hardware layer includes various hardware components such as MCU/SoC, Bluetooth, sensors, storage, display, and power management chips. These hardware components form the foundation for ElenixOS operation.
+The hardware layer contains various hardware components such as MCU/SoC, Bluetooth, sensors, storage, display, and power management IC. These hardware components form the foundation for ElenixOS to run.
 
 ### 2. Driver Layer
 
@@ -215,45 +221,48 @@ The driver layer is the lowest level of hardware abstraction, implemented by the
 - Sensor drivers: accelerometer, gyroscope, heart rate sensor, etc.
 - Display driver: screen control and display output
 - Battery driver: battery status collection
-- Power driver: power management chip control
+- Power driver: power management IC control
 - File system driver: storage device access
 
 ### 3. Device Manager
 
 The device manager is the only path for upper layers to obtain device instances:
 - Unified management of device instance registration and lookup
-- Maintains device state machines
-- Provides status reporting mechanism
+- Maintenance of device state machines
+- Provides state reporting mechanism
 - Supports single-instance and multi-instance device management
 
 ### 4. Service Layer
 
-The service layer provides standard API interfaces to upper layers:
+The service layer provides standard API interfaces to the upper layers:
 
-| Service Name | Description |
-|-------------|-------------|
-| Sensor Service | Sensor sampling and data processing, supports Pull/Push modes |
+| Service Name | Function Description |
+|-------------|---------------------|
+| Sensor Service | Sensor sampling and data processing, supporting Pull/Push modes |
 | Display Service | Screen brightness management and power control |
 | Battery Service | Battery status monitoring and power management |
 | Power Management Service | System power state and sleep management |
 | Haptic Service | Haptic feedback control |
 | Time Service | System time retrieval |
 | Storage Service | File system operations and JSON storage |
-| Config Service | System configuration management |
+| Configuration Service | System configuration management |
 | State Service | Runtime persistent state management |
 | Log Service | Listener-based logging system |
 
-### 5. Kernel Layer
+### 5. Framework Layer
 
-The kernel layer is the core of ElenixOS, containing the following subsystems:
+The framework layer is the core of ElenixOS, containing the following subsystems:
 
-- **System Service Subsystem**: Event dispatching, animation system, event system, activity controller, multi-language support, package manager, etc.
-- **Script Runtime Subsystem**: Script engine, SNI, etc.
-- **Built-in UI Widgets**: Various UI components built on LVGL
+- **System Services Subsystem**: event dispatching, animation system, event system, activity controller, multi-language support, package manager, etc.
+- **Script Runtime Subsystem**: contains three-layer architecture
+  - **Core Engine Layer (Script Engine)**: responsible for JerryScript's underlying operations, including Realm management, compilation execution, memory operations
+  - **SPM Layer (Script Program Manager)**: as the intermediate layer, manages program lifecycle (start/suspend/resume/terminate), JS callback gate validation, error snapshot persistence
+  - **SNI Interface Layer**: provides script interfaces such as service API, UI component API, event API
+- **Built-in UI Controls**: various UI components built on LVGL
 
 ### 6. Application Layer
 
-The application layer includes the watchface system, third-party applications, and system applications. These applications run on the script engine and use SNI to access system services and UI components.
+The application layer contains the watchface system, third-party applications, and system applications. These applications run based on the script engine and use SNI to access system services and UI components.
 
 ## Core Design Principles
 
@@ -265,19 +274,19 @@ The system follows the core principle of "upper layers send control commands, lo
 flowchart LR
     driver["Driver Layer"] -->|Report Status| device_manager["Device Manager"]
     device_manager -->|Update State| device_manager
-    service["Service Layer"] -->|Query Control| device_manager
+    service["Service Layer"] -->|Query & Control| device_manager
     application["Application Layer"] -->|Control Commands| service
 ```
 
 ### Data Flow
 
-The data flow in ElenixOS is as follows:
+The data flow of ElenixOS is as follows:
 
-1. **User Input**: Obtain user input through hardware input devices (e.g., touchscreen)
+1. **User Input**: Obtain user input through hardware layer input devices (such as touchscreen)
 2. **Event Processing**: Input events are passed to the device manager through the driver layer
 3. **Status Reporting**: Device manager updates status and notifies the service layer
 4. **Service Processing**: Service layer processes business logic and responds to requests
-5. **Event Dispatching**: Event system distributes events to corresponding handlers
+5. **Event Dispatching**: Event system dispatches events to corresponding handlers
 6. **Application Response**: Applications execute corresponding logic based on events
 7. **UI Update**: Applications update the interface through the UI module
 8. **Display Output**: UI module renders the interface to the display
@@ -288,7 +297,7 @@ The data flow in ElenixOS is as follows:
 flowchart LR
     driver["driver"] -->|sensor_report| fast_queue["Fast Enqueue"]
     fast_queue -->|Write| ring_buffer["Ring Buffer"]
-    ring_buffer -->|Schedule| service_layer["Service Layer"]
+    ring_buffer -->|Dispatch| service_layer["Service Layer"]
     service_layer -->|Callback Dispatch| subscribers["Subscribers"]
 ```
 
@@ -296,7 +305,63 @@ flowchart LR
 
 1. **Script Loading**: Load application or watchface script files from the file system
 2. **Script Parsing**: Script engine parses JavaScript code
-3. **Module Import**: Script imports required modules and APIs through ScriptEngine
-4. **Script Execution**: Execute script in Realm, call SNI
-5. **Native Call**: SNI calls native code to access system services and hardware
-6. **Result Return**: Return execution results to the script
+3. **SPM Management**: SPM layer creates program context, manages lifecycle states (IDLE/SUSPENDED/RUNNING)
+4. **Module Import**: Script imports required modules and APIs through the SPM layer
+5. **Script Execution**: Execute script in Realm, call SNI through SPM layer
+6. **Native Call**: SNI calls native code to access system services and hardware
+7. **Result Return**: Return execution result to script through SPM layer
+
+## Script Program Manager
+
+The Script Program Manager (SPM) is the intermediate management layer of the script engine, responsible for:
+
+- **Program Lifecycle Management**: Manage script program startup, suspend, resume, and termination
+- **Context Save/Restore**: Support saving and restoring script runtime context for state persistence
+- **JS Callback Gate Validation**: Validate the legitimacy and security of JavaScript callbacks
+- **Error Snapshot Persistence**: Capture script errors and save snapshot information for debugging and analysis
+- **Realm Isolation**: Provide independent Realm environment for each program to ensure isolation and security
+
+### Script Program State Machine
+
+SPM manages the lifecycle states of script programs:
+
+```c
+typedef enum
+{
+    SCRIPT_PROGRAM_STATE_TERMINATED,  // Terminated
+    SCRIPT_PROGRAM_STATE_STOPPING,    // Stopping
+    SCRIPT_PROGRAM_STATE_ACTIVE,      // Active
+    SCRIPT_PROGRAM_STATE_SUSPENDED,   // Suspended
+} script_program_state_t;
+```
+
+```mermaid
+stateDiagram-v2
+    [*] --> ACTIVE : Create Program
+    
+    ACTIVE --> SUSPENDED : SuspendProgram (Activity Switch)
+    SUSPENDED --> ACTIVE : ResumeProgram (Return to Watchface)
+    
+    ACTIVE --> STOPPING : TerminateProgram
+    SUSPENDED --> STOPPING : TerminateProgram
+    
+    STOPPING --> TERMINATED : Cleanup Complete
+```
+
+| State | Description | Trigger Condition |
+|-------|-------------|-------------------|
+| **ACTIVE** | Active state, script program is alive and healthy | Program creation |
+| **SUSPENDED** | Suspended state, program is paused but can be resumed | Call suspend() during Activity switch |
+| **STOPPING** | Stopping state, callbacks are prohibited | Call terminate() |
+| **TERMINATED** | Terminated state, resources are completely cleaned | Cleanup complete |
+
+### Difference from Kernel State
+
+SPM manages the **script program** lifecycle, while the script engine kernel manages **single JS execution** states:
+
+| Layer | State Management Object | Focus |
+|-------|------------------------|-------|
+| **SPM Layer** | Script Program | Program start/pause/resume/terminate |
+| **Kernel Layer** | JS Execution Window | Bytecode parsing/execution/exception |
+
+The kernel state machine focuses on state transitions for single JS code execution (RUNNING/IDLE/SUSPENDED/EXCEPTION), while SPM focuses on the lifecycle management of script programs as a whole.
