@@ -174,8 +174,9 @@ stateDiagram-v2
     EXCEPTION --> IDLE : Reset / Reload
 ```
 
-> [!note]
-> Engine state only describes "single JS execution window state", not program lifecycle.
+:::note
+Engine state only describes "single JS execution window state", not program lifecycle.
+:::
 
 #### Script Engine Runtime
 
@@ -206,12 +207,14 @@ typedef struct
 } script_engine_runtime_t;
 ```
 
-> [!warning]
-> Must reset `script_start_time` when transitioning from `IDLE` to `RUNNING`
-> Must reset `error` when transitioning from `EXCEPTION` to `IDLE`
+:::warning
+Must reset `script_start_time` when transitioning from `IDLE` to `RUNNING`
+Must reset `error` when transitioning from `EXCEPTION` to `IDLE`
+:::
 
-> [!note]
-> `EXCEPTION` indicates "execution failure", with the specific reason distinguished by `error_type`.
+:::note
+`EXCEPTION` indicates "execution failure", with the specific reason distinguished by `error_type`.
+:::
 
 #### Realm Manager
 

@@ -174,8 +174,9 @@ stateDiagram-v2
     EXCEPTION --> IDLE : Reset / Reload
 ```
 
-> [!note]
-> Engine 状态仅描述"单次 JS 执行窗口状态"，不描述程序生命周期。
+:::note
+Engine 状态仅描述"单次 JS 执行窗口状态"，不描述程序生命周期。
+:::
 
 #### 脚本引擎运行时
 
@@ -206,12 +207,14 @@ typedef struct
 } script_engine_runtime_t;
 ```
 
-> [!warning]
-> 从 `IDLE` 态到 `RUNNING` 态时必须重置 `script_start_time`
-> 从 `EXCEPTION` 态到 `IDLE` 态必须重置 `error`
+:::warning
+从 `IDLE` 态到 `RUNNING` 态时必须重置 `script_start_time`
+从 `EXCEPTION` 态到 `IDLE` 态必须重置 `error`
+:::
 
-> [!note]
-> `EXCEPTION` 表示"执行过程失败"，具体原因由 `error_type` 区分。
+:::note
+`EXCEPTION` 表示"执行过程失败"，具体原因由 `error_type` 区分。
+:::
 
 #### Realm 管理器
 
